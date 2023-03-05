@@ -1,21 +1,24 @@
 import { EGameModes, TInstallationGame } from "./store-types";
 import { TExecuteAsyncTimeOut } from "./time-types";
+import {EInstallationIds} from "./_common-types";
 
 ///////
 interface IGameCommand {
+    id: EInstallationIds
     command: EGameControlCommand
 }
-export type TGameController = ({ command }: IGameCommand) => void
+export type TGameController = ({ id, command }: IGameCommand) => void
 
 ///////
 export interface IGameModeSwitchProps {
+    id: EInstallationIds
     command: EGameControlCommand
     A?: boolean
     B?: boolean
     C?: boolean
     D?: boolean
 }
-export type TGameModeSwitch = ({command, A, B, C, D}: IGameModeSwitchProps) => void;
+export type TGameModeSwitch = ({id, command, A, B, C, D}: IGameModeSwitchProps) => void;
 ///////
 export interface IGameBeginningHintActivator {
     command: EGameControlCommand
@@ -25,9 +28,10 @@ export interface IGameBeginningHintActivator {
     delayLong: number | undefined
     delayShort: number | undefined
 }
-export type TGameBeginningHintActivator = (props: IGameBeginningHintActivator) => void
+
 ///////
 export interface ITransitionToTheSpecificModeProps {
+    id: EInstallationIds
     commandHex6: number[]
     mode: EGameModes
     scene?: number
@@ -35,12 +39,7 @@ export interface ITransitionToTheSpecificModeProps {
     messageStatus?: 0 | 1
 }
 ///////
-export interface IGameStageSwitcher {
-    command: EGameControlCommand,
-    mode: EGameModes
-}
-export type TGameStageSwitcher = (props: IGameStageSwitcher) => void
-///////
+
 
 
 export enum EGameControlCommand {
@@ -71,14 +70,38 @@ export enum EGameControlCommand {
     Button_III_A = "Button_III_A",
     Button_III_B = "Button_III_B",
     Button_III_C = "Button_III_C",
-    Test_Project_ = "Test_Project_",
-    Test_Lab = "Test_Lab",
-    Test_Game = "Test_Game"
+
+    // test encoders
+
+    Test_Encoder_N_LEFT = "Test_Encoder_N_LEFT",
+    Test_Encoder_N_RIGHT = "Test_Encoder_N_RIGHT",
+    Test_Encoder_I_LEFT = "Test_Encoder_I_LEFT",
+    Test_Encoder_I_RIGHT = "Test_Encoder_I_RIGHT",
+    Test_Encoder_II_LEFT = "Test_Encoder_II_LEFT",
+    Test_Encoder_II_RIGHT = "Test_Encoder_II_RIGHT",
+    Test_Encoder_III_LEFT = "Test_Encoder_III_LEFT",
+    Test_Encoder_III_RIGHT = "Test_Encoder_III_RIGHT",
+
+    // test buttons
+    Test_Button_N_A = "Test_Button_N_A",
+    Test_Button_N_B = "Test_Button_N_B",
+    Test_Button_N_C = "Test_Button_N_C",
+    Test_Button_N_D = "Test_Button_N_D",
+    Test_Button_I_A = "Test_Button_I_A",
+    Test_Button_I_B = "Test_Button_I_B",
+    Test_Button_I_C = "Test_Button_I_C",
+    Test_Button_II_A = "Test_Button_II_A",
+    Test_Button_II_B = "Test_Button_II_B",
+    Test_Button_II_C = "Test_Button_II_C",
+    Test_Button_III_A = "Test_Button_III_A",
+    Test_Button_III_B = "Test_Button_III_B",
+    Test_Button_III_C = "Test_Button_III_C",
 }
 
 export type TGameTestCommand = "TestLab" | "TestGame"
 
 export interface IGameSubControllerProps {
+    id: EInstallationIds
     command: EGameControlCommand
     gameState: TInstallationGame
 }

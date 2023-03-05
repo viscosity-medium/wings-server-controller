@@ -23,16 +23,14 @@ class HttpServices {
             //N) determination of initial values
             const storeId = `installation${ id }` as keyof IStore;
             const host = installationIds[ id ].host;
-            const delayLong = installationIds[ id ].delayLong;
-            const delayShort = installationIds[ id ].delayShort;
             const idleTime = installationIds[ id ].idleTime;
             const port = WINGS_PORT;
-            const executeCompositeCommandUtility = returnCompositeCommandUtility({ storeId, host, port, delayLong, delayShort, idleTime });
+            const executeCompositeCommandUtility = returnCompositeCommandUtility({ storeId, id });
 
             //I) simple request (consists of only one action in command)
             if( commandType === "simpleRequest" ){
 
-                await executeSimpleCommandUtility({ host, port, storeId, idleTime, delayLong, delayShort, commandAction });
+                await executeSimpleCommandUtility({ storeId, id, host, port, idleTime, commandAction });
 
             }
 
@@ -42,7 +40,7 @@ class HttpServices {
                 let newIndex;
                 //II.a) for transition to specific marker position (need index, so we define newIndex below)
                 if( store[ storeId ].mode === EProjectZonesModes.main || commandAction.match(/\d/) ){
-                    newIndex = defineIndexToGoUtility({ command: commandAction, storeId, numberOfFiles });
+                    newIndex = defineIndexToGoUtility({ command: commandAction, storeId });
                     if(newIndex){
 
                         setStoreValue({ storeId, mode: EProjectZonesModes.main, index: +newIndex, numberOfFiles });

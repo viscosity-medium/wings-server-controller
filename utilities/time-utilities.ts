@@ -16,6 +16,7 @@ import { installationIds } from "../_environment/environment";
 import { setStoreValue } from "./store-utility";
 import { gameServices } from "./game-utilities/game-services/game-services";
 import { store } from "../store/store";
+import {EInstallationIds} from "../types/_common-types";
 
 const startTimeOutCounter: TStartIdleTimeOut = (action, timeout) => {
 
@@ -26,9 +27,9 @@ const startTimeOutCounter: TStartIdleTimeOut = (action, timeout) => {
 };
 const clearTimeoutFunction: TClearTimeOut = (timeOutId) => (clearTimeout(timeOutId));
 
-const returnSendDataFunctionBeforeDelay: TReturnAsyncMemoTimeout = ({host, port}) => async (command, timeout) => {
+const returnSendDataFunctionBeforeDelay: TReturnAsyncMemoTimeout = ({ id }) => async (command, timeout) => {
 
-    sendDataToWingsServerOverUdp({command, host, port,});
+    sendDataToWingsServerOverUdp({ id, command });
     await new Promise<void>((resolve) => {
         setTimeout(() => {
             resolve()
@@ -37,14 +38,14 @@ const returnSendDataFunctionBeforeDelay: TReturnAsyncMemoTimeout = ({host, port}
 
 };
 
-const returnSendDataFunctionAfterDelay: TReturnAsyncMemoTimeout = ({host, port}) => async (command, timeout) => {
+const returnSendDataFunctionAfterDelay: TReturnAsyncMemoTimeout = ({ id }) => async (command, timeout) => {
 
     await new Promise<void>((resolve) => {
         setTimeout(() => {
             resolve()
         }, timeout);
     });
-    sendDataToWingsServerOverUdp({command, host, port,});
+    sendDataToWingsServerOverUdp({ id, command });
 
 };
 
@@ -62,15 +63,11 @@ const minutesToMilliseconds: TMinutesToMilliseconds = (time) => {
 };
 
 const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
-    host,
-    port,
     storeId,
+    id,
     type,
-    delayLong,
-    delayShort,
     idleTime
 }) => {
-
 
     clearTimeoutFunction( store[ storeId ].idleTimeout );
 
@@ -84,7 +81,7 @@ const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
                     index: 1
                 });
 
-                const executeCompositeCommandUtility = returnCompositeCommandUtility({ storeId, host, port, delayLong, delayShort, idleTime });
+                const executeCompositeCommandUtility = returnCompositeCommandUtility({ storeId, id });
                 await executeCompositeCommandUtility({ xIndex: "01", yIndex: "01", type: "passive" });
             }, minutesToMilliseconds(idleTime)
         );
@@ -93,23 +90,8 @@ const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
 
 }
 
-const delayedSwitchOffLabMicroscope: TDelayedSwitchOffLabMicroscope = (
-    executeAsyncTimeOut,
-    storeId,
-    commandHex2,
-    delayLong,
-    idleTime
-) => {
-    store[ storeId ].idleTimeout = startTimeOutCounter(
-        async () => {
-            await executeAsyncTimeOut( commandHex2, delayLong );
-            setStoreValue({ storeId, microscope: "off" });
-        }, minutesToMilliseconds(idleTime)
-    )
 
-}
-
-const delayedGoToSpecificGameScene = ({goToSpecificGameSceneCommand}: {goToSpecificGameSceneCommand: number[]}) => {
+const delayedGoToSpecificGameScene = ({id, goToSpecificGameSceneCommand}: {id: EInstallationIds, goToSpecificGameSceneCommand: number[]}) => {
 
     const storeId = EStoreKeys.installationGame;
     const { messageDisplayTime } = installationIds["Game"];
@@ -119,14 +101,14 @@ const delayedGoToSpecificGameScene = ({goToSpecificGameSceneCommand}: {goToSpeci
     store[ storeId ].savedSceneToGo = goToSpecificGameSceneCommand;
     store[ storeId ].sceneTransitionTimeout = startTimeOutCounter(async () => {
 
-        await gameServices.goToSpecificGameScene({goToSpecificGameSceneCommand});
+        await gameServices.goToSpecificGameScene({id, goToSpecificGameSceneCommand});
 
     }, messageDisplayTime);
 
 
 };
 
-const delayedSwitchGameHint = ({ host, port }: { host: string, port: number }) => {
+const delayedSwitchGameHint = ({ id  }: { id: EInstallationIds }) => {
 
     const storeId = EStoreKeys.installationGame;
     const timeStepBetweenHints  = installationIds["Game"].timeStepBetweenHints ;
@@ -141,12 +123,12 @@ const delayedSwitchGameHint = ({ host, port }: { host: string, port: number }) =
     clearTimeoutFunction(store[ storeId ].hideHintTimeout);
 
     store[ storeId ].hideHintTimeout = async () => {
-        const sendDataWithDelay = returnSendDataFunctionAfterDelay({host, port});
+        const sendDataWithDelay = returnSendDataFunctionAfterDelay({ id });
         for (const gameHint of gameHintsArray){
             const command = transformToHexArray(gameHint);
             await new Promise<void>((resolve) => {
                 setTimeout(() => {
-                    sendDataToWingsServerOverUdp({ command, host, port });
+                    sendDataToWingsServerOverUdp({ id, command });
                     resolve();
                 }, timeStepBetweenHints );
             });
@@ -155,10 +137,10 @@ const delayedSwitchGameHint = ({ host, port }: { host: string, port: number }) =
     };
 }
 
-const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, goToSpecificGameSceneCommand }: { storeId: EStoreKeys, goToSpecificGameSceneCommand: number[]} ) => {
+const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpecificGameSceneCommand }: { storeId: EStoreKeys, id: EInstallationIds, goToSpecificGameSceneCommand: number[]} ) => {
 
     clearTimeoutFunction( store[ storeId ].sceneTransitionTimeout );
-    await gameServices.goToSpecificGameScene({ goToSpecificGameSceneCommand });
+    await gameServices.goToSpecificGameScene({id, goToSpecificGameSceneCommand });
 
 
 }
@@ -166,7 +148,6 @@ const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, goToSpecifi
 export {
     abortMessageDisplayAndGoToTheNextGameScene,
     delayedGoToSpecificGameScene,
-    delayedSwitchOffLabMicroscope,
     delayedSwitchGameHint,
     delayedComeBackToScreensaver,
     returnSendDataFunctionBeforeDelay,

@@ -1,5 +1,3 @@
-import * as dotenv from 'dotenv';
-dotenv.config()
 import {router} from "./router/router";
 import express from "express";
 import cors from "cors";

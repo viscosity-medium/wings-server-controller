@@ -4,7 +4,7 @@ import { gameConditions } from "./game-conditions";
 class ReturnGameMnaConditions {
 
     mnaValidInterfaces({command}: {command: EGameControlCommand}){
-        return gameConditions.mnaValidInterfaces.includes(command)
+        return gameConditions.mnaAnalogInterfaces.includes(command)
     }
 
     stage1Right({gameState, command}: IGameSubControllerProps) {

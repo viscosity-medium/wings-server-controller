@@ -5,17 +5,17 @@ import { gameFadesCommands } from "./game-commands/game-fades-commands";
 const actionCommands: ICommandsToExecute = {
 
     // common commands
-    playCommand: {
+    play: {
         commandName: "Play",
         commandAction: "0xFF 0x01 0x05 0xFE",
     },
 
-    pauseCommand: {
+    pause: {
         commandName: "Pause",
         commandAction: "0xFF 0x01 0x03 0xFE",
     },
 
-    continueCommand: {
+    continuePlay: {
         commandName: "Continue",
         commandAction: "0xFF 0x01 0x07 0xFE",
     },

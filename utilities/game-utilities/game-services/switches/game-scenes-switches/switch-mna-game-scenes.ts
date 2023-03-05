@@ -11,7 +11,7 @@ import {installationIds, systemVariables} from "../../../../../_environment/envi
 
 const { specificGameScene } = actionCommands;
 
-const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerProps ) => {
+const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControllerProps ) => {
     
     const { host, delayShort } = installationIds.Game;
     const { WINGS_PORT: port } = systemVariables;
@@ -19,7 +19,7 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
     let goToSpecificGameSceneCommand: number[] | undefined = undefined;
 
 
-    if( returnGameMnaConditions.stage1Right({ gameState, command }) ){
+    if( returnGameMnaConditions.stage1Right({ id, gameState, command }) ){
 
         setStoreValue({
             storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
@@ -27,7 +27,7 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
         goToSpecificGameSceneCommand = transformToHexArray(specificGameScene.commandAction("goToMnaModeScene2"));
     }
 
-    if( returnGameMnaConditions.stage2Right({ gameState, command }) ){
+    if( returnGameMnaConditions.stage2Right({ id, gameState, command }) ){
 
         setStoreValue({
             storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 2, messageStatus: 1
@@ -36,9 +36,9 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
 
     }
 
-    if( returnGameMnaConditions.stage3Default({ gameState, command }) ){
+    if( returnGameMnaConditions.stage3Default({ id, gameState, command }) ){
 
-        if( returnGameMnaConditions.stage3Right({ gameState, command })){
+        if( returnGameMnaConditions.stage3Right({ id, gameState, command })){
 
             setStoreValue({
                 storeId, scene: 4, cursorPosition: 1, maxCursorPositions: 5, messageStatus: 1
@@ -48,7 +48,7 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
         }
 
         //come back to position 2
-        if( returnGameMnaConditions.stage3Wrong({ gameState, command }) ){
+        if( returnGameMnaConditions.stage3Wrong({ id, gameState, command }) ){
 
             setStoreValue({
                 storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
@@ -59,9 +59,9 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
 
     }
 
-    if( returnGameMnaConditions.stage4Default({ gameState, command }) ){
+    if( returnGameMnaConditions.stage4Default({ id, gameState, command }) ){
 
-        if( returnGameMnaConditions.stage4Right1({ gameState, command }) ){
+        if( returnGameMnaConditions.stage4Right1({ id, gameState, command }) ){
 
             setStoreValue({
                 storeId, scene: 5, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
@@ -70,7 +70,7 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
 
         }
 
-        if( returnGameMnaConditions.stage4Right2({ gameState, command }) ){
+        if( returnGameMnaConditions.stage4Right2({ id, gameState, command }) ){
 
             setStoreValue({
                 storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
@@ -79,7 +79,7 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
 
         }
 
-        if( returnGameMnaConditions.stage4Right3({ gameState, command }) ){
+        if( returnGameMnaConditions.stage4Right3({ id, gameState, command }) ){
 
             setStoreValue({
                 storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
@@ -91,12 +91,12 @@ const switchMnaGameScenes = async ({ command, gameState }: IGameSubControllerPro
     }
 
     if( goToSpecificGameSceneCommand ){
-        gameServices.sendCommandToShowSystemMessage({ command });
+        gameServices.sendCommandToShowSystemMessage({ id, command });
 
-        await delayedGoToSpecificGameScene({ goToSpecificGameSceneCommand });
+        await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
     } else {
-        gameServices.sendCommandToShowSystemMessage({ command });
+        gameServices.sendCommandToShowSystemMessage({ id,  command });
     }
 
 }

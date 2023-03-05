@@ -25,7 +25,7 @@ const gameConditions = {
         ],
     },
 
-    mnaValidInterfaces: [
+    mnaAnalogInterfaces: [
         EGameControlCommand.Encoder_I_LEFT,
         EGameControlCommand.Encoder_I_RIGHT,
         EGameControlCommand.Button_I_A,
@@ -33,7 +33,7 @@ const gameConditions = {
         EGameControlCommand.Button_I_C
     ],
 
-    sodValidInterfaces: [
+    sodAnalogInterfaces: [
         EGameControlCommand.Encoder_II_LEFT,
         EGameControlCommand.Encoder_II_RIGHT,
         EGameControlCommand.Button_II_A,
@@ -41,13 +41,22 @@ const gameConditions = {
         EGameControlCommand.Button_II_C
     ],
 
-    loopingValidInterfaces: [
+    loopingAnalogInterfaces: [
         EGameControlCommand.Encoder_III_LEFT,
         EGameControlCommand.Encoder_III_RIGHT,
         EGameControlCommand.Button_III_A,
         EGameControlCommand.Button_III_B,
         EGameControlCommand.Button_III_C
-    ]
+    ],
+
+    allAnalogInterfaces: function() {
+        return [
+            ...this.modeSelectionButtons,
+            ...this.mnaAnalogInterfaces,
+            ...this.sodAnalogInterfaces,
+            ...this.loopingAnalogInterfaces
+        ]
+    }
 
 }
 

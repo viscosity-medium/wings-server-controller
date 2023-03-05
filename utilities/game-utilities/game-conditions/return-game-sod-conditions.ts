@@ -4,7 +4,7 @@ import { gameConditions } from "./game-conditions";
 class ReturnGameSodConditions {
 
     sodValidInterfaces({ command }: { command: EGameControlCommand }){
-        return gameConditions.sodValidInterfaces.includes( command )
+        return gameConditions.sodAnalogInterfaces.includes( command )
     }
 
     condition1Right({ gameState, command }: IGameSubControllerProps){

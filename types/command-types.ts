@@ -1,33 +1,28 @@
 import {IStore} from "./store-types";
 import {EGameControlCommand} from "./game-types";
+import {EInstallationIds} from "./_common-types";
 
-export type TDelayedComeBackToScreensaver = ({host, port, storeId, type}: ICompositeCommandProps)  => void
+interface IDelayedComebackToScreensaver {
+    storeId: keyof IStore
+    id: EInstallationIds
+    type: string
+    idleTime: string
+}
+export type TDelayedComeBackToScreensaver = ({ storeId, id, type, idleTime }: IDelayedComebackToScreensaver)  => void
 
 export interface ISimpleCommandProps {
+    storeId: keyof IStore
+    id: EInstallationIds
     host: string
     port: number
-    storeId: keyof IStore
     type?: string
     idleTime: string
-    delayLong: number,
-    delayShort: number,
     commandAction: string
 }
-interface ICompositeCommandProps {
-    storeId: keyof IStore
-    host: string
-    port: number
-    type: string
-    delayLong: number,
-    delayShort: number,
-    idleTime: string
-}
 
-type TInstallationId = "Project1" | "Project2" | "Project3" | "Project4" |
-    "Project5" | "Project6" | "Lab" | "Game";
 export interface ISendCommandHttpProps {
     installationName: string
-    installationId: TInstallationId,
+    installationId: EInstallationIds,
     commandName: string
     commandAction: TCommand
     commandType: string
@@ -36,18 +31,14 @@ export interface ISendCommandHttpProps {
 
 export interface ISwitchAnalogControllerHttpProps {
     installationName: string
-    installationId: TInstallationId
+    installationId: EInstallationIds
     commandName: string
     commandAction: string
 }
 
 export interface IReturnCompositeCommandUtility {
     storeId: keyof IStore,
-    host: string, 
-    port: number, 
-    delayLong: number, 
-    delayShort: number, 
-    idleTime: string
+    id: EInstallationIds
 }
 
 export interface IMiddleProps {
@@ -56,15 +47,14 @@ export interface IMiddleProps {
     type: "active" | "passive"
 }
 
-export type TReturnCompositeCommandUtility = (props: IReturnCompositeCommandUtility) => (props: IMiddleProps) => void
+export type TReturnCompositeCommandUtility = ({ storeId, id }: IReturnCompositeCommandUtility) => ( { xIndex, yIndex, type }: IMiddleProps) => void
 
 export type TCommand = "Encoder_Right" | "Encoder_Left" |
-    "Next" | "Prev" | "Test_Project_R" | "Test_Project_L" | `${number}`;
+    "Next" | "Prev" | `${number}`;
 
 export interface IDefineIndexToGoUtility {
     command: TCommand | EGameControlCommand,
     storeId: keyof IStore,
-    numberOfFiles: string | number
 }
 
 export interface IGameAMessagesCommands {
@@ -92,7 +82,3 @@ export interface IGameCMessagesCommands {
 }
 
 export type TGameMessagesCommands = IGameAMessagesCommands | IGameBMessagesCommands | IGameCMessagesCommands;
-export type TKeysOfGameMessagesCommands =
-    (keyof IGameAMessagesCommands)
-    | (keyof IGameBMessagesCommands)
-    | (keyof IGameCMessagesCommands)

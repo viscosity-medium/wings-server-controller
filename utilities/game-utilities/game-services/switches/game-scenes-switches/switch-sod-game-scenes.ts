@@ -10,7 +10,7 @@ import {installationIds, systemVariables} from "../../../../../_environment/envi
 
 const { specificGameScene } = actionCommands;
 
-const switchSodGameScenes = async ({command, gameState}: IGameSubControllerProps ) => {
+const switchSodGameScenes = async ({id, command, gameState}: IGameSubControllerProps ) => {
 
     const { host, delayShort } = installationIds.Game;
     const { WINGS_PORT: port } = systemVariables;
@@ -18,7 +18,7 @@ const switchSodGameScenes = async ({command, gameState}: IGameSubControllerProps
     let goToSpecificGameSceneCommand: number[] | undefined = undefined;
 
 
-    if( returnGameSodConditions.condition1Right({command, gameState}) ){
+    if( returnGameSodConditions.condition1Right({ id, command, gameState }) ){
 
         setStoreValue({
             storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
@@ -27,7 +27,7 @@ const switchSodGameScenes = async ({command, gameState}: IGameSubControllerProps
 
     }
 
-    if( returnGameSodConditions.condition2Right({command, gameState}) ){
+    if( returnGameSodConditions.condition2Right({ id, command, gameState }) ){
 
         setStoreValue({
             storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
@@ -35,7 +35,7 @@ const switchSodGameScenes = async ({command, gameState}: IGameSubControllerProps
         goToSpecificGameSceneCommand = transformToHexArray(specificGameScene.commandAction( "goToSodModeScene3") );
     }
 
-    if( returnGameSodConditions.condition3Right({command, gameState}) ){
+    if( returnGameSodConditions.condition3Right({ id, command, gameState }) ){
 
         setStoreValue({
             storeId, scene: 4, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
@@ -44,7 +44,7 @@ const switchSodGameScenes = async ({command, gameState}: IGameSubControllerProps
 
     }
 
-    if( returnGameSodConditions.condition4Right({command, gameState}) ){
+    if( returnGameSodConditions.condition4Right({ id, command, gameState }) ){
 
         setStoreValue({
             storeId, scene: 5, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
@@ -54,12 +54,12 @@ const switchSodGameScenes = async ({command, gameState}: IGameSubControllerProps
     }
 
     if( goToSpecificGameSceneCommand ){
-        gameServices.sendCommandToShowSystemMessage({ command });
+        gameServices.sendCommandToShowSystemMessage({ id, command });
 
-        await delayedGoToSpecificGameScene({ goToSpecificGameSceneCommand });
+        await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
     } else {
-        gameServices.sendCommandToShowSystemMessage({ command });
+        gameServices.sendCommandToShowSystemMessage({ id,  command });
     }
 
 }

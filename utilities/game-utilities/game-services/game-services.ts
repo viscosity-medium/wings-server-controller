@@ -10,29 +10,31 @@ import { gameSystemMessage } from "../game-conditions/game-system-message";
 import { setStoreValue } from "../../store-utility";
 import { actionCommands } from "../../../commands/action-commands";
 import { store } from "../../../store/store";
+import {EInstallationIds} from "../../../types/_common-types";
 
 const {
     host,
     delayShort,
 } = installationIds.Game;
-const { playCommand, fadeTimeline } = actionCommands;
+
+const { play, fadeTimeline } = actionCommands;
 const { WINGS_PORT: port } = systemVariables;
 const storeId = EStoreKeys.installationGame;
 const gameState = store[ EStoreKeys.installationGame ];
 
 class GameServices {
-    async executeTransitionToSpecificMode({ commandHex6, mode, scene, cursorPosition, messageStatus }: ITransitionToTheSpecificModeProps ){
+    async executeTransitionToSpecificMode({ id, commandHex6, mode, scene, cursorPosition, messageStatus }: ITransitionToTheSpecificModeProps ){
 
         const commandHex1 = transformToHexArray( fadeTimeline.commandAction("mainTimelineFadeOut") ); // hide tracks with the current mode content
         const commandHex2 = transformToHexArray( fadeTimeline.commandAction("hintFadeOutScreensaverAndDemoMode") ); // hide hint with the current mode content
         const commandHex3 = transformToHexArray( fadeTimeline.commandAction("allCursorPositionsFadeOut") ); // hide all cursor positions
         const commandHex4 = transformToHexArray( fadeTimeline.commandAction("allHintsFadeOut") ); // hide all hints
         const commandHex5 = transformToHexArray( fadeTimeline.commandAction("allMessagesFadeOut") ); // hide all system messages
-        const commandHex7 = transformToHexArray( playCommand.commandAction ); // start playing the timeline
+        const commandHex7 = transformToHexArray( play.commandAction ); // start playing the timeline
         const commandHex8 = transformToHexArray( fadeTimeline.commandAction("mainTimelineFadeIn") ); // show tracks with content
         const commandHex9 = transformToHexArray( fadeTimeline.commandAction("cursorPosition1FadeIn") ); // show the cursor at position 1
 
-        const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay( { host, port } );
+        const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay( { id } );
 
         clearTimeoutFunction(store[ storeId ].sceneTransitionTimeout);
 
@@ -65,10 +67,10 @@ class GameServices {
         await executeAsyncTimeOut( commandHex9, delayShort! ) :
         null;
 
-        delayedSwitchGameHint({ host, port });
+        delayedSwitchGameHint({ id });
     }
 
-    sendCommandToShowSystemMessage ({ command }: { command: EGameControlCommand }) {
+    sendCommandToShowSystemMessage ({ id, command }: { id: EInstallationIds, command: EGameControlCommand }) {
 
         const { host } = installationIds[ "Game" ];
         const { WINGS_PORT: port } = systemVariables;
@@ -94,14 +96,14 @@ class GameServices {
 
         // if systemMessage is defined,
         // then the store changes and the command sends
-        systemMessage && sendDataToWingsServerOverUdp({ command: systemMessage, host, port });
+        systemMessage && sendDataToWingsServerOverUdp({ command: systemMessage, id });
         systemMessage && setStoreValue({
             storeId: EStoreKeys.installationGame,
             messageStatus: 1
         });
     };
 
-    async goToSpecificGameScene({ goToSpecificGameSceneCommand}: { goToSpecificGameSceneCommand: number[] }){
+    async goToSpecificGameScene({ id, goToSpecificGameSceneCommand }: {id: EInstallationIds, goToSpecificGameSceneCommand: number[] }){
 
         const {
             allCursorPositionsFadeOut,
@@ -115,7 +117,7 @@ class GameServices {
         const fadeOutAllCursors = transformToHexArray( allCursorPositionsFadeOut );
         const fadeInCursorPosition1 = transformToHexArray( cursorPosition1FadeIn );
 
-        const sendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ host, port });
+        const sendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id });
 
         setStoreValue({
             storeId: EStoreKeys.installationGame,
@@ -132,7 +134,7 @@ class GameServices {
         await sendDataFunctionBeforeDelay( fadeInCursorPosition1, delayShort );
     }
 
-    sendCommandToHideSystemMessages(){
+    sendCommandToHideSystemMessages({ id }: {id: EInstallationIds}){
 
         const command = transformToHexArray( gameFadesCommands.allMessagesFadeOut );
 
@@ -140,11 +142,11 @@ class GameServices {
             storeId: EStoreKeys.installationGame,
             messageStatus: 0
         });
-        sendDataToWingsServerOverUdp({ command, host, port });
+        sendDataToWingsServerOverUdp({ command, id });
 
     }
 
-    changeCursorPositionToTheLeft(){
+    changeCursorPositionToTheLeft({ id }: { id: EInstallationIds }){
 
         if ( gameState.cursorPosition > 1 ){
             setStoreValue({
@@ -161,11 +163,11 @@ class GameServices {
         // defining cursor position to show (from array)
         const command = transformToHexArray( gameCursorPositionsCommands[ gameState.cursorPosition - 1 ] );
 
-        sendDataToWingsServerOverUdp({command, host, port});
+        sendDataToWingsServerOverUdp({command, id });
 
     }
 
-    changeCursorPositionToTheRight(){
+    changeCursorPositionToTheRight({ id }: { id: EInstallationIds }){
         if ( gameState.cursorPosition < gameState.maxCursorPositions ){
             setStoreValue({
                 storeId: EStoreKeys.installationGame,
@@ -181,7 +183,7 @@ class GameServices {
         // defining cursor position to show (from array)
         const command = transformToHexArray( gameCursorPositionsCommands[ gameState.cursorPosition -1 ] );
 
-        sendDataToWingsServerOverUdp({ command, host, port });
+        sendDataToWingsServerOverUdp({ command, id });
     }
 
 }

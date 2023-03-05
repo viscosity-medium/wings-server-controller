@@ -23,7 +23,7 @@ export const setStoreValue: TSetStoreValue = ({
     analogControl !== undefined ? store[storeId].analogControl = analogControl: null;
 
     // lab
-    microscope && storeId === EStoreKeys.installationLab ? store[ storeId ].microscope = microscope : null;
+    microscope && storeId === EStoreKeys.installationProjectLab ? store[ storeId ].microscope = microscope : null;
 
     // game
     scene && storeId === EStoreKeys.installationGame ? store[ storeId ].scene = scene : null;

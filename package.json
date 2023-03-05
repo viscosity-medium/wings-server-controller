@@ -4,9 +4,10 @@
   "description": "",
   "main": "master-server.ts",
   "scripts": {
-    "dev": "nodemon master-server.ts",
-    "dev:js": "nodemon ./_ts-build/master-server.js",
-    "pm2:start": "tsc && pm2 start _ts-build/master-server.js --name wings-server-controller",
+    "dev": "cross-env NODE_MODE=development nodemon -r dotenv/config master-server.ts",
+    "dev:js": "cross-env NODE_MODE=development nodemon -r dotenv/config ./_ts-build/master-server.js",
+    "prod": "cross-env NODE_MODE=production nodemon -r dotenv/config master-server.ts",
+    "pm2:start": "tsc && cross-env NODE_ENV=production -r dotenv/config pm2 start _ts-build/master-server.js --name wings-server-controller",
     "pm2:stop": "pm2 stop _ts-build/master-server.js --name wings-server-controller",
     "pm2:delete": "pm2 delete _ts-build/master-server.js --name wings-server-controller",
     "lint": "eslint . --ext .ts"
@@ -16,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",

@@ -8,7 +8,7 @@ interface IProject {
     numberOfFiles: number
 }
 
-interface ILab extends IProject {}
+interface IPortraits extends IProject {}
 interface IGame extends IProject {
     timeStepBetweenHints: number,
     hintDisplayTime: number,
@@ -17,53 +17,39 @@ interface IGame extends IProject {
 interface ITest extends IProject {}
 
 export enum EInstallationIds {
-    Project1 = "Project1" ,
-    Project2 = "Project2" ,
+    ProjectPortraits = "ProjectPortraits" ,
+    ProjectMap = "ProjectMap" ,
     Project3 = "Project3" ,
-    Project4 = "Project4",
-    Project5 = "Project5",
-    Project6 = "Project6",
-    Lab = "Lab",
+    ProjectCovers = "ProjectCovers",
+    ProjectCabinet = "ProjectCabinet",
+    ProjectPipeline = "ProjectPipeline",
+    ProjectLab = "ProjectLab",
     Game = "Game",
 
     //test
     Test = "Test",
-    TestProject1 = "TestProject1",
-    TestProject2 = "TestProject2",
-    TestProject3 = "TestProject3",
-    TestProject4 = "TestProject4",
-    TestProject5 = "TestProject5",
-    TestProject6 = "TestProject6",
-    TestLab = "TestLab",
-    TestGame = "TestGame"
 }
+
+export type TInstallationIds = (ip?: string) => IInstallationIds
 export interface IInstallationIds {
 
-    [EInstallationIds.Project1]: IProject,
-    [EInstallationIds.Project2]: IProject,
+    [EInstallationIds.ProjectPortraits]: IProject,
+    [EInstallationIds.ProjectMap]: IProject,
     [EInstallationIds.Project3]: IProject,
-    [EInstallationIds.Project4]: IProject,
-    [EInstallationIds.Project5]: IProject,
-    [EInstallationIds.Project6]: IProject,
-    [EInstallationIds.Lab]: ILab,
+    [EInstallationIds.ProjectCovers]: IProject,
+    [EInstallationIds.ProjectCabinet]: IProject,
+    [EInstallationIds.ProjectPipeline]: IProject,
+    [EInstallationIds.ProjectLab]: IProject,
     [EInstallationIds.Game]: IGame,
     [EInstallationIds.Test]: ITest,
-    [EInstallationIds.TestProject1]: IProject,
-    [EInstallationIds.TestProject2]: IProject,
-    [EInstallationIds.TestProject3]: IProject,
-    [EInstallationIds.TestProject4]: IProject,
-    [EInstallationIds.TestProject5]: IProject,
-    [EInstallationIds.TestProject6]: IProject,
-    [EInstallationIds.TestLab]: ILab,
-    [EInstallationIds.TestGame]: IGame
+
 
 }
 
-type TCommandsStandard = "playCommand" | "pauseCommand" |
-    "continueCommand" | "stop" |
+export type TCommandsStandard = "play" | "pause" |
+    "continuePlay" | "stop" |
     "nextMarker" | "previousMarker"
 
-type TCommandReturnFunctionXX = "executeTrigger"
 
 
 export type ICommandsToExecute = {

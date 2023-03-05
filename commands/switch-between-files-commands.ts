@@ -1,13 +1,13 @@
 const switchBetweenFilesCommands = {
     goForward: [
-        "Next", "Encoder_Right", "Test_Project_1_R", "Test_Project_2_R",
-        "Test_Project_3_R", "Test_Project_4_R", "Test_Project_5_R",
-        "Test_Project_6_R", "Test_Lab_R", "Test_Game_R"
+        "Next", "Encoder_Right", "Test_Portraits_R", "Test_Map_R",
+        "Test_3_R", "Test_Covers_R", "Test_Cabinet_R",
+        "Test_Pipeline_R", "Test_Lab_R", "Test_Game_R"
     ],
     goBackwards: [
-        "Prev", "Encoder_Left", "Test_Project_1_L", "Test_Project_2_L",
-        "Test_Project_3_L", "Test_Project_4_L", "Test_Project_5_L",
-        "Test_Project_6_L", "Test_Lab_L", "Test_Game_L"
+        "Prev", "Encoder_Left", "Test_Portraits_L", "Test_Map_L",
+        "Test_3_L", "Test_Covers_L", "Test_Cabinet_L",
+        "Test_Pipeline_L", "Test_Lab_L", "Test_Game_L"
     ]
 }
 

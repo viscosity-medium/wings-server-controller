@@ -1,40 +1,41 @@
-import {delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay} from "./time-utilities";
-import {transformToHexArray, transformValueToHexStr} from "./hex-transform-utilities";
-import {TReturnCompositeCommandUtility} from "../types/command-types";
-import {actionCommands} from "../commands/action-commands";
-import {EStoreKeys} from "../types/store-types";
+import { delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay } from "./time-utilities";
+import { transformToHexArray, transformValueToHexStr } from "./hex-transform-utilities";
+import { TReturnCompositeCommandUtility } from "../types/command-types";
+import { installationIds } from "../_environment/environment";
+import { actionCommands } from "../commands/action-commands";
+import { EStoreKeys } from "../types/store-types";
 
-const { timeIndicatorPosition, executeTrigger, continueCommand, pauseCommand } = actionCommands;
+const { timeIndicatorPosition, executeTrigger, continuePlay, pause } = actionCommands;
 
 const returnCompositeCommandUtility:TReturnCompositeCommandUtility  = ({
-    storeId, host, port,
-    delayLong, delayShort, idleTime
+    storeId, id,
 }) => async ({ xIndex,  yIndex, type }) => {
 
-    // N) define hex-x/y/commands for execution
+    // I) define hex-x/y/commands for execution
+    const { delayLong, delayShort, idleTime } = installationIds[ id ];
     const xHex = transformValueToHexStr( xIndex );
     const yHex = transformValueToHexStr( yIndex );
-    const fadeOutArg = storeId !== EStoreKeys.installationTest ? "C9" : "F9" ; // F9 for tests C9 for production
-    const fadeInArg = storeId !== EStoreKeys.installationTest ? "C8" : "FA" ; // FA for tests C8 for production
+    const fadeOutArg = "C9";
+    const fadeInArg = "C8";
     const commandHex1 = transformToHexArray( executeTrigger.commandAction( fadeOutArg ));
-    const commandHex2 = transformToHexArray( pauseCommand.commandAction );
+    const commandHex2 = transformToHexArray( pause.commandAction );
     const commandHex3 = transformToHexArray( timeIndicatorPosition.commandAction( xHex, yHex ));
-    const commandHex4 = transformToHexArray( continueCommand.commandAction );
+    const commandHex4 = transformToHexArray( continuePlay.commandAction );
     const commandHex5 = transformToHexArray( executeTrigger.commandAction( fadeInArg ));
-    const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay( {host, port} );
+    const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay({ id });
 
-    // I) execute all async sequences of commands (1-5)
+    // II) execute all async sequences of commands (1-5)
     await executeAsyncTimeOut( commandHex1, delayLong );
     await executeAsyncTimeOut( commandHex2, delayShort );
     await executeAsyncTimeOut( commandHex3, delayShort );
     await executeAsyncTimeOut( commandHex4, delayShort );
     await executeAsyncTimeOut( commandHex5, delayShort );
 
-    // II) start delay function to go back to screensaver
-    if( ![EStoreKeys.installationProject1, EStoreKeys.installationTestProject1].includes(storeId) ){
-        await delayedComeBackToScreensaver( { host, port, storeId, type, delayLong, delayShort, idleTime } );
+    // III) start delay function to go back to screensaver
+    if( ![ EStoreKeys.installationProjectPortraits ].includes(storeId) ){
+        await delayedComeBackToScreensaver({ storeId, id, type, idleTime });
     }
-    // ПРОПИСАТЬ СБРАСЫВАНИЕ ПЕРЕМЕННЫХ ДЛЯ ПЕРВОЙ ПРОЕКТНОЙ ЗОНЫ
+
 }
 
 export {

@@ -10,14 +10,14 @@ import {installationIds, systemVariables} from "../../../../../_environment/envi
 
 const { specificGameScene } = actionCommands;
 
-const switchLoopingGameScenes = async ({command, gameState}: IGameSubControllerProps) => {
+const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControllerProps) => {
 
     const { host, delayShort } = installationIds.Game;
     const { WINGS_PORT: port } = systemVariables;
     const storeId = EStoreKeys.installationGame;
     let goToSpecificGameSceneCommand: number[] | undefined = undefined;
 
-    if( returnGameLoopingConditions.condition1Right({command, gameState}) ){
+    if( returnGameLoopingConditions.condition1Right({ id, command, gameState}) ){
 
         setStoreValue({
             storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 3, messageStatus: 1
@@ -26,9 +26,9 @@ const switchLoopingGameScenes = async ({command, gameState}: IGameSubControllerP
 
     }
 
-    if( returnGameLoopingConditions.condition2Default({command, gameState}) ){
+    if( returnGameLoopingConditions.condition2Default({id, command, gameState}) ){
 
-        if( returnGameLoopingConditions.condition2Right({command, gameState}) ){
+        if( returnGameLoopingConditions.condition2Right({id, command, gameState}) ){
 
             setStoreValue({
                 storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 3, messageStatus: 1
@@ -38,7 +38,7 @@ const switchLoopingGameScenes = async ({command, gameState}: IGameSubControllerP
         }
 
         //come back to position 1
-        if( returnGameLoopingConditions.condition2Wrong({command, gameState}) ){
+        if( returnGameLoopingConditions.condition2Wrong({id, command, gameState}) ){
 
             setStoreValue({
                 storeId, scene: 1, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
@@ -49,7 +49,7 @@ const switchLoopingGameScenes = async ({command, gameState}: IGameSubControllerP
 
     }
 
-    if( returnGameLoopingConditions.condition3Right({command, gameState}) ){
+    if( returnGameLoopingConditions.condition3Right({id, command, gameState}) ){
 
         setStoreValue({
             storeId, scene: 4 , cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
@@ -59,12 +59,12 @@ const switchLoopingGameScenes = async ({command, gameState}: IGameSubControllerP
     }
 
     if( goToSpecificGameSceneCommand ){
-        gameServices.sendCommandToShowSystemMessage({ command });
+        gameServices.sendCommandToShowSystemMessage({ id,  command });
 
-        await delayedGoToSpecificGameScene({ goToSpecificGameSceneCommand });
+        await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
     } else {
-        gameServices.sendCommandToShowSystemMessage({ command });
+        gameServices.sendCommandToShowSystemMessage({ id,  command });
     }
 
 }

@@ -4,7 +4,7 @@ import {gameConditions} from "./game-conditions";
 class ReturnGameLoopingConditions {
 
     loopingValidInterfaces({command}: {command: EGameControlCommand}){
-        return gameConditions.loopingValidInterfaces.includes(command)
+        return gameConditions.loopingAnalogInterfaces.includes(command)
     }
 
     condition1Right({gameState, command}: IGameSubControllerProps) {

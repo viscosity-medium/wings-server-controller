@@ -6,5 +6,5 @@ interface IUdpIdDefiner {
 }
 
 export type IRemoteIp = Record<string, EInstallationIds>
-export type IReceivedUdpCommand = Record<string, EInstallationIds>
-export type TUdpIdDefiner = ({ ip, command}: IUdpIdDefiner ) => EInstallationIds
+export type ITestUdpCommand = Record<string, EInstallationIds>
+export type TUdpIdDefiner = ({ ip, command}: IUdpIdDefiner ) => EInstallationIds | undefined

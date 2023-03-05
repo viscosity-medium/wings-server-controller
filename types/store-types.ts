@@ -55,9 +55,9 @@ export type TInstallationStandard = {
     numberOfFiles: number
 
     // timeouts
-    idleTimeout: any
+    idleTimeout: ReturnType<typeof setTimeout> | undefined
     hideHintTimeout: any
-    sceneTransitionTimeout: any
+    sceneTransitionTimeout: ReturnType<typeof setTimeout> | undefined
 }
 
 export interface TInstallationLab extends TInstallationStandard {
@@ -74,7 +74,7 @@ export interface TInstallationGame extends Omit<TInstallationStandard, "mode" > 
 }
 
 export interface TInstallationTest extends Omit<TInstallationStandard, "mode"> {
-    mode: any
+    mode: EProjectZonesModes | EGameModes | "screensaver" | "main"
     microscope?: string
     scene?: number
     cursorPosition?: number
@@ -87,45 +87,30 @@ export interface TInstallationTest extends Omit<TInstallationStandard, "mode"> {
 
 
 export enum EStoreKeys {
-    installationProject1 = "installationProject1",
-    installationProject2 = "installationProject2",
+    installationProjectPortraits = "installationProjectPortraits",
+    installationProjectMap = "installationProjectMap",
     installationProject3 = "installationProject3",
-    installationProject4 = "installationProject4",
-    installationProject5 = "installationProject5",
-    installationProject6 = "installationProject6",
-    installationLab = "installationLab",
+    installationProjectCovers = "installationProjectCovers",
+    installationProjectCabinet = "installationProjectCabinet",
+    installationProjectPipeline = "installationProjectPipeline",
+    installationProjectLab = "installationProjectLab",
     installationGame = "installationGame",
 
     // test
     installationTest = "installationTest",
-    installationTestProject1 = "installationTestProject1",
-    installationTestProject2 = "installationTestProject2",
-    installationTestProject3 = "installationTestProject3",
-    installationTestProject4 = "installationTestProject4",
-    installationTestProject5 = "installationTestProject5",
-    installationTestProject6 = "installationTestProject6",
-    installationTestLab = "installationTestLab",
-    installationTestGame = "installationTestGame",
 }
 
 export interface IStore {
-    [EStoreKeys.installationProject1]: TInstallationStandard
-    [EStoreKeys.installationProject2]: TInstallationStandard
+    [EStoreKeys.installationProjectPortraits]: TInstallationStandard
+    [EStoreKeys.installationProjectMap]: TInstallationStandard
     [EStoreKeys.installationProject3]: TInstallationStandard
-    [EStoreKeys.installationProject4]: TInstallationStandard
-    [EStoreKeys.installationProject5]: TInstallationStandard
-    [EStoreKeys.installationProject6]: TInstallationStandard
-    [EStoreKeys.installationLab]: TInstallationLab
+    [EStoreKeys.installationProjectCovers]: TInstallationStandard
+    [EStoreKeys.installationProjectCabinet]: TInstallationStandard
+    [EStoreKeys.installationProjectPipeline]: TInstallationStandard
+    [EStoreKeys.installationProjectLab]: TInstallationLab
     [EStoreKeys.installationGame]: TInstallationGame
 
     // test
     [EStoreKeys.installationTest]: TInstallationTest
-    [EStoreKeys.installationTestProject1]: TInstallationStandard
-    [EStoreKeys.installationTestProject2]: TInstallationStandard
-    [EStoreKeys.installationTestProject3]: TInstallationStandard
-    [EStoreKeys.installationTestProject4]: TInstallationStandard
-    [EStoreKeys.installationTestProject5]: TInstallationStandard
-    [EStoreKeys.installationTestProject6]: TInstallationStandard
-    [EStoreKeys.installationTestLab]: TInstallationLab
-    [EStoreKeys.installationTestGame]: TInstallationGame
+
 }
