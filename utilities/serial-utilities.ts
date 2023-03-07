@@ -1,6 +1,6 @@
-import { SerialPort } from "serialport";
 import { TGetSerialPortList } from "../types/serial-port-types";
-import {systemVariables} from "../_environment/environment";
+import { systemVariables} from "../_environment/environment";
+import { SerialPort } from "serialport";
 
 const { SERIAL_PORT_PATH, SERIAL_PORT_BAUD_RATE } = systemVariables;
 const serialPort = new SerialPort({

@@ -1,6 +1,6 @@
-import dgram from 'node:dgram';
+import { installationIds, systemVariables } from "../../_environment/environment";
 import { TSendDataToWingsServerOverUdp } from "../../types/websocket-types";
-import {installationIds, systemVariables} from "../../_environment/environment";
+import dgram from 'node:dgram';
 
 const { UDP_PORT } = systemVariables
 const client: dgram.Socket = dgram.createSocket("udp4");

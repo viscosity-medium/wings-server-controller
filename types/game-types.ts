@@ -1,6 +1,6 @@
 import { EGameModes, TInstallationGame } from "./store-types";
 import { TExecuteAsyncTimeOut } from "./time-types";
-import {EInstallationIds} from "./_common-types";
+import { EInstallationIds } from "./_common-types";
 
 ///////
 interface IGameCommand {
@@ -71,34 +71,8 @@ export enum EGameControlCommand {
     Button_III_B = "Button_III_B",
     Button_III_C = "Button_III_C",
 
-    // test encoders
-
-    Test_Encoder_N_LEFT = "Test_Encoder_N_LEFT",
-    Test_Encoder_N_RIGHT = "Test_Encoder_N_RIGHT",
-    Test_Encoder_I_LEFT = "Test_Encoder_I_LEFT",
-    Test_Encoder_I_RIGHT = "Test_Encoder_I_RIGHT",
-    Test_Encoder_II_LEFT = "Test_Encoder_II_LEFT",
-    Test_Encoder_II_RIGHT = "Test_Encoder_II_RIGHT",
-    Test_Encoder_III_LEFT = "Test_Encoder_III_LEFT",
-    Test_Encoder_III_RIGHT = "Test_Encoder_III_RIGHT",
-
-    // test buttons
-    Test_Button_N_A = "Test_Button_N_A",
-    Test_Button_N_B = "Test_Button_N_B",
-    Test_Button_N_C = "Test_Button_N_C",
-    Test_Button_N_D = "Test_Button_N_D",
-    Test_Button_I_A = "Test_Button_I_A",
-    Test_Button_I_B = "Test_Button_I_B",
-    Test_Button_I_C = "Test_Button_I_C",
-    Test_Button_II_A = "Test_Button_II_A",
-    Test_Button_II_B = "Test_Button_II_B",
-    Test_Button_II_C = "Test_Button_II_C",
-    Test_Button_III_A = "Test_Button_III_A",
-    Test_Button_III_B = "Test_Button_III_B",
-    Test_Button_III_C = "Test_Button_III_C",
 }
 
-export type TGameTestCommand = "TestLab" | "TestGame"
 
 export interface IGameSubControllerProps {
     id: EInstallationIds

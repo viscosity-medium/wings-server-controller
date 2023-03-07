@@ -1,6 +1,5 @@
 import {
     TClearTimeOut,
-    TDelayedSwitchOffLabMicroscope,
     TMinutesToMilliseconds,
     TReturnAsyncMemoTimeout,
     TSecondsToMillisecondsSeconds,
@@ -11,12 +10,12 @@ import { TDelayedComeBackToScreensaver } from "../types/command-types";
 import { returnCompositeCommandUtility } from "./composite-command-utility";
 import { sendDataToWingsServerOverUdp } from "./udp/dgram-udp-utilities";
 import { transformToHexArray } from "./hex-transform-utilities";
-import { gameFadesCommands } from "../commands/game-commands/game-fades-commands";
+import { gameFadesCommands } from "../commands-and-conditions/game-commands/game-fades-commands";
+import { EInstallationIds } from "../types/_common-types";
 import { installationIds } from "../_environment/environment";
 import { setStoreValue } from "./store-utility";
-import { gameServices } from "./game-utilities/game-services/game-services";
+import { gameServices } from "./game-utilities/game-services";
 import { store } from "../store/store";
-import {EInstallationIds} from "../types/_common-types";
 
 const startTimeOutCounter: TStartIdleTimeOut = (action, timeout) => {
 
@@ -141,7 +140,6 @@ const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpe
 
     clearTimeoutFunction( store[ storeId ].sceneTransitionTimeout );
     await gameServices.goToSpecificGameScene({id, goToSpecificGameSceneCommand });
-
 
 }
 

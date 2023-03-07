@@ -1,4 +1,4 @@
-import { switchBetweenFilesCommands } from "../commands/switch-between-files-commands";
+import { possibleCommandsReceivedForProjectZones } from "../commands-and-conditions/possible-commands-received-for-project-zones";
 import { IDefineIndexToGoUtility } from "../types/command-types";
 import { EStoreKeys } from "../types/store-types";
 import { store } from "../store/store";
@@ -6,7 +6,7 @@ import { store } from "../store/store";
 // file index to go definer for http and udp
 export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUtility) => {
 
-    const { goBackwards, goForward } = switchBetweenFilesCommands;
+    const { goBackwards, goForward , hexSingleCommands } = possibleCommandsReceivedForProjectZones;
     const { numberOfFiles } = store[ storeId ]
     let newIndex = 0;
 
@@ -52,6 +52,10 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
         }
 
+    }
+
+    if( !newIndex && possibleCommandsReceivedForProjectZones.hexSingleCommands.includes( command )){
+        newIndex = store[ storeId ].index
     }
 
     return newIndex !== 0 ? newIndex.toString().length < 2 ? `0${newIndex}` : `${newIndex}` : undefined;

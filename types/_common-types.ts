@@ -8,13 +8,12 @@ interface IProject {
     numberOfFiles: number
 }
 
-interface IPortraits extends IProject {}
+
 interface IGame extends IProject {
     timeStepBetweenHints: number,
     hintDisplayTime: number,
     messageDisplayTime: number,
 }
-interface ITest extends IProject {}
 
 export enum EInstallationIds {
     ProjectPortraits = "ProjectPortraits" ,
@@ -30,7 +29,6 @@ export enum EInstallationIds {
     Test = "Test",
 }
 
-export type TInstallationIds = (ip?: string) => IInstallationIds
 export interface IInstallationIds {
 
     [EInstallationIds.ProjectPortraits]: IProject,
@@ -41,43 +39,30 @@ export interface IInstallationIds {
     [EInstallationIds.ProjectPipeline]: IProject,
     [EInstallationIds.ProjectLab]: IProject,
     [EInstallationIds.Game]: IGame,
-    [EInstallationIds.Test]: ITest,
+    [EInstallationIds.Test]: IProject,
 
 
 }
 
-export type TCommandsStandard = "play" | "pause" |
-    "continuePlay" | "stop" |
-    "nextMarker" | "previousMarker"
+export type TCommandsStandard = "Play" | "Pause" |
+    "ContinuePlay" | "Stop" |
+    "NextMarker" | "PreviousMarker"
 
 
-
-export type ICommandsToExecute = {
-    [key in TCommandsStandard]: {
-        commandName: string
-        commandAction: string
-    }
+export type TCommandsToExecute = {
+    [key in TCommandsStandard]: string
 }  &
 {
 
-    executeTrigger: {
-        commandName: string
-        commandAction: (XX: string) => string
-    }
+    ExecuteTrigger: (XX: string) => string
 
-    timeIndicatorPosition: {
-        commandName: string
-        commandAction: (XX: string, YY: string) => string
-    }
+    TimeIndicatorPosition: (XX: string, YY: string) => string
 
-    specificGameScene: {
-        commandName: string,
-        commandAction: ((command: keyof IGameScenesCommands) => string)
-    }
+    SpecificGameScene: (command: keyof IGameScenesCommands) => string
 
-    fadeTimeline: {
-        commandName: string,
-        commandAction: ((command: keyof IGameFadesCommands) => string)
-    }
+    FadeTimeline: (command: keyof IGameFadesCommands) => string
+
 }
+
+
 

@@ -1,6 +1,6 @@
 //import { startSerialServer } from "./servers/serial/serial-server";
-import { startHttpServer } from "./servers/http/http-server";
-import { startUdpServer } from "./servers/udp/udp-server";
+import { startHttpServer } from "./servers/http-server";
+import { startUdpServer } from "./servers/udp-server";
 
 
 try{

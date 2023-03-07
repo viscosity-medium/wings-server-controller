@@ -1,11 +1,11 @@
 import { delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay } from "./time-utilities";
 import { transformToHexArray, transformValueToHexStr } from "./hex-transform-utilities";
 import { TReturnCompositeCommandUtility } from "../types/command-types";
+import { wingsActionCommands } from "../commands-and-conditions/wings-action-commands";
 import { installationIds } from "../_environment/environment";
-import { actionCommands } from "../commands/action-commands";
 import { EStoreKeys } from "../types/store-types";
 
-const { timeIndicatorPosition, executeTrigger, continuePlay, pause } = actionCommands;
+const { TimeIndicatorPosition, ExecuteTrigger, ContinuePlay, Pause } = wingsActionCommands;
 
 const returnCompositeCommandUtility:TReturnCompositeCommandUtility  = ({
     storeId, id,
@@ -17,11 +17,11 @@ const returnCompositeCommandUtility:TReturnCompositeCommandUtility  = ({
     const yHex = transformValueToHexStr( yIndex );
     const fadeOutArg = "C9";
     const fadeInArg = "C8";
-    const commandHex1 = transformToHexArray( executeTrigger.commandAction( fadeOutArg ));
-    const commandHex2 = transformToHexArray( pause.commandAction );
-    const commandHex3 = transformToHexArray( timeIndicatorPosition.commandAction( xHex, yHex ));
-    const commandHex4 = transformToHexArray( continuePlay.commandAction );
-    const commandHex5 = transformToHexArray( executeTrigger.commandAction( fadeInArg ));
+    const commandHex1 = transformToHexArray( ExecuteTrigger( fadeOutArg ));
+    const commandHex2 = transformToHexArray( Pause );
+    const commandHex3 = transformToHexArray( TimeIndicatorPosition( xHex, yHex ));
+    const commandHex4 = transformToHexArray( ContinuePlay );
+    const commandHex5 = transformToHexArray( ExecuteTrigger( fadeInArg ));
     const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay({ id });
 
     // II) execute all async sequences of commands (1-5)

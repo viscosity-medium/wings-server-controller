@@ -1,7 +1,7 @@
 import { EStoreKeys, TSetStoreValue } from "../types/store-types";
 import { store } from "../store/store";
 
-export const setStoreValue: TSetStoreValue = ({
+const setStoreValue: TSetStoreValue = ({
     storeId,
     analogControl,
     mode,
@@ -34,4 +34,8 @@ export const setStoreValue: TSetStoreValue = ({
     hintStatus !== undefined && storeId === EStoreKeys.installationGame ? store[ storeId ].hintStatus = hintStatus : null;
     storeId === EStoreKeys.installationGame && savedSceneToGo !== "undefined" ? store[ storeId ].savedSceneToGo = savedSceneToGo :
         storeId === EStoreKeys.installationGame && savedSceneToGo === "undefined" ? store[ storeId ].savedSceneToGo = undefined : null;
+}
+
+export {
+    setStoreValue
 }

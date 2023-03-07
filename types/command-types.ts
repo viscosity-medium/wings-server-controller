@@ -1,6 +1,6 @@
 import {IStore} from "./store-types";
-import {EGameControlCommand} from "./game-types";
-import {EInstallationIds} from "./_common-types";
+import { EGameControlCommand } from "./game-types";
+import { EInstallationIds } from "./_common-types";
 
 interface IDelayedComebackToScreensaver {
     storeId: keyof IStore
@@ -13,20 +13,14 @@ export type TDelayedComeBackToScreensaver = ({ storeId, id, type, idleTime }: ID
 export interface ISimpleCommandProps {
     storeId: keyof IStore
     id: EInstallationIds
-    host: string
-    port: number
     type?: string
     idleTime: string
     commandAction: string
 }
 
 export interface ISendCommandHttpProps {
-    installationName: string
-    installationId: EInstallationIds,
-    commandName: string
-    commandAction: TCommand
-    commandType: string
-    numberOfFiles: number
+    id: EInstallationIds,
+    command: TCommand
 }
 
 export interface ISwitchAnalogControllerHttpProps {
@@ -49,7 +43,7 @@ export interface IMiddleProps {
 
 export type TReturnCompositeCommandUtility = ({ storeId, id }: IReturnCompositeCommandUtility) => ( { xIndex, yIndex, type }: IMiddleProps) => void
 
-export type TCommand = "Encoder_Right" | "Encoder_Left" |
+export type TCommand = "Pause" | "ContinuePlay" | "Encoder_Right" | "Encoder_Left" |
     "Next" | "Prev" | `${number}`;
 
 export interface IDefineIndexToGoUtility {
