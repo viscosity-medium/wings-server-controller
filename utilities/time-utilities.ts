@@ -124,21 +124,24 @@ const delayedSwitchGameHint = ({ id  }: { id: EInstallationIds }) => {
     ];
 
 
-    clearTimeoutFunction(store[ storeId ].hideHintTimeout);
+    clearTimeoutFunction( store[ storeId ].hideHintTimeout );
 
-    store[ storeId ].hideHintTimeout = async () => {
+    const showOneHint = ( arrayOfHints: string[] ) => {
 
-        for (const gameHint of gameHintsArray){
-            const command = transformToHexArray(gameHint);
-            await new Promise<void>((resolve) => {
-                setTimeout(() => {
-                    sendDataToWingsServerOverUdp({ id, command });
-                    resolve();
-                }, timeStepBetweenHints );
-            });
-        }
+        const command = transformToHexArray( arrayOfHints[0] );
 
-    };
+        return setTimeout(() => {
+            sendDataToWingsServerOverUdp({ id, command });
+            arrayOfHints.shift();
+            if(arrayOfHints.length > 0) {
+                store[ storeId ].hideHintTimeout = showOneHint( arrayOfHints )
+            }
+        }, timeStepBetweenHints );
+    }
+
+    store[ storeId ].hideHintTimeout = showOneHint( gameHintsArray )
+
+
 }
 
 const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpecificGameSceneCommand }: { storeId: EStoreKeys, id: EInstallationIds, goToSpecificGameSceneCommand: number[]} ) => {

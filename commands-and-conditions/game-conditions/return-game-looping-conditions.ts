@@ -1,5 +1,7 @@
 import { EGameControlCommand, IGameSubControllerProps } from "../../types/game-types";
 import {gameConditions} from "./game-conditions";
+import {store} from "../../store/store";
+import {EStoreKeys} from "../../types/store-types";
 
 class ReturnGameLoopingConditions {
 
@@ -9,6 +11,10 @@ class ReturnGameLoopingConditions {
 
     loopingValidInterfaces({command}: {command: EGameControlCommand}){
         return gameConditions.loopingAnalogInterfaces.includes(command)
+    }
+
+    notLastScenes() {
+        return ![ 4 ].includes( store[EStoreKeys.installationGame].scene )
     }
 
     condition1Right({gameState, command}: IGameSubControllerProps) {

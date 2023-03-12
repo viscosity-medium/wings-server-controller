@@ -35,7 +35,8 @@ class GameServices {
 
         const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay( { id } );
 
-        clearTimeoutFunction(store[ storeId ].sceneTransitionTimeout);
+        clearTimeoutFunction( store[ storeId ].hideHintTimeout );
+        clearTimeoutFunction( store[ storeId ].sceneTransitionTimeout );
 
         await executeAsyncTimeOut( commandHex1, delayShort! );
 
@@ -133,6 +134,7 @@ class GameServices {
         await sendDataFunctionBeforeDelay( fadeOutAllCursors, delayShort );
         await sendDataFunctionBeforeDelay( goToSpecificGameSceneCommand, delayShort );
         await sendDataFunctionBeforeDelay( fadeInCursorPosition1, delayShort );
+        delayedSwitchGameHint({ id });
     }
 
     sendCommandToHideSystemMessages({ id }: {id: EInstallationIds}){

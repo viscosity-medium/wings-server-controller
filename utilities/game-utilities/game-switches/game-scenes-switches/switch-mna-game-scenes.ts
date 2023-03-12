@@ -5,7 +5,8 @@ import { setStoreValue } from "../../../store-utility";
 import { gameServices } from "../../game-services";
 import { wingsActionCommands } from "../../../../commands-and-conditions/wings-action-commands";
 import { EStoreKeys } from "../../../../types/store-types";
-import {delayedGoToSpecificGameScene} from "../../../time-utilities";
+import {clearTimeoutFunction, delayedGoToSpecificGameScene} from "../../../time-utilities";
+import {store} from "../../../../store/store";
 
 const { SpecificGameScene } = wingsActionCommands;
 
@@ -13,7 +14,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
 
     const storeId = EStoreKeys.installationGame;
     let goToSpecificGameSceneCommand: number[] | undefined = undefined;
-
 
     if(
         returnGameMnaConditions.stage1Right({ id, gameState, command })
@@ -23,6 +23,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
             storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, 
         });
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene2"));
+
     } else if(
         returnGameMnaConditions.stage2Right({ id, gameState, command })
     ){
@@ -83,16 +84,18 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         ){
 
             setStoreValue({
-                storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, 
+                storeId, scene: 7, cursorPosition: 1, maxCursorPositions: 1,
             });
-            goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene6Final2"));
+            goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene7Final3"));
 
         }
 
     }
 
     if( goToSpecificGameSceneCommand ){
-        
+
+        clearTimeoutFunction( store[ storeId ].hideHintTimeout );
+
         gameServices.sendCommandToShowSystemMessage({ id, command });
         setStoreValue({
             storeId,
@@ -101,12 +104,14 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
 
         await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
-    } else if( returnGameMnaConditions.mnaButtonsInterfaces({ command })) {
+    } else if( returnGameMnaConditions.mnaButtonsInterfaces({ command }) ) {
+
         gameServices.sendCommandToShowSystemMessage({ id,  command });
         setStoreValue({
             storeId,
             messageStatus: 1
         })
+
     }
 
 }

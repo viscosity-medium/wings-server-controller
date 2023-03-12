@@ -47,7 +47,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
         // check that the command came from mna mode buttons/encoders
-        if( returnGameMnaConditions.mnaValidInterfaces({ command }) ){
+        if( returnGameMnaConditions.mnaValidInterfaces({ command }) && returnGameMnaConditions.notLastScenes() ){
 
             if( gameState.messageStatus === 0 ){
                 await switchMnaGameScenes({ id, command, gameState });
@@ -79,7 +79,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
         // check that the command came from sod mode buttons/encoders
-        if( returnGameSodConditions.sodValidInterfaces({ command }) ){
+        if( returnGameSodConditions.sodValidInterfaces({ command })  && returnGameSodConditions.notLastScenes() ){
 
             if( gameState.messageStatus === 0 ){
                 await switchSodGameScenes({ id, command, gameState });
@@ -87,7 +87,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
                 gameServices.sendCommandToHideSystemMessages({ id });
 
-                if(gameState.savedSceneToGo){
+                if( gameState.savedSceneToGo ){
 
                     await abortMessageDisplayAndGoToTheNextGameScene({
                         id,
@@ -111,10 +111,10 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
         // check that the command came from looping mode buttons/encoders
-        if( returnGameLoopingConditions.loopingValidInterfaces({ command }) ){
+        if( returnGameLoopingConditions.loopingValidInterfaces({ command }) && returnGameLoopingConditions.notLastScenes() ){
 
             if( gameState.messageStatus === 0 ){
-                await switchLoopingGameScenes({id,  command, gameState });
+                await switchLoopingGameScenes({ id,  command, gameState });
             } else if ( gameState.messageStatus === 1 ){
                 gameServices.sendCommandToHideSystemMessages({ id });
 
@@ -133,7 +133,8 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
     }
 
-    console.log(store[ storeId ])
+    //console.log(store[ storeId ])
+
 
 };
 

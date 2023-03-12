@@ -51,12 +51,10 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
     if( systemVariables.DIRECT_COMMANDS === "direct_commands" ){
 
-        console.log(transformToHexArray(command))
-        sendDataToWingsServerOverUdp({id: EInstallationIds.Test, command: transformToHexArray(command)});
+        sendDataToWingsServerOverUdp( {id: EInstallationIds.Test, command: transformToHexArray(command)} );
 
     }
 
-    console.log(command);
     console.log(ip, id)
 
 }

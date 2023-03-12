@@ -1,5 +1,7 @@
 import { EGameControlCommand, IGameSubControllerProps } from "../../types/game-types";
 import { gameConditions } from "./game-conditions";
+import {store} from "../../store/store";
+import {EStoreKeys} from "../../types/store-types";
 
 class ReturnGameSodConditions {
 
@@ -9,6 +11,10 @@ class ReturnGameSodConditions {
 
     sodValidInterfaces({ command }: { command: EGameControlCommand }){
         return gameConditions.sodAnalogInterfaces.includes( command )
+    }
+
+    notLastScenes() {
+        return ![ 5 ].includes( store[EStoreKeys.installationGame].scene )
     }
 
     condition1Right({ gameState, command }: IGameSubControllerProps){

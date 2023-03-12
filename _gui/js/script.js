@@ -45,7 +45,7 @@ const buttonsObject = {
 
 }
 
-const store = {
+const guiStore = {
 
     encoderNLeft: {
         command: "Encoder_N_LEFT"
@@ -307,7 +307,7 @@ function bindEventListeners() {
     Object.keys(encodersObject).forEach((encoder)=>{
         encodersObject[ encoder ].addEventListener("mousedown", async function() {
 
-            const response =await gameApi( store[ encoder ].command );
+            const response =await gameApi( guiStore[ encoder ].command );
 
             wrightDataToControlPanel({ response });
             wrightDataToView({ response });
@@ -318,7 +318,7 @@ function bindEventListeners() {
     Object.keys(buttonsObject).forEach((button)=>{
         buttonsObject[ button ].addEventListener("mousedown", async function() {
 
-            const response = await gameApi( store[ button ].command );
+            const response = await gameApi( guiStore[ button ].command );
 
             wrightDataToControlPanel({ response });
             wrightDataToView({ response });

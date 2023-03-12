@@ -1,11 +1,9 @@
 import { EGameControlCommand, IGameSubControllerProps } from "../../types/game-types";
 import { gameConditions } from "./game-conditions";
+import {store} from "../../store/store";
+import {EStoreKeys} from "../../types/store-types";
 
 class ReturnGameMnaConditions {
-
-    mnaEncodersInterfaces({command}: {command: EGameControlCommand}){
-        return gameConditions.mnaAnalogEncoders.includes(command)
-    }
 
     mnaButtonsInterfaces({command}: {command: EGameControlCommand}){
         return gameConditions.mnaAnalogButtons.includes(command)
@@ -13,6 +11,10 @@ class ReturnGameMnaConditions {
 
     mnaValidInterfaces({command}: {command: EGameControlCommand}){
         return gameConditions.mnaAnalogInterfaces.includes(command)
+    }
+
+    notLastScenes() {
+        return ![ 5, 6, 7 ].includes( store[EStoreKeys.installationGame].scene )
     }
 
     stage1Right({gameState, command}: IGameSubControllerProps) {
