@@ -1,6 +1,6 @@
-import {IStore} from "./store-types";
 import { EGameControlCommand } from "./game-types";
 import { EInstallationIds } from "./_common-types";
+import { IStore } from "./store-types";
 
 interface IDelayedComebackToScreensaver {
     storeId: keyof IStore
@@ -20,7 +20,7 @@ export interface ISimpleCommandProps {
 
 export interface ISendCommandHttpProps {
     id: EInstallationIds,
-    command: TCommand
+    command: THttpCommand
 }
 
 export interface ISwitchAnalogControllerHttpProps {
@@ -43,11 +43,43 @@ export interface IMiddleProps {
 
 export type TReturnCompositeCommandUtility = ({ storeId, id }: IReturnCompositeCommandUtility) => ( { xIndex, yIndex, type }: IMiddleProps) => void
 
-export type TCommand = "Pause" | "ContinuePlay" | "Encoder_Right" | "Encoder_Left" |
-    "Next" | "Prev" | `${number}`;
+export enum EHttpCommands {
+
+    Pause = "Pause",
+    ContinuePlay = "ContinuePlay",
+    Next = "Next",
+    Prev = "Prev"
+
+}
+
+export enum EUdpProjectCommands {
+
+    // right
+    Encoder_Right = "Encoder_Right",
+    Test_Portraits_R = "Test_Portraits_R",
+    Test_Map_R = "Test_Map_R",
+    Test_Covers_R = "Test_Covers_R",
+    Test_Cabinet_R = "Test_Cabinet_R",
+    Test_Pipeline_R = "Test_Pipeline_R",
+    Test_Lab_R = "Test_Lab_R",
+    Test_Game_R = "Test_Game_R",
+    Encoder_Left = "Encoder_Left",
+
+    // left
+    Test_Portraits_L = "Test_Portraits_L",
+    Test_Map_L = "Test_Map_L",
+    Test_3_L = "Test_3_L",
+    Test_Covers_L = "Test_Covers_L",
+    Test_Cabinet_L = "Test_Cabinet_L",
+    Test_Pipeline_L = "Test_Pipeline_L",
+    Test_Lab_L = "Test_Lab_L",
+    Test_Game_L = "Test_Game_L"
+}
+
+export type THttpCommand = EHttpCommands | `${number}`;
 
 export interface IDefineIndexToGoUtility {
-    command: TCommand | EGameControlCommand,
+    command: THttpCommand | EGameControlCommand | EUdpProjectCommands,
     storeId: keyof IStore,
 }
 

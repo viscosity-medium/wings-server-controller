@@ -1,4 +1,4 @@
-import {EGameControlCommand} from "../../types/game-types";
+import { EGameControlCommand } from "../../types/game-types";
 
 const gameConditions = {
 
@@ -18,12 +18,16 @@ const gameConditions = {
         EGameControlCommand.Encoder_III_RIGHT
     ],
 
-    beginning: {
-        encoders: [
-            "Encoder_N_LEFT", "Encoder_N_RIGHT", "Encoder_I_LEFT", "Encoder_I_RIGHT",
-            "Encoder_II_LEFT", "Encoder_II_RIGHT", "Encoder_III_LEFT", "Encoder_III_RIGHT"
-        ],
-    },
+    mnaAnalogEncoders: [
+        EGameControlCommand.Encoder_I_LEFT,
+        EGameControlCommand.Encoder_I_RIGHT,
+    ],
+
+    mnaAnalogButtons: [
+        EGameControlCommand.Button_I_A,
+        EGameControlCommand.Button_I_B,
+        EGameControlCommand.Button_I_C
+    ],
 
     mnaAnalogInterfaces: [
         EGameControlCommand.Encoder_I_LEFT,
@@ -33,12 +37,34 @@ const gameConditions = {
         EGameControlCommand.Button_I_C
     ],
 
+    sodAnalogEncoders: [
+        EGameControlCommand.Encoder_II_LEFT,
+        EGameControlCommand.Encoder_II_RIGHT,
+    ],
+
+    sodAnalogButtons: [
+        EGameControlCommand.Button_II_A,
+        EGameControlCommand.Button_II_B,
+        EGameControlCommand.Button_II_C
+    ],
+
     sodAnalogInterfaces: [
         EGameControlCommand.Encoder_II_LEFT,
         EGameControlCommand.Encoder_II_RIGHT,
         EGameControlCommand.Button_II_A,
         EGameControlCommand.Button_II_B,
         EGameControlCommand.Button_II_C
+    ],
+
+    loopingAnalogEncoders: [
+        EGameControlCommand.Encoder_III_LEFT,
+        EGameControlCommand.Encoder_III_RIGHT,
+    ],
+
+    loopingAnalogButtons: [
+        EGameControlCommand.Button_III_A,
+        EGameControlCommand.Button_III_B,
+        EGameControlCommand.Button_III_C
     ],
 
     loopingAnalogInterfaces: [

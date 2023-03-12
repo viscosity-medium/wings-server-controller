@@ -9,33 +9,27 @@ class GameSystemMessage {
     returnMessageForMnaMode({ command }: { command: EGameControlCommand }){
         if( command === EGameControlCommand.Button_I_A ){
             return  returnHexMessageCommand( gameAMessagesCommands );
-        }
-        if( command === EGameControlCommand.Button_I_B ){
+        } else if( command === EGameControlCommand.Button_I_B ){
             return  returnHexMessageCommand( gameBMessagesCommands );
-        }
-        if( command === EGameControlCommand.Button_I_C ){
+        } else if( command === EGameControlCommand.Button_I_C ){
             return  returnHexMessageCommand( gameCMessagesCommands );
         }
     }
     returnMessageForSodMode({ command }: { command: EGameControlCommand }){
         if( command === EGameControlCommand.Button_II_A ){
             return  returnHexMessageCommand( gameAMessagesCommands );
-        }
-        if( command === EGameControlCommand.Button_II_B ){
+        } else if( command === EGameControlCommand.Button_II_B ){
             return  returnHexMessageCommand( gameBMessagesCommands );
-        }
-        if( command === EGameControlCommand.Button_II_C ){
+        } else if( command === EGameControlCommand.Button_II_C ){
             return  returnHexMessageCommand( gameCMessagesCommands );
         }
     }
     returnMessageForLoopingMode({ command }: { command: EGameControlCommand }){
         if( command === EGameControlCommand.Button_III_A ){
             return  returnHexMessageCommand( gameAMessagesCommands );
-        }
-        if( command === EGameControlCommand.Button_III_B ){
+        } else if( command === EGameControlCommand.Button_III_B ){
             return  returnHexMessageCommand( gameBMessagesCommands );
-        }
-        if( command === EGameControlCommand.Button_III_C ){
+        } else if( command === EGameControlCommand.Button_III_C ){
             return  returnHexMessageCommand( gameCMessagesCommands );
         }
     }

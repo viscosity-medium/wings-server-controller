@@ -3,6 +3,14 @@ import { gameConditions } from "./game-conditions";
 
 class ReturnGameMnaConditions {
 
+    mnaEncodersInterfaces({command}: {command: EGameControlCommand}){
+        return gameConditions.mnaAnalogEncoders.includes(command)
+    }
+
+    mnaButtonsInterfaces({command}: {command: EGameControlCommand}){
+        return gameConditions.mnaAnalogButtons.includes(command)
+    }
+
     mnaValidInterfaces({command}: {command: EGameControlCommand}){
         return gameConditions.mnaAnalogInterfaces.includes(command)
     }

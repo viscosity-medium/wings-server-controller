@@ -11,6 +11,7 @@ const sendDataToWingsServerOverUdp: TSendDataToWingsServerOverUdp = ({ id, comma
     const port = systemVariables.WINGS_PORT;
     const hexCommand: Uint8Array = new Uint8Array( command );
     const client: dgram.Socket = dgram.createSocket( "udp4" );
+
     client.send( hexCommand, port, host, ()=> { client.close() } );
 
 };

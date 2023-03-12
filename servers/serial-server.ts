@@ -8,7 +8,7 @@ const startSerialServer = async () => {
     const readlineParser = serialPort.pipe(new ReadlineParser({delimiter: "_[END]"}));
 
     return readlineParser.on("data", (data)=>{
-        const parsedData = JSON.parse(data.replace(/'+'/,"'").replace(/\'/gm,""))
+        const parsedData = JSON.parse(data.replace(/'+'/,"'").replace(/'/gm,""))
         console.log(parsedData)
     });
 

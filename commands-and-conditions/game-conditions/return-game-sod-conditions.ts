@@ -3,6 +3,10 @@ import { gameConditions } from "./game-conditions";
 
 class ReturnGameSodConditions {
 
+    sodButtonsInterfaces({command}: {command: EGameControlCommand}){
+        return gameConditions.sodAnalogButtons.includes(command)
+    }
+
     sodValidInterfaces({ command }: { command: EGameControlCommand }){
         return gameConditions.sodAnalogInterfaces.includes( command )
     }

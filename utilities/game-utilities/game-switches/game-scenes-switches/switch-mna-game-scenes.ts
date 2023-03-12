@@ -20,7 +20,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
     ){
 
         setStoreValue({
-            storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
+            storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, 
         });
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene2"));
     } else if(
@@ -28,7 +28,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
     ){
 
         setStoreValue({
-            storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 2, messageStatus: 1
+            storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 2, 
         });
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene3"));
 
@@ -41,7 +41,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         ){
 
             setStoreValue({
-                storeId, scene: 4, cursorPosition: 1, maxCursorPositions: 5, messageStatus: 1
+                storeId, scene: 4, cursorPosition: 1, maxCursorPositions: 5, 
             });
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene4"));
 
@@ -50,7 +50,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         ){
 
             setStoreValue({
-                storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
+                storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4, 
             });
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene2"));
 
@@ -65,7 +65,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         ){
 
             setStoreValue({
-                storeId, scene: 5, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
+                storeId, scene: 5, cursorPosition: 1, maxCursorPositions: 1, 
             });
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene5Final1"));
 
@@ -74,7 +74,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         ){
 
             setStoreValue({
-                storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
+                storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, 
             });
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene6Final2"));
 
@@ -83,7 +83,7 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         ){
 
             setStoreValue({
-                storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
+                storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1, 
             });
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene("goToMnaModeScene6Final2"));
 
@@ -92,12 +92,21 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
     }
 
     if( goToSpecificGameSceneCommand ){
+        
         gameServices.sendCommandToShowSystemMessage({ id, command });
+        setStoreValue({
+            storeId,
+            messageStatus: 1
+        })
 
         await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
-    } else {
+    } else if( returnGameMnaConditions.mnaButtonsInterfaces({ command })) {
         gameServices.sendCommandToShowSystemMessage({ id,  command });
+        setStoreValue({
+            storeId,
+            messageStatus: 1
+        })
     }
 
 }

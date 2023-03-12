@@ -12,14 +12,12 @@ export enum EGameModes {
 }
 
 interface ISetStoreValue {
+
     storeId: keyof IStore
     analogControl?: boolean
     mode?: EProjectZonesModes | EGameModes
     index?: number
     numberOfFiles?: number
-
-    // for lab mode
-    microscope?: string
 
     // for game mods
     scene?: number
@@ -28,7 +26,9 @@ interface ISetStoreValue {
     hintStatus?: 0 | 1
     messageStatus?: 0 | 1
     hintDisplayTime?: string
-    savedSceneToGo?: number[] | "undefined"
+    savedSceneToGo?: number[] | "undefined",
+    sceneTransitionTimeout?: NodeJS.Timeout
+
 }
 
 export type TSetStoreValue = ({
@@ -37,14 +37,14 @@ export type TSetStoreValue = ({
     mode,
     index,
     numberOfFiles,
-    microscope,
     hintStatus,
     scene,
     cursorPosition,
     maxCursorPositions,
     messageStatus,
     hintDisplayTime,
-    savedSceneToGo
+    savedSceneToGo,
+    sceneTransitionTimeout
 }: ISetStoreValue) => void
 
 export type TInstallationStandard = {
@@ -57,12 +57,9 @@ export type TInstallationStandard = {
     // timeouts
     idleTimeout: ReturnType<typeof setTimeout> | undefined
     hideHintTimeout: any
-    sceneTransitionTimeout: ReturnType<typeof setTimeout> | undefined
+    sceneTransitionTimeout: NodeJS.Timeout | undefined
 }
 
-export interface TInstallationLab extends TInstallationStandard {
-    microscope: string
-}
 export interface TInstallationGame extends Omit<TInstallationStandard, "mode" > {
     mode: EGameModes
     scene: number
@@ -75,7 +72,6 @@ export interface TInstallationGame extends Omit<TInstallationStandard, "mode" > 
 
 export interface TInstallationTest extends Omit<TInstallationStandard, "mode"> {
     mode: EProjectZonesModes | EGameModes | "screensaver" | "main"
-    microscope?: string
     scene?: number
     cursorPosition?: number
     maxCursorPositions?: number
@@ -107,7 +103,7 @@ export interface IStore {
     [EStoreKeys.installationProjectCovers]: TInstallationStandard
     [EStoreKeys.installationProjectCabinet]: TInstallationStandard
     [EStoreKeys.installationProjectPipeline]: TInstallationStandard
-    [EStoreKeys.installationProjectLab]: TInstallationLab
+    [EStoreKeys.installationProjectLab]: TInstallationStandard
     [EStoreKeys.installationGame]: TInstallationGame
 
     // test

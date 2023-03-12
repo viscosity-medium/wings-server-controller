@@ -36,7 +36,7 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
 
                     await gameSubController({ id, command });
-                    console.log(store[storeId])
+                    //console.log(store[storeId])
                 }
 
             }
@@ -51,6 +51,7 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
     if( systemVariables.DIRECT_COMMANDS === "direct_commands" ){
 
+        console.log(transformToHexArray(command))
         sendDataToWingsServerOverUdp({id: EInstallationIds.Test, command: transformToHexArray(command)});
 
     }

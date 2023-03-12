@@ -6,6 +6,7 @@ import { wingsActionCommands } from "../../../../commands-and-conditions/wings-a
 import { gameServices } from "../../game-services";
 import { EStoreKeys } from "../../../../types/store-types";
 import {delayedGoToSpecificGameScene} from "../../../time-utilities";
+import {returnGameSodConditions} from "../../../../commands-and-conditions/game-conditions/return-game-sod-conditions";
 
 const { SpecificGameScene } = wingsActionCommands;
 
@@ -58,12 +59,21 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
     }
 
     if( goToSpecificGameSceneCommand ){
-        gameServices.sendCommandToShowSystemMessage({ id,  command });
+
+        gameServices.sendCommandToShowSystemMessage({ id, command });
+        setStoreValue({
+            storeId,
+            messageStatus: 1
+        })
 
         await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
-    } else {
+    } else if( returnGameLoopingConditions.loopingButtonsInterfaces({ command })) {
         gameServices.sendCommandToShowSystemMessage({ id,  command });
+        setStoreValue({
+            storeId,
+            messageStatus: 1
+        })
     }
 
 }

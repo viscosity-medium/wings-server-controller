@@ -1,12 +1,12 @@
 import { possibleCommandsReceivedForProjectZones } from "../commands-and-conditions/possible-commands-received-for-project-zones";
-import { IDefineIndexToGoUtility } from "../types/command-types";
+import {EHttpCommands, EUdpProjectCommands, IDefineIndexToGoUtility} from "../types/command-types";
 import { EStoreKeys } from "../types/store-types";
 import { store } from "../store/store";
 
 // file index to go definer for http and udp
 export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUtility) => {
 
-    const { goBackwards, goForward , hexSingleCommands } = possibleCommandsReceivedForProjectZones;
+    const { goBackwards, goForward } = possibleCommandsReceivedForProjectZones;
     const { numberOfFiles } = store[ storeId ]
     let newIndex = 0;
 
@@ -18,11 +18,11 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
             newIndex = +command;
 
-        } else if( goForward.includes(command) ) {
+        } else if( goForward.includes( command as EHttpCommands | EUdpProjectCommands) ) {
 
             newIndex = store[ storeId ].numberOfFiles;
 
-        } else if( goBackwards.includes(command) ) {
+        } else if( goBackwards.includes( command as EHttpCommands | EUdpProjectCommands ) ) {
 
             newIndex = store[ storeId ].numberOfFiles - 1;
 
@@ -30,23 +30,23 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
     } else {
 
-        if( command.match(/^[0-9]+$/) ){ // if index position was retrieved
+        if( command.toString().match( /^[0-9]+$/ ) ){ // if index position was retrieved
 
             newIndex = +command;
 
-        } else if( goForward.includes( command ) && store[ storeId ].index < numberOfFiles) {
+        } else if( goForward.includes( command as EHttpCommands | EUdpProjectCommands ) && store[ storeId ].index < numberOfFiles) {
 
             newIndex = (store[ storeId ].index + 1);
 
-        } else if( goBackwards.includes( command ) && store[ storeId ].index !== 1) {
+        } else if( goBackwards.includes( command as EHttpCommands | EUdpProjectCommands ) && store[ storeId ].index !== 1) {
 
             newIndex = (store[ storeId ].index - 1);
 
-        } else if( goForward.includes( command ) && store[ storeId ].index === +numberOfFiles){
+        } else if( goForward.includes( command  as EHttpCommands | EUdpProjectCommands) && store[ storeId ].index === +numberOfFiles){
 
             newIndex = 1;
 
-        } else if( goBackwards.includes( command ) && store[ storeId ].index === 1 ){
+        } else if( goBackwards.includes( command as EHttpCommands | EUdpProjectCommands ) && store[ storeId ].index === 1 ){
 
             newIndex = +numberOfFiles;
 
@@ -54,8 +54,10 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
     }
 
-    if( !newIndex && possibleCommandsReceivedForProjectZones.hexSingleCommands.includes( command )){
+    if( !newIndex && possibleCommandsReceivedForProjectZones.hexSingleCommands.includes( command as EHttpCommands )){
+
         newIndex = store[ storeId ].index
+
     }
 
     return newIndex !== 0 ? newIndex.toString().length < 2 ? `0${newIndex}` : `${newIndex}` : undefined;

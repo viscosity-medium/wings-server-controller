@@ -1,4 +1,4 @@
-import {EInstallationIds, IInstallationIds} from "../types/_common-types";
+import { IInstallationIds } from "../types/_common-types";
 
 const systemVariables = {
     BASE_URL: process.env.BASE_URL,
@@ -10,7 +10,8 @@ const systemVariables = {
     TEST_IP: process.env.INSTALLATION_ID_TEST!,
     NODE_MODE: process.env.NODE_MODE!,
     IS_DEV: process.env.NODE_MODE! === "development",
-    DIRECT_COMMANDS: process.env.DIRECT_COMMANDS
+    DIRECT_COMMANDS: process.env.DIRECT_COMMANDS,
+    INITIAL_MAX_CURSOR_POSITIONS: 4
 }
 const installationIds: IInstallationIds = {
     ProjectPortraits: {

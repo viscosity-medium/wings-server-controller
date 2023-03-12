@@ -4,14 +4,14 @@ import { defineIndexToGoUtility } from "../../utilities/define-index-to-go-utili
 import { projectUtilities } from "../../utilities/project-zones-utility/project-zone-utilities";
 import { EGameControlCommand } from "../../types/game-types";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
-import { TCommand } from "../../types/command-types";
+import {EHttpCommands, EUdpProjectCommands, THttpCommand} from "../../types/command-types";
 import { IStore } from "../../types/store-types";
 
 export interface IProjectZonesControllerProps {
 
     id: EInstallationIds
     storeId: keyof IStore
-    command: EGameControlCommand | TCommand
+    command: EGameControlCommand | THttpCommand | EHttpCommands
 
 }
 const projectZonesSubController = async ({ id, storeId, command }: IProjectZonesControllerProps) => {
@@ -19,12 +19,12 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
     const { hexSingleCommands, goBackwards, goForward } = possibleCommandsReceivedForProjectZones;
     const newIndex = defineIndexToGoUtility({ command, storeId });
 
-    if( hexSingleCommands.includes( command ) && newIndex ){
+    if( hexSingleCommands.includes( command as EHttpCommands ) && newIndex ){
 
         const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command: wingsActionCommands[ command as TCommandsStandard ] });
         await projectZoneUtilities.sendHexCommand()
 
-    }else if( ( [...goBackwards, ...goForward, ].includes( command ) ||
+    }else if( ( [...goBackwards, ...goForward, ].includes( command as EHttpCommands | EUdpProjectCommands) ||
         command.match( /Test_\w*_[L|R]/ ) || command.match( /[0-9]+/gm )
     ) && newIndex ) {
 

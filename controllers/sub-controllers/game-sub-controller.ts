@@ -22,7 +22,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
     // universal cursor position switcher
     if( gameEncoders.includes( command ) && gameState.messageStatus === 0){
-        switchGameCursorPosition({ id, command });
+        await switchGameCursorPosition({ id, command });
     }
 
 
@@ -33,16 +33,12 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         await switchGameMode({ id, command, A, B, C, D }); // all modes are interactive
 
     } else  if ( // demo mode
-
         gameState.mode === EGameModes.demo && modeSelectionButtons.includes( command )
-
     ){
         await switchGameMode({ id, command, B, C, D }); // without the demo mode interaction (A is missed)
 
     } else if ( // mna mode
-
         gameState.mode === EGameModes.mna
-
     ){
 
         // check that the command came from switch mode buttons
@@ -55,9 +51,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
             if( gameState.messageStatus === 0 ){
                 await switchMnaGameScenes({ id, command, gameState });
-            }
-
-            if( gameState.messageStatus === 1 ){
+            } else if( gameState.messageStatus === 1 ){
 
                 gameServices.sendCommandToHideSystemMessages({ id });
 
@@ -75,7 +69,9 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
         }
 
-    } else if( gameState.mode === EGameModes.sod ){  // sod mode
+    } else if( // sod mode
+        gameState.mode === EGameModes.sod
+    ){
 
         // check that the command came from switch mode buttons
         if( modeSelectionButtons.includes( command ) ){
@@ -87,9 +83,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
             if( gameState.messageStatus === 0 ){
                 await switchSodGameScenes({ id, command, gameState });
-            }
-
-            if( gameState.messageStatus === 1 ){
+            } else if( gameState.messageStatus === 1 ){
 
                 gameServices.sendCommandToHideSystemMessages({ id });
 
@@ -107,7 +101,9 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
         }
 
-    } else if( gameState.mode === EGameModes.looping ){ // looping mode
+    } else if( // looping mode
+        gameState.mode === EGameModes.looping
+    ){
 
         // check that the command came from switch mode buttons
         if( modeSelectionButtons.includes(command) ){
@@ -119,9 +115,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
             if( gameState.messageStatus === 0 ){
                 await switchLoopingGameScenes({id,  command, gameState });
-            }
-
-            if( gameState.messageStatus === 1 ){
+            } else if ( gameState.messageStatus === 1 ){
                 gameServices.sendCommandToHideSystemMessages({ id });
 
                 if(gameState.savedSceneToGo){
@@ -138,6 +132,8 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
     }
+
+    console.log(store[ storeId ])
 
 };
 

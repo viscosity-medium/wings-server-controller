@@ -5,7 +5,7 @@ import {
     TSecondsToMillisecondsSeconds,
     TStartIdleTimeOut
 } from "../types/time-types";
-import { EGameModes , EProjectZonesModes, EStoreKeys} from "../types/store-types";
+import {EGameModes, EProjectZonesModes, EStoreKeys, IStore} from "../types/store-types";
 import { TDelayedComeBackToScreensaver } from "../types/command-types";
 import { returnCompositeCommandUtility } from "./composite-command-utility";
 import { sendDataToWingsServerOverUdp } from "./udp/dgram-udp-utilities";
@@ -97,13 +97,18 @@ const delayedGoToSpecificGameScene = ({id, goToSpecificGameSceneCommand}: {id: E
 
     clearTimeoutFunction(store[ storeId ].sceneTransitionTimeout);
 
-    store[ storeId ].savedSceneToGo = goToSpecificGameSceneCommand;
-    store[ storeId ].sceneTransitionTimeout = startTimeOutCounter(async () => {
+    setStoreValue({
+        storeId,
+        savedSceneToGo: goToSpecificGameSceneCommand,
+        sceneTransitionTimeout: startTimeOutCounter(async () => {
 
-        await gameServices.goToSpecificGameScene({id, goToSpecificGameSceneCommand});
+            await gameServices.goToSpecificGameScene({id, goToSpecificGameSceneCommand});
 
-    }, messageDisplayTime);
+        }, messageDisplayTime)
 
+    });
+
+    // console.log(store[storeId])
 
 };
 
@@ -122,7 +127,7 @@ const delayedSwitchGameHint = ({ id  }: { id: EInstallationIds }) => {
     clearTimeoutFunction(store[ storeId ].hideHintTimeout);
 
     store[ storeId ].hideHintTimeout = async () => {
-        const sendDataWithDelay = returnSendDataFunctionAfterDelay({ id });
+
         for (const gameHint of gameHintsArray){
             const command = transformToHexArray(gameHint);
             await new Promise<void>((resolve) => {

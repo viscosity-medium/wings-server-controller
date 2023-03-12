@@ -80,8 +80,6 @@ const store: IStore = {
         idleTimeout: undefined,
         hideHintTimeout: undefined,
         sceneTransitionTimeout: undefined,
-        //special
-        microscope : "off",
     },
 
     [EStoreKeys.installationGame]: {
@@ -111,8 +109,8 @@ const store: IStore = {
         idleTimeout: undefined,
         hideHintTimeout: undefined,
         sceneTransitionTimeout: undefined,
+
         //special
-        microscope : "off",
         scene: 1,
         hintStatus: 0,
         messageStatus: 0,

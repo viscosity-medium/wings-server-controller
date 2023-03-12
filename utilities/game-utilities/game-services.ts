@@ -19,6 +19,7 @@ const {
 const { Play, FadeTimeline } = wingsActionCommands;
 const storeId = EStoreKeys.installationGame;
 const gameState = store[ EStoreKeys.installationGame ];
+const { INITIAL_MAX_CURSOR_POSITIONS } = systemVariables;
 
 class GameServices {
     async executeTransitionToSpecificMode({ id, commandHex6, mode, scene, cursorPosition, messageStatus }: ITransitionToTheSpecificModeProps ){
@@ -38,11 +39,6 @@ class GameServices {
 
         await executeAsyncTimeOut( commandHex1, delayShort! );
 
-        setStoreValue({
-            storeId: EStoreKeys.installationGame,
-            hintStatus: 0
-        }); // deactivate hint
-
         await executeAsyncTimeOut( commandHex2, delayShort! );
         await executeAsyncTimeOut( commandHex3, delayShort! );
         await executeAsyncTimeOut( commandHex4, delayShort! );
@@ -50,10 +46,12 @@ class GameServices {
 
         setStoreValue({
             storeId: EStoreKeys.installationGame,
+            hintStatus: 0,
             mode,
             scene,
+            messageStatus,
             cursorPosition,
-            messageStatus
+            maxCursorPositions: INITIAL_MAX_CURSOR_POSITIONS
         });
 
         await executeAsyncTimeOut( commandHex6, delayShort! );
@@ -70,10 +68,9 @@ class GameServices {
 
     sendCommandToShowSystemMessage ({ id, command }: { id: EInstallationIds, command: EGameControlCommand }) {
 
-        const { host } = installationIds[ "Game" ];
-        const { WINGS_PORT: port } = systemVariables;
         const { mode, messageStatus } = store[ EStoreKeys.installationGame ];
         let systemMessage: number[] | undefined;
+        //console.log(messageStatus);
 
         // if system messages are inactive
         if ( messageStatus === 0 ){
@@ -94,12 +91,18 @@ class GameServices {
 
         // if systemMessage is defined,
         // then the store changes and the command sends
-        systemMessage && sendDataToWingsServerOverUdp({ command: systemMessage, id });
-        systemMessage && setStoreValue({
-            storeId: EStoreKeys.installationGame,
-            messageStatus: 1
-        });
-    };
+
+        if( systemMessage ) {
+            //console.log(systemMessage)
+            sendDataToWingsServerOverUdp({ command: systemMessage, id });
+            setStoreValue({
+                storeId: EStoreKeys.installationGame,
+                messageStatus: 1
+            });
+
+        }
+
+    }
 
     async goToSpecificGameScene({ id, goToSpecificGameSceneCommand }: {id: EInstallationIds, goToSpecificGameSceneCommand: number[] }){
 
@@ -144,7 +147,7 @@ class GameServices {
 
     }
 
-    changeCursorPositionToTheLeft({ id }: { id: EInstallationIds }){
+    async changeCursorPositionToTheLeft({ id }: { id: EInstallationIds }){
 
         if ( gameState.cursorPosition > 1 ){
             setStoreValue({
@@ -160,12 +163,15 @@ class GameServices {
 
         // defining cursor position to show (from array)
         const command = transformToHexArray( gameCursorPositionsCommands[ gameState.cursorPosition - 1 ] );
+        const sendDataFunctionBeforeDelay =  returnSendDataFunctionBeforeDelay({id})
+        const hexCommand = transformToHexArray(gameFadesCommands.allCursorPositionsFadeOut);
+        await sendDataFunctionBeforeDelay( hexCommand, installationIds[id].delayShort)
 
         sendDataToWingsServerOverUdp({command, id });
 
     }
 
-    changeCursorPositionToTheRight({ id }: { id: EInstallationIds }){
+    async changeCursorPositionToTheRight({ id }: { id: EInstallationIds }){
         if ( gameState.cursorPosition < gameState.maxCursorPositions ){
             setStoreValue({
                 storeId: EStoreKeys.installationGame,
@@ -180,8 +186,11 @@ class GameServices {
 
         // defining cursor position to show (from array)
         const command = transformToHexArray( gameCursorPositionsCommands[ gameState.cursorPosition -1 ] );
+        const sendDataFunctionBeforeDelay =  returnSendDataFunctionBeforeDelay({id})
+        const hexCommand = transformToHexArray(gameFadesCommands.allCursorPositionsFadeOut);
+        await sendDataFunctionBeforeDelay( hexCommand, installationIds[id].delayShort)
 
-        sendDataToWingsServerOverUdp({ command, id });
+        sendDataToWingsServerOverUdp({command, id });
     }
 
 }

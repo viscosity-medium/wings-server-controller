@@ -3,6 +3,10 @@ import {gameConditions} from "./game-conditions";
 
 class ReturnGameLoopingConditions {
 
+   loopingButtonsInterfaces({command}: {command: EGameControlCommand}){
+        return gameConditions.loopingAnalogButtons.includes(command)
+    }
+
     loopingValidInterfaces({command}: {command: EGameControlCommand}){
         return gameConditions.loopingAnalogInterfaces.includes(command)
     }
