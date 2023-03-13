@@ -18,11 +18,13 @@ interface IGame extends IProject {
 export enum EInstallationIds {
     ProjectPortraits = "ProjectPortraits" ,
     ProjectMap = "ProjectMap" ,
-    Project3 = "Project3" ,
     ProjectCovers = "ProjectCovers",
     ProjectCabinet = "ProjectCabinet",
     ProjectPipeline = "ProjectPipeline",
     ProjectLab = "ProjectLab",
+    ProjectTankEcology = "ProjectTankEcology",
+    ProjectTankTechnology = "ProjectTankTechnology",
+    ProjectTankSocial = "ProjectTankSocial",
     Game = "Game",
 
     //test
@@ -33,11 +35,13 @@ export interface IInstallationIds {
 
     [EInstallationIds.ProjectPortraits]: IProject,
     [EInstallationIds.ProjectMap]: IProject,
-    [EInstallationIds.Project3]: IProject,
     [EInstallationIds.ProjectCovers]: IProject,
     [EInstallationIds.ProjectCabinet]: IProject,
     [EInstallationIds.ProjectPipeline]: IProject,
     [EInstallationIds.ProjectLab]: IProject,
+    [EInstallationIds.ProjectTankEcology]: IProject,
+    [EInstallationIds.ProjectTankTechnology]: IProject,
+    [EInstallationIds.ProjectTankSocial]: IProject,
     [EInstallationIds.Game]: IGame,
     [EInstallationIds.Test]: IProject,
 

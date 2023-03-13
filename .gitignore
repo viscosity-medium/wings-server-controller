@@ -2,4 +2,6 @@
 /node_modules
 /docker
 
+wings-server-controller.7z
+
 .env

@@ -4,7 +4,8 @@
   "description": "",
   "main": "master-server.ts",
   "scripts": {
-    "dev": "cross-env NODE_MODE=development nodemon -r dotenv/config master-server.ts",
+    "dev:office": "cross-env NODE_MODE=development TEST_LOCATION=office nodemon -r dotenv/config master-server.ts",
+    "dev:museum": "cross-env NODE_MODE=development TEST_LOCATION=museum nodemon -r dotenv/config master-server.ts",
     "dev:js": "cross-env NODE_MODE=development nodemon -r dotenv/config ./_ts-build/master-server.js",
     "dev:dc": "cross-env NODE_MODE=development DIRECT_COMMANDS=direct_commands nodemon -r dotenv/config",
     "prod": "cross-env NODE_MODE=production nodemon -r dotenv/config master-server.ts",

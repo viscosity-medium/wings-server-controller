@@ -82,6 +82,18 @@ class projectUtilities {
 
     }
 
+    async sendTransitionCommandToTheTanksInstallations() {
+
+        if( this.command.match(/[1-9]+/gm) ){
+
+            console.log(installationIds[ this.id ])
+
+            setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
+            await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
+
+        }
+    }
+
     async sendTransitionCommandToThePortraitsInstallation() {
 
         setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });

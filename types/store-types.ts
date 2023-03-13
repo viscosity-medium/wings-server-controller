@@ -85,11 +85,13 @@ export interface TInstallationTest extends Omit<TInstallationStandard, "mode"> {
 export enum EStoreKeys {
     installationProjectPortraits = "installationProjectPortraits",
     installationProjectMap = "installationProjectMap",
-    installationProject3 = "installationProject3",
     installationProjectCovers = "installationProjectCovers",
     installationProjectCabinet = "installationProjectCabinet",
     installationProjectPipeline = "installationProjectPipeline",
     installationProjectLab = "installationProjectLab",
+    installationProjectTankEcology = "installationProjectTankEcology",
+    installationProjectTankTechnology = "installationProjectTankTechnology",
+    installationProjectTankSocial = "installationProjectTankSocial",
     installationGame = "installationGame",
 
     // test
@@ -99,11 +101,13 @@ export enum EStoreKeys {
 export interface IStore {
     [EStoreKeys.installationProjectPortraits]: TInstallationStandard
     [EStoreKeys.installationProjectMap]: TInstallationStandard
-    [EStoreKeys.installationProject3]: TInstallationStandard
     [EStoreKeys.installationProjectCovers]: TInstallationStandard
     [EStoreKeys.installationProjectCabinet]: TInstallationStandard
     [EStoreKeys.installationProjectPipeline]: TInstallationStandard
     [EStoreKeys.installationProjectLab]: TInstallationStandard
+    [EStoreKeys.installationProjectTankEcology]: TInstallationStandard
+    [EStoreKeys.installationProjectTankTechnology]: TInstallationStandard
+    [EStoreKeys.installationProjectTankSocial]: TInstallationStandard
     [EStoreKeys.installationGame]: TInstallationGame
 
     // test

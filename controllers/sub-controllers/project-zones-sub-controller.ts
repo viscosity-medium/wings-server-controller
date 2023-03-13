@@ -31,10 +31,16 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
         const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command });
 
         if ( // project zones "Map", "Lab", "Cabinet"
-            [ EInstallationIds.ProjectMap, EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet
-        ].includes(id) ) {
+            [ EInstallationIds.ProjectMap, EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet ].includes(id)
+        ) {
 
             await projectZoneUtilities.sendUniversalTransitionCommand();
+
+        }else if ( // project zones "Tanks"
+            [ EInstallationIds.ProjectTankEcology, EInstallationIds.ProjectTankTechnology, EInstallationIds.ProjectTankSocial].includes(id)
+        ){
+
+            await projectZoneUtilities.sendTransitionCommandToTheTanksInstallations()
 
         } else if ( // project zone "Portraits"
             EInstallationIds.ProjectPortraits === id

@@ -27,17 +27,6 @@ const store: IStore = {
         sceneTransitionTimeout: undefined
     },
 
-    [EStoreKeys.installationProject3]: {
-        analogControl: true,
-        index: 1,
-        mode:  EProjectZonesModes.screensaver,
-        numberOfFiles: installationIds[EInstallationIds.Project3].numberOfFiles,
-        // timeouts
-        idleTimeout: undefined,
-        hideHintTimeout: undefined,
-        sceneTransitionTimeout: undefined
-    },
-
     [EStoreKeys.installationProjectCovers]: {
         analogControl: true,
         index: 1,
@@ -71,17 +60,6 @@ const store: IStore = {
         sceneTransitionTimeout: undefined
     },
 
-    [EStoreKeys.installationProjectLab]: {
-        analogControl: true,
-        index: 1,
-        mode:  EProjectZonesModes.screensaver,
-        numberOfFiles: installationIds[EInstallationIds.ProjectLab].numberOfFiles,
-        // timeouts
-        idleTimeout: undefined,
-        hideHintTimeout: undefined,
-        sceneTransitionTimeout: undefined,
-    },
-
     [EStoreKeys.installationGame]: {
         analogControl: true,
         index: 1,
@@ -98,6 +76,47 @@ const store: IStore = {
         cursorPosition: 1,
         maxCursorPositions: 4,
         mode: EGameModes.screensaver,
+    },
+
+    [EStoreKeys.installationProjectLab]: {
+        analogControl: true,
+        index: 1,
+        mode:  EProjectZonesModes.screensaver,
+        numberOfFiles: installationIds[EInstallationIds.ProjectLab].numberOfFiles,
+        // timeouts
+        idleTimeout: undefined,
+        hideHintTimeout: undefined,
+        sceneTransitionTimeout: undefined,
+    },
+    [EStoreKeys.installationProjectTankEcology]: {
+        analogControl: true,
+        index: 1,
+        mode:  EProjectZonesModes.screensaver,
+        numberOfFiles: installationIds[EInstallationIds.ProjectTankEcology].numberOfFiles,
+        // timeouts
+        idleTimeout: undefined,
+        hideHintTimeout: undefined,
+        sceneTransitionTimeout: undefined,
+    },
+    [EStoreKeys.installationProjectTankTechnology]: {
+        analogControl: true,
+        index: 1,
+        mode:  EProjectZonesModes.screensaver,
+        numberOfFiles: installationIds[EInstallationIds.ProjectTankTechnology].numberOfFiles,
+        // timeouts
+        idleTimeout: undefined,
+        hideHintTimeout: undefined,
+        sceneTransitionTimeout: undefined,
+    },
+    [EStoreKeys.installationProjectTankSocial]: {
+        analogControl: true,
+        index: 1,
+        mode:  EProjectZonesModes.screensaver,
+        numberOfFiles: installationIds[EInstallationIds.ProjectTankSocial].numberOfFiles,
+        // timeouts
+        idleTimeout: undefined,
+        hideHintTimeout: undefined,
+        sceneTransitionTimeout: undefined,
     },
 
     [EStoreKeys.installationTest]: {

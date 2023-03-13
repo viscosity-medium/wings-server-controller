@@ -8,7 +8,6 @@ const remoteIp: IRemoteIp = {
 
     "10.4.187.22": EInstallationIds.ProjectPortraits,
     "10.4.187.23": EInstallationIds.ProjectMap,
-    "aa": EInstallationIds.Project3,
     "10.4.187.26": EInstallationIds.ProjectCovers,
     "10.4.187.31": EInstallationIds.ProjectCabinet,
     "10.4.187.18": EInstallationIds.ProjectPipeline,
@@ -23,7 +22,6 @@ const testUdpCommands: ITestUdpCommand = {
 
     TestPortraits: EInstallationIds.ProjectPortraits,
     TestMap: EInstallationIds.ProjectMap,
-    Test3: EInstallationIds.Project3,
     TestCovers: EInstallationIds.ProjectCovers,
     TestCabinet: EInstallationIds.ProjectCabinet,
     TestPipeline: EInstallationIds.ProjectPipeline,
