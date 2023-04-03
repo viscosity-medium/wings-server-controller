@@ -29,6 +29,7 @@ class HttpMasterController {
     }
 
     async sendGameControlCommand (req: Request, res: Response) {
+
         const { command } = req.body
         await gameSubController({ id: EInstallationIds.Game, command });
 

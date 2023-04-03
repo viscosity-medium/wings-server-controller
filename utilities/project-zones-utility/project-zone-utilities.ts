@@ -73,7 +73,7 @@ class projectUtilities {
             setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: 1 });
             await this.executeCompositeCommandUtility({ xIndex: "02", yIndex: "01", type: "active" });
 
-        } else if ( (store[ this.storeId ].mode === EProjectZonesModes.screensaver || this.command.match(/[1-9]+/gm)) && this.newIndex ) {
+        } else if ( (store[ this.storeId ].mode === EProjectZonesModes.main || this.command.match(/[1-9]+/gm)) && this.newIndex ) {
 
             setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex });
             await this.executeCompositeCommandUtility({ xIndex: "02", yIndex: this.newIndex, type: "active" });
@@ -88,7 +88,7 @@ class projectUtilities {
 
             console.log(installationIds[ this.id ])
 
-            setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
+            setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: 1 });
             await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
 
         }

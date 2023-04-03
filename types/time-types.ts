@@ -1,3 +1,4 @@
+import {EGameControlCommand, TGameController} from "./game-types";
 import {IStore} from "./store-types";
 import {EInstallationIds} from "./_common-types";
 
@@ -15,3 +16,13 @@ export type TStartIdleTimeOut = ( action: () => void, timeout: number ) => Retur
 export type TClearTimeOut = ( timeOutId: ReturnType<typeof setTimeout> | undefined ) => ReturnType<typeof clearTimeout>
 export type TMinutesToMilliseconds = (minutes: string ) => number
 export type TSecondsToMillisecondsSeconds = (minutes: string ) => number
+
+export interface ThrottlerParams {
+    storeId: keyof IStore
+    functionToExecute: any
+    timeout?: number
+    id?: EInstallationIds
+    command?: EGameControlCommand
+}
+
+export type ThrottlerFunction = ({timeout, storeId, functionToExecute}:ThrottlerParams) => Promise<void>

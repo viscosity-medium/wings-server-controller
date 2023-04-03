@@ -10,6 +10,7 @@ const store: IStore = {
         index: 1,
         mode: EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectPortraits].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -21,6 +22,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectMap].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -32,6 +34,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectCovers].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -43,6 +46,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectCabinet].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -54,6 +58,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectPipeline].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -64,6 +69,7 @@ const store: IStore = {
         analogControl: true,
         index: 1,
         numberOfFiles: installationIds[EInstallationIds.Game].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -83,6 +89,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectLab].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -93,6 +100,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectTankEcology].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -103,6 +111,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectTankTechnology].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -113,6 +122,7 @@ const store: IStore = {
         index: 1,
         mode:  EProjectZonesModes.screensaver,
         numberOfFiles: installationIds[EInstallationIds.ProjectTankSocial].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,
@@ -124,6 +134,7 @@ const store: IStore = {
         index: 1,
         mode: "screensaver",
         numberOfFiles: installationIds[EInstallationIds.Test].numberOfFiles,
+        isThrottled: false,
         // timeouts
         idleTimeout: undefined,
         hideHintTimeout: undefined,

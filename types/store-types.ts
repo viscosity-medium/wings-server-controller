@@ -18,6 +18,7 @@ interface ISetStoreValue {
     mode?: EProjectZonesModes | EGameModes
     index?: number
     numberOfFiles?: number
+    isThrottled?: boolean,
 
     // for game mods
     scene?: number
@@ -53,7 +54,7 @@ export type TInstallationStandard = {
     index: number
     mode: EProjectZonesModes
     numberOfFiles: number
-
+    isThrottled: boolean,
     // timeouts
     idleTimeout: ReturnType<typeof setTimeout> | undefined
     hideHintTimeout: any

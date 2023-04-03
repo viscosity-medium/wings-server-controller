@@ -1,5 +1,5 @@
 import {
-    TClearTimeOut,
+    TClearTimeOut, ThrottlerParams,
     TMinutesToMilliseconds,
     TReturnAsyncMemoTimeout,
     TSecondsToMillisecondsSeconds,
@@ -151,6 +151,37 @@ const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpe
 
 }
 
+const throttlerFunction = async ({ timeout=1000, storeId, functionToExecute, id, command }: ThrottlerParams) => {
+
+    if(!store[ storeId ].isThrottled) {
+
+        setStoreValue({
+            storeId,
+            isThrottled: true
+        });
+
+        if( id === undefined && command === undefined ){
+            await functionToExecute();
+        } else {
+            await functionToExecute({
+                id,
+                command
+            })
+        }
+
+        setTimeout(()=>{
+
+            setStoreValue({
+                storeId,
+                isThrottled: false
+            });
+
+        },timeout)
+
+    }
+
+}
+
 export {
     abortMessageDisplayAndGoToTheNextGameScene,
     delayedGoToSpecificGameScene,
@@ -159,5 +190,6 @@ export {
     returnSendDataFunctionBeforeDelay,
     minutesToMilliseconds,
     startTimeOutCounter,
-    clearTimeoutFunction
+    clearTimeoutFunction,
+    throttlerFunction
 };

@@ -25,7 +25,6 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         await switchGameCursorPosition({ id, command });
     }
 
-
     if( // screensaver mode
         gameState.mode === EGameModes.screensaver && modeSelectionButtons.includes( command )
     ){

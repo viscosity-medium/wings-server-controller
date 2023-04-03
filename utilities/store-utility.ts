@@ -13,7 +13,8 @@ const setStoreValue: TSetStoreValue = ({
     hintStatus,
     messageStatus,
     savedSceneToGo,
-    sceneTransitionTimeout
+    sceneTransitionTimeout ,
+    isThrottled
 }) => {
 
     mode ? store[ storeId ].mode = mode : null;
@@ -31,6 +32,7 @@ const setStoreValue: TSetStoreValue = ({
     savedSceneToGo !== "undefined" && savedSceneToGo !== undefined && storeId === EStoreKeys.installationGame ? store[ storeId ].savedSceneToGo = savedSceneToGo :
         storeId === EStoreKeys.installationGame && savedSceneToGo === "undefined" ? store[ storeId ].savedSceneToGo = undefined : null;
     sceneTransitionTimeout && storeId === EStoreKeys.installationGame ? store[storeId].sceneTransitionTimeout = sceneTransitionTimeout : null;
+    isThrottled !== undefined ? store[ storeId ].isThrottled = isThrottled : null
 
 }
 

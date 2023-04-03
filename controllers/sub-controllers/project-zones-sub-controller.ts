@@ -6,6 +6,7 @@ import { EGameControlCommand } from "../../types/game-types";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
 import {EHttpCommands, EUdpProjectCommands, THttpCommand} from "../../types/command-types";
 import { IStore } from "../../types/store-types";
+import {throttlerFunction} from "../../utilities/time-utilities";
 
 export interface IProjectZonesControllerProps {
 
@@ -22,9 +23,17 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
     if( hexSingleCommands.includes( command as EHttpCommands ) && newIndex ){
 
         const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command: wingsActionCommands[ command as TCommandsStandard ] });
-        await projectZoneUtilities.sendHexCommand()
 
-    }else if( ( [...goBackwards, ...goForward, ].includes( command as EHttpCommands | EUdpProjectCommands) ||
+        const functionToExecute = projectZoneUtilities.sendHexCommand.bind(projectZoneUtilities);
+
+        await throttlerFunction({
+            storeId,
+            functionToExecute
+        });
+
+        //await projectZoneUtilities.sendHexCommand();
+
+    } else if ( ( [ ...goBackwards, ...goForward, ].includes( command as EHttpCommands | EUdpProjectCommands) ||
         command.match( /Test_\w*_[L|R]/ ) || command.match( /[0-9]+/gm )
     ) && newIndex ) {
 
@@ -34,25 +43,54 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             [ EInstallationIds.ProjectMap, EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet ].includes(id)
         ) {
 
-            await projectZoneUtilities.sendUniversalTransitionCommand();
+            const functionToExecute = projectZoneUtilities.sendUniversalTransitionCommand.bind(projectZoneUtilities);
+
+            await throttlerFunction({
+                storeId,
+                functionToExecute
+            });
+
+            //await projectZoneUtilities.sendUniversalTransitionCommand();
 
         }else if ( // project zones "Tanks"
-            [ EInstallationIds.ProjectTankEcology, EInstallationIds.ProjectTankTechnology, EInstallationIds.ProjectTankSocial].includes(id)
+            [ EInstallationIds.ProjectTankEcology, EInstallationIds.ProjectTankTechnology, EInstallationIds.ProjectTankSocial ].includes(id)
         ){
 
-            await projectZoneUtilities.sendTransitionCommandToTheTanksInstallations()
+            const functionToExecute = projectZoneUtilities.sendTransitionCommandToTheTanksInstallations.bind(projectZoneUtilities);
+
+            await throttlerFunction({
+                storeId,
+                functionToExecute
+            });
+
+            // await projectZoneUtilities.sendTransitionCommandToTheTanksInstallations()
 
         } else if ( // project zone "Portraits"
             EInstallationIds.ProjectPortraits === id
         ) {
 
-            await projectZoneUtilities.sendTransitionCommandToThePortraitsInstallation();
+            const functionToExecute = projectZoneUtilities.sendTransitionCommandToThePortraitsInstallation.bind(projectZoneUtilities);
+
+            await throttlerFunction({
+                storeId,
+                functionToExecute
+            });
+
+            // await projectZoneUtilities.sendTransitionCommandToThePortraitsInstallation();
 
         } else if ( // project zone "Covers"
             EInstallationIds.ProjectCovers === id
         ) {
 
-            await projectZoneUtilities.sendTransitionCommandToTheCoversInstallation();
+            const functionToExecute = projectZoneUtilities.sendTransitionCommandToTheCoversInstallation.bind(projectZoneUtilities);
+
+            await throttlerFunction({
+                timeout: 2000,
+                storeId,
+                functionToExecute
+            });
+
+            // await projectZoneUtilities.sendTransitionCommandToTheCoversInstallation();
 
         }
     }
