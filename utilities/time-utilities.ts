@@ -5,7 +5,7 @@ import {
     TSecondsToMillisecondsSeconds,
     TStartIdleTimeOut
 } from "../types/time-types";
-import {EGameModes, EProjectZonesModes, EStoreKeys, IStore} from "../types/store-types";
+import { EGameModes, EProjectZonesModes, EStoreKeys } from "../types/store-types";
 import { TDelayedComeBackToScreensaver } from "../types/command-types";
 import { returnCompositeCommandUtility } from "./composite-command-utility";
 import { sendDataToWingsServerOverUdp } from "./udp/dgram-udp-utilities";

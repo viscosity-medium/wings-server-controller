@@ -8,7 +8,7 @@ import { EProjectZonesModes, IStore} from "../../types/store-types";
 import { EGameControlCommand } from "../../types/game-types";
 import { transformToHexArray } from "../hex-transform-utilities";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
-import { EInstallationIds } from "../../types/_common-types";
+import {EInstallationIds, ShortCode} from "../../types/_common-types";
 import { setStoreValue } from "../store-utility";
 import { store } from "../../store/store";
 
@@ -86,12 +86,11 @@ class projectUtilities {
 
         if( this.command.match(/[1-9]+/gm) ){
 
-            console.log(installationIds[ this.id ])
-
             setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: 1 });
             await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
 
         }
+
     }
 
     async sendTransitionCommandToThePortraitsInstallation() {
@@ -108,13 +107,47 @@ class projectUtilities {
             const command = transformToHexArray( wingsActionCommands.NextMarker );
             sendDataToWingsServerOverUdp({ command, id: this.id });
 
-
         } else if( possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands ) ) {
 
             const command = transformToHexArray( wingsActionCommands.PreviousMarker );
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
+
             for await ( const i of [1, 2] ){
                 await executeSendDataFunctionBeforeDelay( command, this.delayShort );
+            }
+
+        }
+
+    }
+
+    async  sendTransitionToThePipelineInstallation(){
+
+        const idleTime = installationIds["ProjectPipeline"].idleTime;
+
+        const functionToExecute = async ({command}: {command: number[]}) => {
+            sendDataToWingsServerOverUdp({ command, id: this.id });
+            await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime});
+        }
+
+        if( possibleCommandsReceivedForProjectZones.goForward.includes( this.command as EHttpCommands | EUdpProjectCommands ) ){
+
+            const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "02" ) );
+            await functionToExecute({command})
+
+        } else if( possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands ) ) {
+
+            const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "01" ) );
+            await functionToExecute({command})
+
+        } else if (possibleCommandsReceivedForProjectZones.pipelineNumbers.includes( this.command )) {
+
+            const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
+
+            for await ( const i of ["0A", this.command as ShortCode] ){
+
+                const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( i ) );
+                await executeSendDataFunctionBeforeDelay( command, this.delayShort );
+
             }
 
         }

@@ -15,8 +15,11 @@ const possibleCommandsReceivedForProjectZones = {
     ],
 
     hexSingleCommands: [
-        EHttpCommands.Pause, EHttpCommands.ContinuePlay,
+        EHttpCommands.Pause, EHttpCommands.ContinuePlay, EHttpCommands.HideImages
     ],
+
+    pipelineNumbers: [ "0B", "0C", "0E", "0F", "10", "11", "12", "13", "15", "16" ],
+
 
 }
 

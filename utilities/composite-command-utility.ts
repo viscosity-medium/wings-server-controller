@@ -16,8 +16,10 @@ const returnCompositeCommandUtility:TReturnCompositeCommandUtility  = ({
     const xHex = transformValueToHexStr( xIndex );
     const yHex = transformValueToHexStr( yIndex );
     const fadeOutArg = "C9";
+    const fadeOutAllImages = "0A";
     const fadeInArg = "C8";
     const commandHex1 = transformToHexArray( ExecuteTrigger( fadeOutArg ));
+    const commandHexPipelineOnly = transformToHexArray( ExecuteTrigger( fadeOutAllImages ));
     const commandHex2 = transformToHexArray( Pause );
     const commandHex3 = transformToHexArray( TimeIndicatorPosition( xHex, yHex ));
     const commandHex4 = transformToHexArray( ContinuePlay );
@@ -26,6 +28,7 @@ const returnCompositeCommandUtility:TReturnCompositeCommandUtility  = ({
 
     // II) execute all async sequences of commands (1-5)
     await executeAsyncTimeOut( commandHex1, delayLong );
+    storeId === "installationProjectPipeline" ? await executeAsyncTimeOut(commandHexPipelineOnly, delayShort) : null;
     await executeAsyncTimeOut( commandHex2, delayShort );
     await executeAsyncTimeOut( commandHex3, delayShort );
     await executeAsyncTimeOut( commandHex4, delayShort );

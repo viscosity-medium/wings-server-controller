@@ -46,6 +46,7 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             const functionToExecute = projectZoneUtilities.sendUniversalTransitionCommand.bind(projectZoneUtilities);
 
             await throttlerFunction({
+                timeout: 2000,
                 storeId,
                 functionToExecute
             });
@@ -91,6 +92,19 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             });
 
             // await projectZoneUtilities.sendTransitionCommandToTheCoversInstallation();
+
+        } else if (
+            EInstallationIds.ProjectPipeline === id
+        ) {
+
+            const functionToExecute = projectZoneUtilities.sendTransitionToThePipelineInstallation.bind(projectZoneUtilities);
+
+            await throttlerFunction({
+                storeId,
+                functionToExecute
+            });
+
+            // await projectZoneUtilities.sendTransitionToThePipelineInstallation();
 
         }
     }

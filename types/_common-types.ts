@@ -50,7 +50,10 @@ export interface IInstallationIds {
 
 export type TCommandsStandard = "Play" | "Pause" |
     "ContinuePlay" | "Stop" |
-    "NextMarker" | "PreviousMarker"
+    "NextMarker" | "PreviousMarker" | "HideImages"
+
+export type ShortCode = "0B" | "0C" | "0E" | "0F" |
+    "10" | "11" | "12" | "13" | "15" | "16"
 
 
 export type TCommandsToExecute = {
@@ -61,6 +64,8 @@ export type TCommandsToExecute = {
     ExecuteTrigger: (XX: string) => string
 
     TimeIndicatorPosition: (XX: string, YY: string) => string
+
+    SendShortCode: (XX: ShortCode) => ShortCode
 
     SpecificGameScene: (command: keyof IGameScenesCommands) => string
 
