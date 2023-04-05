@@ -53,7 +53,7 @@ export type TCommandsStandard = "Play" | "Pause" |
     "NextMarker" | "PreviousMarker" | "HideImages"
 
 export type ShortCode = "0B" | "0C" | "0E" | "0F" |
-    "10" | "11" | "12" | "13" | "15" | "16"
+    "10" | "11" | "12" | "13" | "14" | "15" | "16"
 
 
 export type TCommandsToExecute = {

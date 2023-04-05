@@ -151,7 +151,7 @@ const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpe
 
 }
 
-const throttlerFunction = async ({ timeout=1000, storeId, functionToExecute, id, command }: ThrottlerParams) => {
+const throttlerFunction = async ({ timeout=500, storeId, functionToExecute, id, command }: ThrottlerParams) => {
 
     if(!store[ storeId ].isThrottled) {
 

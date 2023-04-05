@@ -76,15 +76,25 @@ class GameServices {
         // if system messages are inactive
         if ( messageStatus === 0 ){
 
-            if( mode === EGameModes.mna ){
+            if(
+                mode === EGameModes.screensaver
+            ){
+                systemMessage = transformToHexArray(gameFadesCommands.hintFadeInScreensaverAndDemoMode);
+            } else if(
+                mode === EGameModes.demo
+            ){
+                systemMessage = transformToHexArray(gameFadesCommands.hintFadeInScreensaverAndDemoMode);
+            } else if (
+                mode === EGameModes.mna
+            ){
                 systemMessage = gameSystemMessage.returnMessageForMnaMode({ command });
-            }
-
-            if( mode === EGameModes.sod ){
+            } else if (
+                mode === EGameModes.sod
+            ){
                 systemMessage = gameSystemMessage.returnMessageForSodMode({ command });
-            }
-
-            if( mode === EGameModes.looping ){
+            } else if (
+                mode === EGameModes.looping
+            ){
                 systemMessage = gameSystemMessage.returnMessageForLoopingMode({ command });
             }
 
@@ -94,7 +104,7 @@ class GameServices {
         // then the store changes and the command sends
 
         if( systemMessage ) {
-            //console.log(systemMessage)
+            // console.log(command)
             sendDataToWingsServerOverUdp({ command: systemMessage, id });
             setStoreValue({
                 storeId: EStoreKeys.installationGame,

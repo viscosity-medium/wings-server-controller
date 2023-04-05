@@ -12,7 +12,9 @@ const systemVariables = {
     IS_DEV: process.env.NODE_MODE! === "development",
     TEST_LOCATION: process.env.TEST_LOCATION,
     DIRECT_COMMANDS: process.env.DIRECT_COMMANDS,
-    INITIAL_MAX_CURSOR_POSITIONS: 4
+    INITIAL_MAX_CURSOR_POSITIONS: 4,
+
+    MONGO_URL: process.env.MONGO_URL
 }
 const installationIds: IInstallationIds = {
     ProjectPortraits: {

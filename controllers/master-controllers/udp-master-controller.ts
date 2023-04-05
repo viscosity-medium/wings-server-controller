@@ -10,6 +10,7 @@ import { RemoteInfo } from "dgram";
 import { IStore } from "../../types/store-types";
 import { store } from "../../store/store";
 import {throttlerFunction} from "../../utilities/time-utilities";
+import {loggingFunction} from "../../utilities/loggingFunction";
 
 const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
@@ -24,6 +25,8 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
             // if it's possible to control via encoders and buttons (switches from the guide's tablet)
             if( store[storeId].analogControl ){
+
+                loggingFunction({store, storeId, id, ip, command})
 
                 //for project zones
                 if( id.match( /Project/ ) ) {
@@ -64,8 +67,6 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
         sendDataToWingsServerOverUdp( {id: EInstallationIds.Test, command: transformToHexArray(command)} );
 
     }
-
-    console.log(`${ip} ___ ${id} ___ ${id} ___ ${id} ___ ${command} ___ ${ new Date().getMinutes() } ___ ${new Date().getMinutes()}:${new Date().getSeconds()}`)
 
 }
 

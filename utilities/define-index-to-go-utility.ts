@@ -1,7 +1,9 @@
-import { possibleCommandsReceivedForProjectZones } from "../commands-and-conditions/possible-commands-received-for-project-zones";
+import {
+    possibleCommandsReceivedForProjectZones
+} from "../commands-and-conditions/possible-commands-received-for-project-zones";
 import {EHttpCommands, EUdpProjectCommands, IDefineIndexToGoUtility} from "../types/command-types";
-import { EStoreKeys } from "../types/store-types";
-import { store } from "../store/store";
+import {EStoreKeys} from "../types/store-types";
+import {store} from "../store/store";
 
 // file index to go definer for http and udp
 export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUtility) => {
@@ -30,7 +32,10 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
     } else {
 
-        if( command.toString().match( /^[0-9]+$/ ) ){ // if index position was retrieved
+        if(
+            command.toString().match( /^[0-9]+$/ ) ||
+            ( storeId === EStoreKeys.installationProjectPipeline && possibleCommandsReceivedForProjectZones.pipelineNumbers.includes( command ))
+        ){ // if index position was retrieved
 
             newIndex = +command;
 

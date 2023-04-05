@@ -122,29 +122,38 @@ class projectUtilities {
 
     async  sendTransitionToThePipelineInstallation(){
 
-        const idleTime = installationIds["ProjectPipeline"].idleTime;
+        const idleTime = installationIds[ "ProjectPipeline" ].idleTime;
 
-        const functionToExecute = async ({command}: {command: number[]}) => {
+        const functionToExecute = async ({ command }: { command: number[] }) => {
+
             sendDataToWingsServerOverUdp({ command, id: this.id });
-            await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime});
+            await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime });
+
         }
 
-        if( possibleCommandsReceivedForProjectZones.goForward.includes( this.command as EHttpCommands | EUdpProjectCommands ) ){
+        if(
+            possibleCommandsReceivedForProjectZones.goForward.includes( this.command as EHttpCommands | EUdpProjectCommands )
+        ){
 
             const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "02" ) );
-            await functionToExecute({command})
+            await functionToExecute({ command })
 
-        } else if( possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands ) ) {
+        } else if(
+            possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands )
+        ) {
 
             const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "01" ) );
-            await functionToExecute({command})
+            await functionToExecute({ command })
 
-        } else if (possibleCommandsReceivedForProjectZones.pipelineNumbers.includes( this.command )) {
+        } else if (
+            possibleCommandsReceivedForProjectZones.pipelineNumbers.includes( this.command )
+        ) {
 
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
-            for await ( const i of ["0A", this.command as ShortCode] ){
+            for await ( const i of [ "0A", this.command as ShortCode ] ){
 
+                console.log( wingsActionCommands.ExecuteTrigger( i ) )
                 const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( i ) );
                 await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 

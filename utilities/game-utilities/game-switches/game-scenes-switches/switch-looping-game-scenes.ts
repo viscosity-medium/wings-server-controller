@@ -1,3 +1,4 @@
+import { clearTimeoutFunction, delayedGoToSpecificGameScene } from "../../../time-utilities";
 import { returnGameLoopingConditions } from "../../../../commands-and-conditions/game-conditions/return-game-looping-conditions";
 import { IGameSubControllerProps } from "../../../../types/game-types";
 import { transformToHexArray } from "../../../hex-transform-utilities";
@@ -5,9 +6,7 @@ import { setStoreValue } from "../../../store-utility";
 import { wingsActionCommands } from "../../../../commands-and-conditions/wings-action-commands";
 import { gameServices } from "../../game-services";
 import { EStoreKeys } from "../../../../types/store-types";
-import {clearTimeoutFunction, delayedGoToSpecificGameScene} from "../../../time-utilities";
-import {returnGameSodConditions} from "../../../../commands-and-conditions/game-conditions/return-game-sod-conditions";
-import {store} from "../../../../store/store";
+import { store } from "../../../../store/store";
 
 const { SpecificGameScene } = wingsActionCommands;
 
@@ -15,14 +14,21 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
 
 
     const storeId = EStoreKeys.installationGame;
-    let goToSpecificGameSceneCommand: number[] | undefined = undefined;
+    let goToSpecificGameSceneCommand: number[] | undefined = undefined,
+        scene,
+        cursorPosition,
+        maxCursorPositions;
 
     if( returnGameLoopingConditions.condition1Right({ id, command, gameState}) ){
 
-        setStoreValue({
-            storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 3, messageStatus: 1
-        });
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene2") );
+        scene = 2;
+        cursorPosition = 1;
+        maxCursorPositions = 3;
+
+        // setStoreValue({
+        //     storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 3
+        // });
 
     } else if(
         returnGameLoopingConditions.condition2Default({id, command, gameState})
@@ -32,19 +38,27 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
             returnGameLoopingConditions.condition2Right({id, command, gameState})
         ){
 
-            setStoreValue({
-                storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 3, messageStatus: 1
-            });
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene3") );
+            scene = 3;
+            cursorPosition = 1;
+            maxCursorPositions = 3;
+
+            // setStoreValue({
+            //     storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 3
+            // });
 
         } else if ( //come back to position 1
             returnGameLoopingConditions.condition2Wrong({id, command, gameState})
         ){
 
-            setStoreValue({
-                storeId, scene: 1, cursorPosition: 1, maxCursorPositions: 4, messageStatus: 1
-            });
-            goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene2") );
+            goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene1") );
+            scene = 1;
+            cursorPosition = 1;
+            maxCursorPositions = 4;
+
+            // setStoreValue({
+            //     storeId, scene: 1, cursorPosition: 1, maxCursorPositions: 4
+            // });
 
         }
 
@@ -52,10 +66,14 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
         returnGameLoopingConditions.condition3Right({id, command, gameState})
     ){
 
-        setStoreValue({
-            storeId, scene: 4 , cursorPosition: 1, maxCursorPositions: 1, messageStatus: 1
-        });
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene4Final") );
+        scene = 4;
+        cursorPosition = 1;
+        maxCursorPositions = 1;
+
+        // setStoreValue({
+        //     storeId, scene: 4 , cursorPosition: 1, maxCursorPositions: 1
+        // });
 
     }
 
@@ -65,17 +83,22 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
         gameServices.sendCommandToShowSystemMessage({ id, command });
         setStoreValue({
             storeId,
+            scene,
+            cursorPosition,
+            maxCursorPositions,
             messageStatus: 1
         })
 
         await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
     } else if( returnGameLoopingConditions.loopingButtonsInterfaces({ command })) {
+
         gameServices.sendCommandToShowSystemMessage({ id,  command });
         setStoreValue({
             storeId,
             messageStatus: 1
         })
+
     }
 
 }

@@ -21,7 +21,7 @@ export const startHttpServer = async () => {
 
     try {
 
-        await httpServer.listen( HTTP_PORT, () => { console.log(`Server is started on port: ${HTTP_PORT}`) } );
+        await httpServer.listen( HTTP_PORT, () => { console.log(`Http server is started on port: ${HTTP_PORT}`) } );
         //httpsServer.listen(HTTP_PORT, () => { console.log(`Server is started on port: порт 443`)});
 
         return true

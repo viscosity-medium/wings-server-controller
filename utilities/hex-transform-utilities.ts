@@ -11,11 +11,12 @@ const returnHexMessageCommand = ( gameMessagesCommands: TGameMessagesCommands ) 
 
     const { cursorPosition, maxCursorPositions } = store[EStoreKeys.installationGame];
     const keysOfMessagesCommands = Object.keys(gameMessagesCommands) as never;
-
+    console.log(cursorPosition)
     for (let i = 1; i <= maxCursorPositions; i++) {
 
         if (cursorPosition === i) {
 
+            console.log(gameMessagesCommands[keysOfMessagesCommands[i - 1]])
             return transformToHexArray(gameMessagesCommands[keysOfMessagesCommands[i - 1]]);
             
         }

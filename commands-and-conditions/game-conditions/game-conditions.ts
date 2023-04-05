@@ -1,4 +1,4 @@
-import { EGameControlCommand } from "../../types/game-types";
+import {EGameControlCommand} from "../../types/game-types";
 
 const gameConditions = {
 
@@ -10,6 +10,8 @@ const gameConditions = {
     ],
 
     gameEncoders: [
+        EGameControlCommand.Encoder_N_LEFT,
+        EGameControlCommand.Encoder_N_RIGHT,
         EGameControlCommand.Encoder_I_LEFT,
         EGameControlCommand.Encoder_I_RIGHT,
         EGameControlCommand.Encoder_II_LEFT,
@@ -74,6 +76,8 @@ const gameConditions = {
         EGameControlCommand.Button_III_B,
         EGameControlCommand.Button_III_C
     ],
+
+
 
     allAnalogInterfaces: function() {
         return [

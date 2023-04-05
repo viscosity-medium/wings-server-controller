@@ -26,15 +26,32 @@ const gameSubController: TGameController = async ({ id, command } ) => {
     }
 
     if( // screensaver mode
-        gameState.mode === EGameModes.screensaver && modeSelectionButtons.includes( command )
+        gameState.mode === EGameModes.screensaver
     ){
 
-        await switchGameMode({ id, command, A, B, C, D }); // all modes are interactive
+        if( modeSelectionButtons.includes( command ) ){
+
+            await switchGameMode({ id, command, A, B, C, D }); // all modes are interactive
+
+        } else if ( gameEncoders.includes( command ) && gameState.messageStatus === 0 ) {
+
+            gameServices.sendCommandToShowSystemMessage({ id,  command });
+
+        }
+
 
     } else  if ( // demo mode
-        gameState.mode === EGameModes.demo && modeSelectionButtons.includes( command )
+        gameState.mode === EGameModes.demo
     ){
-        await switchGameMode({ id, command, B, C, D }); // without the demo mode interaction (A is missed)
+        if( modeSelectionButtons.includes( command ) ){
+
+            await switchGameMode({ id, command, B, C, D }); // without the demo mode interaction (A is missed)
+
+        } else if ( gameEncoders.includes( command ) && gameState.messageStatus === 0 ) {
+
+            gameServices.sendCommandToShowSystemMessage({ id,  command });
+
+        }
 
     } else if ( // mna mode
         gameState.mode === EGameModes.mna

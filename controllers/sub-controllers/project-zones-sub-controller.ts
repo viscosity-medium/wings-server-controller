@@ -17,13 +17,13 @@ export interface IProjectZonesControllerProps {
 }
 const projectZonesSubController = async ({ id, storeId, command }: IProjectZonesControllerProps) => {
 
-    const { hexSingleCommands, goBackwards, goForward } = possibleCommandsReceivedForProjectZones;
+
+    const { hexSingleCommands, goBackwards, goForward, pipelineNumbers } = possibleCommandsReceivedForProjectZones;
     const newIndex = defineIndexToGoUtility({ command, storeId });
 
     if( hexSingleCommands.includes( command as EHttpCommands ) && newIndex ){
 
         const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command: wingsActionCommands[ command as TCommandsStandard ] });
-
         const functionToExecute = projectZoneUtilities.sendHexCommand.bind(projectZoneUtilities);
 
         await throttlerFunction({
@@ -33,7 +33,7 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
 
         //await projectZoneUtilities.sendHexCommand();
 
-    } else if ( ( [ ...goBackwards, ...goForward, ].includes( command as EHttpCommands | EUdpProjectCommands) ||
+    } else if ( ( [ ...goBackwards, ...goForward, ...pipelineNumbers ].includes( command as EHttpCommands | EUdpProjectCommands) ||
         command.match( /Test_\w*_[L|R]/ ) || command.match( /[0-9]+/gm )
     ) && newIndex ) {
 
@@ -46,7 +46,7 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             const functionToExecute = projectZoneUtilities.sendUniversalTransitionCommand.bind(projectZoneUtilities);
 
             await throttlerFunction({
-                timeout: 2000,
+                timeout: 1000,
                 storeId,
                 functionToExecute
             });
