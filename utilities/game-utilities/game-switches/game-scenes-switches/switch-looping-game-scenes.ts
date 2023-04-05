@@ -12,7 +12,6 @@ const { SpecificGameScene } = wingsActionCommands;
 
 const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControllerProps) => {
 
-
     const storeId = EStoreKeys.installationGame;
     let goToSpecificGameSceneCommand: number[] | undefined = undefined,
         scene,

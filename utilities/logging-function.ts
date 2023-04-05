@@ -1,14 +1,14 @@
-import {store} from "../store/store";
-import { EGameControlCommand } from "../types/game-types";
-import {EStoreKeys, IStore} from "../types/store-types";
+import {EGameControlCommand} from "../types/game-types";
 import {EInstallationIds} from "../types/_common-types";
+import {IStore} from "../types/store-types";
+import { THttpCommand } from "../types/command-types";
 
 interface Logging {
     store: IStore
     storeId: keyof IStore
     ip: string
     id: EInstallationIds
-    command:  EGameControlCommand
+    command:  EGameControlCommand | THttpCommand
 }
 
 const loggingFunction = ({ store, storeId, ip, id, command }: Logging) => {

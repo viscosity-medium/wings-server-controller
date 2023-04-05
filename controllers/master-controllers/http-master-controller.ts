@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import { gameSubController } from "../sub-controllers/game-sub-controller";
 import { EInstallationIds } from "../../types/_common-types";
 import { store } from "../../store/store";
+import {loggingFunction} from "../../utilities/logging-function";
 
 
 class HttpMasterController {
@@ -16,6 +17,8 @@ class HttpMasterController {
         }: ISendCommandHttpProps = req.body
 
         const storeId = `installation${ id }` as keyof IStore;
+
+        loggingFunction({store, storeId, id, ip: "Guide's tablet", command})
 
         if( id.match( /Project/ ) ){
 
@@ -30,9 +33,12 @@ class HttpMasterController {
 
     async sendGameControlCommand (req: Request, res: Response) {
 
-        const { command } = req.body
-        await gameSubController({ id: EInstallationIds.Game, command });
+        const id = EInstallationIds.Game;
+        const storeId = EStoreKeys.installationGame
+        const { command } = req.body;
+        await gameSubController({ id, command });
 
+        loggingFunction({store, storeId, id, ip: "Guide's tablet", command})
 
         res.json({
             mode: store[EStoreKeys.installationGame].mode,

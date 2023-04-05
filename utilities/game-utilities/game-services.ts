@@ -76,15 +76,7 @@ class GameServices {
         // if system messages are inactive
         if ( messageStatus === 0 ){
 
-            if(
-                mode === EGameModes.screensaver
-            ){
-                systemMessage = transformToHexArray(gameFadesCommands.hintFadeInScreensaverAndDemoMode);
-            } else if(
-                mode === EGameModes.demo
-            ){
-                systemMessage = transformToHexArray(gameFadesCommands.hintFadeInScreensaverAndDemoMode);
-            } else if (
+            if (
                 mode === EGameModes.mna
             ){
                 systemMessage = gameSystemMessage.returnMessageForMnaMode({ command });
@@ -156,6 +148,16 @@ class GameServices {
             messageStatus: 0
         });
         sendDataToWingsServerOverUdp({ command, id });
+
+    }
+
+    sendCommandToChangeHintStatus({ id, systemMessage, hintStatus }: {id: EInstallationIds, systemMessage: number[], hintStatus: 0 | 1 | undefined}){
+
+        sendDataToWingsServerOverUdp({ id, command: systemMessage });
+        setStoreValue({
+            storeId,
+            hintStatus
+        });
 
     }
 

@@ -84,7 +84,7 @@ const installationIds: IInstallationIds = {
         host: systemVariables.TEST_LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_GAME!,
         delayLong: +process.env.DELAY_TIME_LONG_GAME!,
         delayShort: +process.env.DELAY_TIME_SHORT_GAME!,
-        idleTime: process.env.IDLE_TIME_GAME!,
+        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST_GAME! : process.env.IDLE_TIME_GAME!,
         numberOfFiles: +process.env.NUMBER_OF_FILES_GAME!,
 
         timeStepBetweenHints: +process.env.TIME_STEP_BETWEEN_HINTS!,

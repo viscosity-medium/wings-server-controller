@@ -16,6 +16,7 @@ import { installationIds } from "../_environment/environment";
 import { setStoreValue } from "./store-utility";
 import { gameServices } from "./game-utilities/game-services";
 import { store } from "../store/store";
+import {wingsActionCommands} from "../commands-and-conditions/wings-action-commands";
 
 const startTimeOutCounter: TStartIdleTimeOut = (action, timeout) => {
 
@@ -80,6 +81,20 @@ const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
                     index: 1
                 });
 
+                    if (id === "Game"){
+
+                        const hideAllHints = transformToHexArray( gameFadesCommands.hintFadeOutScreensaverAndDemoMode )
+
+                        await sendDataToWingsServerOverUdp({id, command: hideAllHints});
+                        setStoreValue({
+                            storeId,
+                            mode: EProjectZonesModes.screensaver || EGameModes.screensaver,
+                            index: 1,
+                            cursorPosition: 1,
+                            messageStatus: 0,
+                            hintStatus: 0
+                        });
+                    }
                 const executeCompositeCommandUtility = returnCompositeCommandUtility({ storeId, id });
                 await executeCompositeCommandUtility({ xIndex: "01", yIndex: "01", type: "passive" });
             }, minutesToMilliseconds(idleTime)
@@ -193,3 +208,5 @@ export {
     clearTimeoutFunction,
     throttlerFunction
 };
+
+

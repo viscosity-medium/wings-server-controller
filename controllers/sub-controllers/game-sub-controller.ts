@@ -1,4 +1,4 @@
-import { abortMessageDisplayAndGoToTheNextGameScene } from "../../utilities/time-utilities";
+import {abortMessageDisplayAndGoToTheNextGameScene, delayedComeBackToScreensaver} from "../../utilities/time-utilities";
 import { returnGameLoopingConditions } from "../../commands-and-conditions/game-conditions/return-game-looping-conditions";
 import { switchGameCursorPosition } from "../../utilities/game-utilities/game-switches/switch-game-cursor-position";
 import { returnGameMnaConditions } from "../../commands-and-conditions/game-conditions/return-game-mna-conditions";
@@ -12,6 +12,11 @@ import { gameConditions } from "../../commands-and-conditions/game-conditions/ga
 import { switchGameMode } from "../../utilities/game-utilities/game-switches/switch-game-mode";
 import { gameServices } from "../../utilities/game-utilities/game-services";
 import { store } from "../../store/store"
+import {installationIds} from "../../_environment/environment";
+import {transformToHexArray} from "../../utilities/hex-transform-utilities";
+import {gameFadesCommands} from "../../commands-and-conditions/game-commands/game-fades-commands";
+import {sendDataToWingsServerOverUdp} from "../../utilities/udp/dgram-udp-utilities";
+import {setStoreValue} from "../../utilities/store-utility";
 
 const { gameEncoders, modeSelectionButtons } = gameConditions;
 const gameState = store[ EStoreKeys.installationGame ];
@@ -33,12 +38,21 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
             await switchGameMode({ id, command, A, B, C, D }); // all modes are interactive
 
-        } else if ( gameEncoders.includes( command ) && gameState.messageStatus === 0 ) {
+        } else if ( gameEncoders.includes( command ) ) {
 
-            gameServices.sendCommandToShowSystemMessage({ id,  command });
+            if( gameState.hintStatus === 0 ) {
+
+                const systemMessage = transformToHexArray( gameFadesCommands.hintFadeInScreensaverAndDemoMode );
+                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 1})
+
+            } else if ( gameState.hintStatus === 1 ) {
+
+                const systemMessage = transformToHexArray( gameFadesCommands.hintFadeOutScreensaverAndDemoMode );
+                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 0})
+
+            }
 
         }
-
 
     } else  if ( // demo mode
         gameState.mode === EGameModes.demo
@@ -49,7 +63,18 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
         } else if ( gameEncoders.includes( command ) && gameState.messageStatus === 0 ) {
 
-            gameServices.sendCommandToShowSystemMessage({ id,  command });
+            if( gameState.hintStatus === 0 ) {
+
+                const systemMessage = transformToHexArray( gameFadesCommands.hintFadeInScreensaverAndDemoMode );
+                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 1})
+
+            } else if ( gameState.hintStatus === 1 ) {
+
+                const systemMessage = transformToHexArray( gameFadesCommands.hintFadeOutScreensaverAndDemoMode );
+                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 0})
+
+            }
+
 
         }
 
@@ -149,7 +174,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
     }
 
-    //console.log(store[ storeId ])
+    await delayedComeBackToScreensaver({ storeId, id, type: "active", idleTime: installationIds["Game"].idleTime });
 
 
 };

@@ -10,7 +10,7 @@ import { RemoteInfo } from "dgram";
 import { IStore } from "../../types/store-types";
 import { store } from "../../store/store";
 import {throttlerFunction} from "../../utilities/time-utilities";
-import {loggingFunction} from "../../utilities/loggingFunction";
+import {loggingFunction} from "../../utilities/logging-function";
 
 const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
@@ -38,7 +38,7 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
                 //for game-commands
                 if( ( id.match( /Game/ ) || command.match( /Test_[Encoder|Button]/ )) && !store["installationGame"].isThrottled ) {
 
-                    const functionToExecute =  gameSubController;
+                    const functionToExecute = gameSubController;
 
                     await throttlerFunction({
                         storeId,

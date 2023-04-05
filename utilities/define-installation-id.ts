@@ -38,7 +38,9 @@ const testUdpCommands: ITestUdpCommand = {
 
 const defineInstallationId: TDefineInstallationId = ({ ip, command }) => {
 
-    if ( !command.match( /Test/ ) && ip !== systemVariables.TEST_IP ){
+    if (
+        !command.match( /Test/ ) && ip !== systemVariables.TEST_IP
+    ){
 
         return remoteIp[ip];
 
