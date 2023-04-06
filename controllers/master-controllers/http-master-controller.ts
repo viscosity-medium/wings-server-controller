@@ -5,7 +5,8 @@ import { Request, Response } from 'express';
 import { gameSubController } from "../sub-controllers/game-sub-controller";
 import { EInstallationIds } from "../../types/_common-types";
 import { store } from "../../store/store";
-import {loggingFunction} from "../../utilities/logging-function";
+
+import {logDataToMongoDb} from "../../database/logging-service";
 
 
 class HttpMasterController {
@@ -18,7 +19,7 @@ class HttpMasterController {
 
         const storeId = `installation${ id }` as keyof IStore;
 
-        loggingFunction({store, storeId, id, ip: "Guide's tablet", command})
+        logDataToMongoDb({store, storeId, id, ip: "Guide's tablet", command})
 
         if( id.match( /Project/ ) ){
 
@@ -38,7 +39,11 @@ class HttpMasterController {
         const { command } = req.body;
         await gameSubController({ id, command });
 
-        loggingFunction({store, storeId, id, ip: "Guide's tablet", command})
+        logDataToMongoDb({
+            store, storeId,
+            id, ip: "Guide's tablet",
+            command,
+        })
 
         res.json({
             mode: store[EStoreKeys.installationGame].mode,

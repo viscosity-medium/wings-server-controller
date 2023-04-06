@@ -14,7 +14,12 @@ const systemVariables = {
     DIRECT_COMMANDS: process.env.DIRECT_COMMANDS,
     INITIAL_MAX_CURSOR_POSITIONS: 4,
 
-    MONGO_URL: process.env.MONGO_URL
+    MONGO_URL: process.env.MONGO_URL!,
+    DB_ADMIN_NAME: process.env.DB_ADMIN_NAME!,
+    DB_ADMIN_PASSWORD: process.env.DB_ADMIN_PASSWORD!,
+    DB_HOST: process.env.DB_HOST!,
+    DB_PORT: process.env.DB_PORT!,
+    DB_NAME: process.env.DB_NAME!
 }
 const installationIds: IInstallationIds = {
     ProjectPortraits: {

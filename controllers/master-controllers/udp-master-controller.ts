@@ -10,7 +10,8 @@ import { RemoteInfo } from "dgram";
 import { IStore } from "../../types/store-types";
 import { store } from "../../store/store";
 import {throttlerFunction} from "../../utilities/time-utilities";
-import {loggingFunction} from "../../utilities/logging-function";
+
+import {logDataToMongoDb} from "../../database/logging-service";
 
 const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
@@ -26,12 +27,12 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
             // if it's possible to control via encoders and buttons (switches from the guide's tablet)
             if( store[storeId].analogControl ){
 
-                loggingFunction({store, storeId, id, ip, command})
+                logDataToMongoDb({ store, storeId, id, ip, command })
 
                 //for project zones
                 if( id.match( /Project/ ) ) {
 
-                    await projectZonesSubController({ id, storeId, command});
+                    await projectZonesSubController({ id, storeId, command });
 
                 }
 
