@@ -53,12 +53,7 @@ class HttpMasterController {
             command
         });
     }
-    // async switchAnalogControl (req: Request, res: Response) {
-    //
-    //     const response = await httpServices.switchAnalogControl({...req.body});
-    //     res.json(response);
-    //
-    // }
+
 }
 const controller = new HttpMasterController();
 

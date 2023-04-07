@@ -26,9 +26,6 @@ export enum EInstallationIds {
     ProjectTankTechnology = "ProjectTankTechnology",
     ProjectTankSocial = "ProjectTankSocial",
     Game = "Game",
-
-    //test
-    Test = "Test",
 }
 
 export interface IInstallationIds {
@@ -43,8 +40,6 @@ export interface IInstallationIds {
     [EInstallationIds.ProjectTankTechnology]: IProject,
     [EInstallationIds.ProjectTankSocial]: IProject,
     [EInstallationIds.Game]: IGame,
-    [EInstallationIds.Test]: IProject,
-
 
 }
 

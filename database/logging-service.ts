@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import {
-    CabinetZoneLogModel,
-    CoversZoneLogModel, EcologyZoneLogModel, GameZoneLogModel, LabZoneLogModel,
-    LoggingMessage,
-    MapZoneLogModel, PipelineZoneLogModel,
-    PortraitsZoneLogModel, SocialZoneLogModel, TechnologyZoneLogModel
+    CabinetZoneLogModel, CoversZoneLogModel,
+    EcologyZoneLogModel, GameZoneLogModel,
+    LabZoneLogModel, MapZoneLogModel,
+    PipelineZoneLogModel, PortraitsZoneLogModel,
+    SocialZoneLogModel, TechnologyZoneLogModel
 } from "./logging-message-model";
-import {LogDataToDb} from "../types/db-types";
-import {systemVariables} from "../_environment/environment";
-import {EInstallationIds} from "../types/_common-types";
+import { LogDataToDb } from "../types/db-types";
+import { systemVariables } from "../_environment/environment";
+import { EInstallationIds } from "../types/_common-types";
 
 const {
     DB_ADMIN_NAME,
@@ -39,7 +39,7 @@ const logDataToMongoDb: LogDataToDb = async ({
     ip, id,
     command,
 }) => {
-    if (!store[storeId].isThrottled) {
+    if ( !store[storeId].isThrottled ) {
 
         const date = new Date().toLocaleDateString();
         const time = `${ new Date().getHours() }:${ new Date().getMinutes() 
@@ -60,7 +60,7 @@ const logDataToMongoDb: LogDataToDb = async ({
 
         ]);
 
-        for (const arrayItem of mapIdsWithModels) {
+        for (const arrayItem of mapIdsWithModels ) {
 
             if(id === arrayItem[0]){
                 await arrayItem[1].create({

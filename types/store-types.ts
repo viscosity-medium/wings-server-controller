@@ -71,15 +71,6 @@ export interface TInstallationGame extends Omit<TInstallationStandard, "mode" > 
     savedSceneToGo: number[] | undefined
 }
 
-export interface TInstallationTest extends Omit<TInstallationStandard, "mode"> {
-    mode: EProjectZonesModes | EGameModes | "screensaver" | "main"
-    scene?: number
-    cursorPosition?: number
-    maxCursorPositions?: number
-    hintStatus?: 0 | 1
-    messageStatus?: 0 | 1
-    hintDisplayTime ?: string
-}
 
 
 
@@ -95,8 +86,6 @@ export enum EStoreKeys {
     installationProjectTankSocial = "installationProjectTankSocial",
     installationGame = "installationGame",
 
-    // test
-    installationTest = "installationTest",
 }
 
 export interface IStore {
@@ -110,8 +99,5 @@ export interface IStore {
     [EStoreKeys.installationProjectTankTechnology]: TInstallationStandard
     [EStoreKeys.installationProjectTankSocial]: TInstallationStandard
     [EStoreKeys.installationGame]: TInstallationGame
-
-    // test
-    [EStoreKeys.installationTest]: TInstallationTest
 
 }

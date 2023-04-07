@@ -16,8 +16,6 @@ const remoteIp: IRemoteIp = {
     "10.4.187.14": EInstallationIds.ProjectTankTechnology,
     "10.4.187.16": EInstallationIds.ProjectTankSocial,
     "10.4.187.20": EInstallationIds.Game,
-    "192.168.0.172": EInstallationIds.Test,
-    "192.168.0.228": EInstallationIds.Test,
 
 }
 
@@ -44,14 +42,14 @@ const defineInstallationId: TDefineInstallationId = ({ ip, command }) => {
 
         return remoteIp[ip];
 
-    }else if(
+    } else if (
         command.match( /Test/ ) && ip === systemVariables.TEST_IP
     ){
 
         const editedCommand = command.replace( /_|[L|R]$/gm, "" ) as EInstallationIds;
         return testUdpCommands[ editedCommand ];
 
-    } else if(
+    } else if (
         gameConditions.allAnalogInterfaces().includes( command as EGameControlCommand )
     ){
         return EInstallationIds.Game

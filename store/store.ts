@@ -129,24 +129,6 @@ const store: IStore = {
         sceneTransitionTimeout: undefined,
     },
 
-    [EStoreKeys.installationTest]: {
-        analogControl: true,
-        index: 1,
-        mode: "screensaver",
-        numberOfFiles: installationIds[EInstallationIds.Test].numberOfFiles,
-        isThrottled: false,
-        // timeouts
-        idleTimeout: undefined,
-        hideHintTimeout: undefined,
-        sceneTransitionTimeout: undefined,
-
-        //special
-        scene: 1,
-        hintStatus: 0,
-        messageStatus: 0,
-        cursorPosition: 1,
-        maxCursorPositions: 4,
-    },
 };
 
 export {

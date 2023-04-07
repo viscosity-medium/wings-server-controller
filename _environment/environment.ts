@@ -97,14 +97,6 @@ const installationIds: IInstallationIds = {
         messageDisplayTime: +process.env.MESSAGE_DISPLAY_TIME_GAME!
     },
 
-    //test
-    Test: {
-        host: process.env.INSTALLATION_ID_TEST!,
-        delayLong: +process.env.DELAY_TIME_LONG_TEST!,
-        delayShort: +process.env.DELAY_TIME_SHORT_TEST!,
-        idleTime: process.env.IDLE_TIME_TEST!,
-        numberOfFiles: +process.env.NUMBER_OF_FILES_TEST!
-    },
 
 }
 

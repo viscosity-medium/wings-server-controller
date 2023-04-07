@@ -8,8 +8,6 @@ const LoggingMessageSchema = new Schema({
     time: {type: String, required: true},
 })
 
-const LoggingMessage = model("LoggingMessage", LoggingMessageSchema);
-
 const PortraitsZoneLogModel = model("Portraits", LoggingMessageSchema);
 const MapZoneLogModel = model("Map", LoggingMessageSchema);
 const CoversZoneLogModel = model("Covers", LoggingMessageSchema);
@@ -23,7 +21,6 @@ const GameZoneLogModel = model("Game", LoggingMessageSchema);
 
 
 export {
-    LoggingMessage,
     PortraitsZoneLogModel,
     MapZoneLogModel,
     CoversZoneLogModel,
