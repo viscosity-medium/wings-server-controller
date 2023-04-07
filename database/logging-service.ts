@@ -20,10 +20,6 @@ const {
 const createMongoDbConnection = async () => {
 
     const mongoDbConnectionLink = `mongodb://${DB_ADMIN_NAME}:${encodeURIComponent(DB_ADMIN_PASSWORD)}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
-    const mongodbConfig = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    };
 
     try {
 
@@ -36,96 +32,6 @@ const createMongoDbConnection = async () => {
 
 }
 
-const defineModelAndSaveData: LogDataToDb = async ({
-    ip, id,
-    command,
-}) => {
-
-    const date = new Date().toLocaleDateString();
-    const time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}:${new Date().getMilliseconds()}`
-
-    if(id === EInstallationIds.ProjectPortraits) {
-
-        await PortraitsZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectMap) {
-
-        await MapZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectCovers) {
-
-        await CoversZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectCabinet) {
-
-        await CabinetZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectPipeline) {
-
-        await PipelineZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectLab) {
-
-        await LabZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectTankEcology) {
-
-        await EcologyZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectTankTechnology) {
-
-        await TechnologyZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.ProjectTankSocial) {
-
-        await SocialZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    } else if(id === EInstallationIds.Game) {
-
-        await GameZoneLogModel.create({
-            ip, id,
-            command,
-            date, time
-        })
-
-    }
-}
 
 const logDataToMongoDb: LogDataToDb = async ({
     store,
@@ -135,13 +41,39 @@ const logDataToMongoDb: LogDataToDb = async ({
 }) => {
     if (!store[storeId].isThrottled) {
 
-        const time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}:${new Date().getMilliseconds()}`
+        const date = new Date().toLocaleDateString();
+        const time = `${ new Date().getHours() }:${ new Date().getMinutes() 
+        }:${ new Date().getSeconds() }:${ new Date().getMilliseconds() }`;
 
-        console.log(`___\n  Ip: ${ ip }\n  Id: ${ id }\n  Command: ${ command }\n  Time: ${ time }\n____`)
+        const mapIdsWithModels = new Map([
 
-        await defineModelAndSaveData({
-            store, storeId, id, ip, command
-        })
+            [EInstallationIds.ProjectPortraits, PortraitsZoneLogModel],
+            [EInstallationIds.ProjectMap, MapZoneLogModel],
+            [EInstallationIds.ProjectCovers, CoversZoneLogModel],
+            [EInstallationIds.ProjectCabinet, CabinetZoneLogModel],
+            [EInstallationIds.ProjectPipeline, PipelineZoneLogModel],
+            [EInstallationIds.ProjectLab, LabZoneLogModel],
+            [EInstallationIds.ProjectTankEcology, EcologyZoneLogModel],
+            [EInstallationIds.ProjectTankTechnology, TechnologyZoneLogModel],
+            [EInstallationIds.ProjectTankSocial, SocialZoneLogModel],
+            [EInstallationIds.Game, GameZoneLogModel]
+
+        ]);
+
+        for (const arrayItem of mapIdsWithModels) {
+
+            if(id === arrayItem[0]){
+                await arrayItem[1].create({
+                    ip, id,
+                    command,
+                    date, time
+                })
+            }
+
+        }
+
+        console.log( `___\n  Ip: ${ ip }\n  Id: ${ id }\n  Command: ${ command }\n  Time: ${ time }\n____` );
+
     }
 
 }
