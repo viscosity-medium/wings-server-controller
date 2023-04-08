@@ -17,9 +17,17 @@ export type TClearTimeOut = ( timeOutId: ReturnType<typeof setTimeout> | undefin
 export type TMinutesToMilliseconds = (minutes: string ) => number
 export type TSecondsToMillisecondsSeconds = (minutes: string ) => number
 
+interface ShortThrottleProps {
+    id?: EInstallationIds
+    command?: EGameControlCommand
+}
+
+export type FunctionWithArguments = ({id, command}: ShortThrottleProps) => Promise<void>
+export type FunctionWithoutArguments = () => Promise<void>
+
 export interface ThrottlerParams {
     storeId: keyof IStore
-    functionToExecute: any
+    functionToExecute: FunctionWithoutArguments | TGameController | FunctionWithArguments
     timeout?: number
     id?: EInstallationIds
     command?: EGameControlCommand

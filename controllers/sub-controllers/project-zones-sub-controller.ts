@@ -1,12 +1,12 @@
+import { EHttpCommands, EUdpProjectCommands, THttpCommand } from "../../types/command-types";
 import { possibleCommandsReceivedForProjectZones } from "../../commands-and-conditions/possible-commands-received-for-project-zones";
 import { EInstallationIds, TCommandsStandard } from "../../types/_common-types";
 import { defineIndexToGoUtility } from "../../utilities/define-index-to-go-utility";
-import { projectUtilities } from "../../utilities/project-zones-utility/project-zone-utilities";
 import { EGameControlCommand } from "../../types/game-types";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
-import {EHttpCommands, EUdpProjectCommands, THttpCommand} from "../../types/command-types";
+import { throttlerFunction } from "../../utilities/time-utilities";
+import { projectUtilities } from "../../utilities/project-zones-utility/project-zone-utilities";
 import { IStore } from "../../types/store-types";
-import {throttlerFunction} from "../../utilities/time-utilities";
 
 export interface IProjectZonesControllerProps {
 

@@ -1,4 +1,5 @@
 import {
+    FunctionWithArguments, FunctionWithoutArguments,
     TClearTimeOut, ThrottlerParams,
     TMinutesToMilliseconds,
     TReturnAsyncMemoTimeout,
@@ -16,7 +17,6 @@ import { installationIds } from "../_environment/environment";
 import { setStoreValue } from "./store-utility";
 import { gameServices } from "./game-utilities/game-services";
 import { store } from "../store/store";
-import {wingsActionCommands} from "../commands-and-conditions/wings-action-commands";
 
 const startTimeOutCounter: TStartIdleTimeOut = (action, timeout) => {
 
@@ -175,13 +175,19 @@ const throttlerFunction = async ({ timeout=500, storeId, functionToExecute, id, 
             isThrottled: true
         });
 
-        if( id === undefined && command === undefined ){
-            await functionToExecute();
-        } else {
-            await functionToExecute({
+        if( id && command ){
+
+            const internalFunctionToExecute = functionToExecute as FunctionWithArguments
+            await internalFunctionToExecute({
                 id,
                 command
             })
+
+        } else {
+
+            const internalFunctionToExecute = functionToExecute as FunctionWithoutArguments
+            await internalFunctionToExecute();
+
         }
 
         setTimeout(()=>{

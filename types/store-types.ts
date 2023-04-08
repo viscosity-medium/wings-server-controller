@@ -56,8 +56,8 @@ export type TInstallationStandard = {
     numberOfFiles: number
     isThrottled: boolean,
     // timeouts
-    idleTimeout: ReturnType<typeof setTimeout> | undefined
-    hideHintTimeout: any
+    idleTimeout: NodeJS.Timeout | undefined
+    hideHintTimeout: NodeJS.Timeout | undefined
     sceneTransitionTimeout: NodeJS.Timeout | undefined
 }
 
