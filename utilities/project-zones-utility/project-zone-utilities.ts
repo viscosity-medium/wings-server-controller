@@ -7,7 +7,7 @@ import { sendDataToWingsServerOverUdp } from "../udp/dgram-udp-utilities";
 import { EInstallationIds, ShortCode } from "../../types/_common-types";
 import { EProjectZonesModes, IStore} from "../../types/store-types";
 import { EGameControlCommand } from "../../types/game-types";
-import { transformToHexArray } from "../hex-transform-utilities";
+import {transformToHexArray, transformValueToHexStr} from "../hex-transform-utilities";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
 import { setStoreValue } from "../store-utility";
 import { store } from "../../store/store";
@@ -146,15 +146,17 @@ class projectUtilities {
             await functionToExecute({ command })
 
         } else if (
-            possibleCommandsReceivedForProjectZones.pipelineNumbers.includes( this.command )
+            possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( this.command )
         ) {
 
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
-            for await ( const i of [ "0A", this.command as ShortCode ] ){
+            for await ( const i of [ "10", this.command ] ){
 
-                console.log( wingsActionCommands.ExecuteTrigger( i ) )
-                const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( i ) );
+                const hexValue = transformValueToHexStr(i);
+                const preCommand =  wingsActionCommands.ExecuteTrigger( hexValue.length > 1 ? hexValue : `0${hexValue}` );
+                console.log( preCommand );
+                const command = transformToHexArray( preCommand );
                 await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
             }

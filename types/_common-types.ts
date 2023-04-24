@@ -60,7 +60,7 @@ export type TCommandsToExecute = {
 
     TimeIndicatorPosition: (XX: string, YY: string) => string
 
-    SendShortCode: (XX: ShortCode) => ShortCode
+    SendShortCode: (XX: any) => any
 
     SpecificGameScene: (command: keyof IGameScenesCommands) => string
 

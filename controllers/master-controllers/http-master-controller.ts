@@ -15,11 +15,11 @@ class HttpMasterController {
         const {
             id,
             command,
-        }: ISendCommandHttpProps = req.body
+        }: ISendCommandHttpProps = req.body;
 
         const storeId = `installation${ id }` as keyof IStore;
 
-        logDataToMongoDb({store, storeId, id, ip: "Guide's tablet", command})
+        logDataToMongoDb({ store, storeId, id, ip: "Guide's tablet", command });
 
         if( id.match( /Project/ ) ){
 
@@ -27,8 +27,8 @@ class HttpMasterController {
 
         }
 
-        const response = ""
-        res.json(response);
+        const response = "";
+        res.json( response );
 
     }
 
@@ -43,7 +43,7 @@ class HttpMasterController {
             store, storeId,
             id, ip: "Guide's tablet",
             command,
-        })
+        });
 
         res.json({
             mode: store[EStoreKeys.installationGame].mode,

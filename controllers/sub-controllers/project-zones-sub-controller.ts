@@ -33,7 +33,7 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
 
         //await projectZoneUtilities.sendHexCommand();
 
-    } else if ( ( [ ...goBackwards, ...goForward, ...pipelineNumbers ].includes( command as EHttpCommands | EUdpProjectCommands) ||
+    } else if ( ( [ ...goBackwards, ...goForward, ...pipelineNumbers() ].includes( command as EHttpCommands | EUdpProjectCommands) ||
         command.match( /Test_\w*_[L|R]/ ) || command.match( /[0-9]+/gm )
     ) && newIndex ) {
 

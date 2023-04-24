@@ -18,7 +18,13 @@ const possibleCommandsReceivedForProjectZones = {
         EHttpCommands.Pause, EHttpCommands.ContinuePlay, EHttpCommands.HideImages
     ],
 
-    pipelineNumbers: [ "0B", "0C", "0E", "0F", "10", "11", "12", "13", "14", "15", "16" ],
+    pipelineNumbers: () => {
+        const arr = [];
+        for(let i = 10; i < 23;i++){
+            arr.push(`${i}`);
+        }
+        return arr
+    },
 
 
 }

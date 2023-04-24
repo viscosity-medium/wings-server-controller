@@ -34,7 +34,7 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
         if(
             command.toString().match( /^[0-9]+$/ ) ||
-            ( storeId === EStoreKeys.installationProjectPipeline && possibleCommandsReceivedForProjectZones.pipelineNumbers.includes( command ))
+            ( storeId === EStoreKeys.installationProjectPipeline && possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( command ))
         ){ // if index position was retrieved
 
             newIndex = +command;

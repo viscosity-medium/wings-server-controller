@@ -63,11 +63,11 @@ const logDataToMongoDb: LogDataToDb = async ({
         for (const arrayItem of mapIdsWithModels ) {
 
             if(id === arrayItem[0]){
-                await arrayItem[1].create({
-                    ip, id,
-                    command,
-                    date, time
-                })
+                // await arrayItem[1].create({
+                //     ip, id,
+                //     command,
+                //     date, time
+                // })
             }
 
         }
