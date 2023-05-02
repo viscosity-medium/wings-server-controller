@@ -9,7 +9,8 @@
     "dev:js": "cross-env NODE_MODE=development nodemon -r dotenv/config ./_ts-build/master-server.js",
     "dev:dc": "cross-env NODE_MODE=development DIRECT_COMMANDS=direct_commands nodemon -r dotenv/config",
     "prod": "cross-env NODE_MODE=production nodemon -r dotenv/config master-server.ts",
-    "pm2:start": "tsc && cross-env NODE_MODE=production pm2 start ./_ts-build/master-server.js --name wings-server-controller",
+    "pm2:start:dev": "tsc && pm2 start pm2.config.js --name wings-server-controller --env development",
+    "pm2:start:prod": "tsc && pm2 start pm2.config.js --name wings-server-controller --env production",
     "pm2:stop": "pm2 stop ./_ts-build/master-server.js --name wings-server-controller",
     "pm2:delete": "pm2 delete ./_ts-build/master-server.js --name wings-server-controller",
     "lint": "eslint . --ext .ts"

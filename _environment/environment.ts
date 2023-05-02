@@ -82,7 +82,7 @@ const installationIds: IInstallationIds = {
         host: systemVariables.TEST_LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_TANK_SOCIAL!,
         delayLong: +process.env.DELAY_TIME_LONG_PROJECT_TANK_SOCIAL!,
         delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_TANK_SOCIAL!,
-        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_TANK_SOCIAL!,
+        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_PROJECT_TANK_SOCIAL!,
         numberOfFiles: systemVariables.TEST_LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST! : +process.env.NUMBER_OF_FILES_TANK_SOCIAL!
     },
     Game: {

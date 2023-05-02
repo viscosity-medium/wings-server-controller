@@ -31,6 +31,7 @@ class HttpMasterController {
     }
     sendGameControlCommand(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(process.env);
             const id = _common_types_1.EInstallationIds.Game;
             const storeId = store_types_1.EStoreKeys.installationGame;
             const { command } = req.body;
