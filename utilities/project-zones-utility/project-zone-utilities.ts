@@ -96,6 +96,11 @@ class projectUtilities {
     async sendTransitionCommandToThePortraitsInstallation() {
 
         setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
+
+        setTimeout(()=>{
+            console.log(store[this.storeId]);
+        },200)
+
         await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
 
     }

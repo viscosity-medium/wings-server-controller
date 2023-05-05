@@ -84,7 +84,6 @@ class ReturnGameMnaConditions {
         return gameState.cursorPosition === 4
     }
 
-
 }
 
 const returnGameMnaConditions = new ReturnGameMnaConditions();

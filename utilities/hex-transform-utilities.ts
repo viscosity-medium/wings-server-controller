@@ -16,7 +16,6 @@ const returnHexMessageCommand = ( gameMessagesCommands: TGameMessagesCommands ) 
 
         if (cursorPosition === i) {
 
-            console.log(gameMessagesCommands[keysOfMessagesCommands[i - 1]])
             return transformToHexArray(gameMessagesCommands[keysOfMessagesCommands[i - 1]]);
             
         }

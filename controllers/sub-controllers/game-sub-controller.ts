@@ -88,7 +88,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
         // check that the command came from mna mode buttons/encoders
-        if( returnGameMnaConditions.mnaValidInterfaces({ command }) && returnGameMnaConditions.notLastScenes() ){
+        if( returnGameMnaConditions.mnaValidInterfaces({ command }) && returnGameMnaConditions.notLastScenes() || gameState.messageStatus === 1 ){
 
             if( gameState.messageStatus === 0 ){
                 await switchMnaGameScenes({ id, command, gameState });
@@ -120,7 +120,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
         // check that the command came from sod mode buttons/encoders
-        if( returnGameSodConditions.sodValidInterfaces({ command })  && returnGameSodConditions.notLastScenes() ){
+        if( returnGameSodConditions.sodValidInterfaces({ command })  && returnGameSodConditions.notLastScenes() || gameState.messageStatus === 1){
 
             if( gameState.messageStatus === 0 ){
                 await switchSodGameScenes({ id, command, gameState });
@@ -152,7 +152,7 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         }
 
         // check that the command came from looping mode buttons/encoders
-        if( returnGameLoopingConditions.loopingValidInterfaces({ command }) && returnGameLoopingConditions.notLastScenes() ){
+        if( returnGameLoopingConditions.loopingValidInterfaces({ command }) && returnGameLoopingConditions.notLastScenes() || gameState.messageStatus === 1 ){
 
             if( gameState.messageStatus === 0 ){
                 await switchLoopingGameScenes({ id,  command, gameState });

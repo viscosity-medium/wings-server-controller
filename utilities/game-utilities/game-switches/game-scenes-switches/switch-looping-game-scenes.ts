@@ -25,10 +25,6 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
         cursorPosition = 1;
         maxCursorPositions = 3;
 
-        // setStoreValue({
-        //     storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 3
-        // });
-
     } else if(
         returnGameLoopingConditions.condition2Default({id, command, gameState})
     ){
@@ -40,11 +36,7 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene3") );
             scene = 3;
             cursorPosition = 1;
-            maxCursorPositions = 3;
-
-            // setStoreValue({
-            //     storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 3
-            // });
+            maxCursorPositions = 4;
 
         } else if ( //come back to position 1
             returnGameLoopingConditions.condition2Wrong({id, command, gameState})
@@ -54,10 +46,6 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
             scene = 1;
             cursorPosition = 1;
             maxCursorPositions = 4;
-
-            // setStoreValue({
-            //     storeId, scene: 1, cursorPosition: 1, maxCursorPositions: 4
-            // });
 
         }
 
@@ -69,10 +57,6 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
         scene = 4;
         cursorPosition = 1;
         maxCursorPositions = 1;
-
-        // setStoreValue({
-        //     storeId, scene: 4 , cursorPosition: 1, maxCursorPositions: 1
-        // });
 
     }
 

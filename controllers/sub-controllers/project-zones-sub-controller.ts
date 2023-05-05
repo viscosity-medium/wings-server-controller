@@ -17,7 +17,6 @@ export interface IProjectZonesControllerProps {
 }
 const projectZonesSubController = async ({ id, storeId, command }: IProjectZonesControllerProps) => {
 
-
     const { hexSingleCommands, goBackwards, goForward, pipelineNumbers } = possibleCommandsReceivedForProjectZones;
     const newIndex = defineIndexToGoUtility({ command, storeId });
 
@@ -70,7 +69,7 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             EInstallationIds.ProjectPortraits === id
         ) {
 
-            const functionToExecute = projectZoneUtilities.sendTransitionCommandToThePortraitsInstallation.bind(projectZoneUtilities);
+            const functionToExecute = await projectZoneUtilities.sendTransitionCommandToThePortraitsInstallation.bind(projectZoneUtilities);
 
             await throttlerFunction({
                 storeId,

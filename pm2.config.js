@@ -7,10 +7,11 @@ module.exports = {
             node_args : '-r dotenv/config',
             env: {
                 "NODE_MODE": "development",
-                "TEST_LOCATION": "office"
+                "LOCATION": "office"
             },
             env_production: {
                 "NODE_MODE": "production",
+                "LOCATION": "museum"
             }
         }
     ]

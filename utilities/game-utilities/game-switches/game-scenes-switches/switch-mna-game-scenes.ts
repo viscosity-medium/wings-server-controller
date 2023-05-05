@@ -27,10 +27,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         cursorPosition = 1;
         maxCursorPositions = 4;
 
-        // setStoreValue({
-        //     storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4,
-        // });
-
     } else if(
         returnGameMnaConditions.stage2Right({ id, gameState, command })
     ){
@@ -39,10 +35,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
         scene = 3;
         cursorPosition = 1;
         maxCursorPositions = 2;
-
-        // setStoreValue({
-        //     storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 2,
-        // });
 
     } else if(
         returnGameMnaConditions.stage3Default({ id, gameState, command })
@@ -57,10 +49,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
             cursorPosition = 1;
             maxCursorPositions = 5;
 
-            // setStoreValue({
-            //     storeId, scene: 4, cursorPosition: 1, maxCursorPositions: 5,
-            // });
-
         } else if( //come back to position 2
             returnGameMnaConditions.stage3Wrong({ id, gameState, command })
         ){
@@ -69,10 +57,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
             scene = 2;
             cursorPosition = 1;
             maxCursorPositions = 4;
-
-            // setStoreValue({
-            //     storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4,
-            // });
 
         }
 
@@ -89,9 +73,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
             cursorPosition = 1;
             maxCursorPositions = 1;
 
-            setStoreValue({
-                storeId, scene: 5, cursorPosition: 1, maxCursorPositions: 1,
-            });
 
         } else if(
             returnGameMnaConditions.stage4Right2({ id, gameState, command })
@@ -102,9 +83,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
             cursorPosition = 1;
             maxCursorPositions = 1;
 
-            // setStoreValue({
-            //     storeId, scene: 6, cursorPosition: 1, maxCursorPositions: 1,
-            // });
 
         } else if(
             returnGameMnaConditions.stage4Right3({ id, gameState, command })
@@ -115,9 +93,6 @@ const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControlle
             cursorPosition = 1;
             maxCursorPositions = 4;
 
-            // setStoreValue({
-            //     storeId, scene: 7, cursorPosition: 1, maxCursorPositions: 1,
-            // });
 
         }
 

@@ -96,7 +96,7 @@ class GameServices {
         // then the store changes and the command sends
 
         if( systemMessage ) {
-            // console.log(command)
+
             sendDataToWingsServerOverUdp({ command: systemMessage, id });
             setStoreValue({
                 storeId: EStoreKeys.installationGame,

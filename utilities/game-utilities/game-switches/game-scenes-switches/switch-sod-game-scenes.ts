@@ -26,20 +26,12 @@ const switchSodGameScenes = async ({id, command, gameState}: IGameSubControllerP
         cursorPosition = 1;
         maxCursorPositions = 4;
 
-        // setStoreValue({
-        //     storeId, scene: 2, cursorPosition: 1, maxCursorPositions: 4
-        // });
-
     } else if( returnGameSodConditions.condition2Right({ id, command, gameState }) ){
 
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToSodModeScene3") );
         scene = 3;
         cursorPosition = 1;
         maxCursorPositions = 4;
-
-        // setStoreValue({
-        //     storeId, scene: 3, cursorPosition: 1, maxCursorPositions: 4
-        // });
 
     } else if( returnGameSodConditions.condition3Right({ id, command, gameState }) ){
 
@@ -48,20 +40,12 @@ const switchSodGameScenes = async ({id, command, gameState}: IGameSubControllerP
         cursorPosition = 1;
         maxCursorPositions = 4;
 
-        // setStoreValue({
-        //     storeId, scene: 4, cursorPosition: 1, maxCursorPositions: 4
-        // });
-
     } else if( returnGameSodConditions.condition4Right({ id, command, gameState }) ){
 
         goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToSodModeScene5Final") );
         scene = 5;
         cursorPosition = 1;
         maxCursorPositions = 1;
-
-        // setStoreValue({
-        //     storeId, scene: 5, cursorPosition: 1, maxCursorPositions: 1
-        // });
 
     }
 
@@ -80,11 +64,13 @@ const switchSodGameScenes = async ({id, command, gameState}: IGameSubControllerP
         await delayedGoToSpecificGameScene({ id, goToSpecificGameSceneCommand });
 
     } else if( returnGameSodConditions.sodButtonsInterfaces({ command })) {
+
         gameServices.sendCommandToShowSystemMessage({ id,  command });
         setStoreValue({
             storeId,
             messageStatus: 1
-        })
+        });
+
     }
 
 }
