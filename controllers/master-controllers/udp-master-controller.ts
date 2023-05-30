@@ -39,11 +39,14 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
                     const functionToExecute = gameSubController;
 
+                    const timeout = command.match("Button") ? 750 : 2000
+
                     await throttlerFunction({
                         storeId,
                         id,
                         command,
-                        functionToExecute
+                        functionToExecute,
+                        timeout
                     });
 
                 }

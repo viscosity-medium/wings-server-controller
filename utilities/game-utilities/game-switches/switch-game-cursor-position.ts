@@ -7,6 +7,7 @@ import {EInstallationIds} from "../../../types/_common-types";
 const switchGameCursorPosition = async ({ id, command }: { id: EInstallationIds, command: EGameControlCommand}) => {
 
     const gameState = store[EStoreKeys.installationGame];
+    console.log(gameState)
 
     if( gameState.mode === EGameModes.mna ){
 

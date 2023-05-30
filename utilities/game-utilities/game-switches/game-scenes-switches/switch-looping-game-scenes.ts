@@ -36,7 +36,7 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
             goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene3") );
             scene = 3;
             cursorPosition = 1;
-            maxCursorPositions = 4;
+            maxCursorPositions = 3;
 
         } else if ( //come back to position 1
             returnGameLoopingConditions.condition2Wrong({id, command, gameState})
@@ -50,13 +50,28 @@ const switchLoopingGameScenes = async ({id, gameState, command}: IGameSubControl
         }
 
     } else if(
-        returnGameLoopingConditions.condition3Right({id, command, gameState})
+        returnGameLoopingConditions.condition3Default({id, command, gameState})
     ){
 
-        goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene4Final") );
-        scene = 4;
-        cursorPosition = 1;
-        maxCursorPositions = 1;
+        if(
+            returnGameLoopingConditions.condition3Right({id, command, gameState})
+        ){
+
+            goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene4Final") );
+            scene = 4;
+            cursorPosition = 1;
+            maxCursorPositions = 1;
+
+        } else if ( //come back to position 1
+            returnGameLoopingConditions.condition3Wrong({id, command, gameState})
+        ){
+
+            goToSpecificGameSceneCommand = transformToHexArray(SpecificGameScene( "goToLoopingModeScene1") );
+            scene = 1;
+            cursorPosition = 1;
+            maxCursorPositions = 4;
+
+        }
 
     }
 

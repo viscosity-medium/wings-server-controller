@@ -177,11 +177,11 @@ class GameServices {
 
         // defining cursor position to show (from array)
         const command = transformToHexArray( gameCursorPositionsCommands[ gameState.cursorPosition - 1 ] );
-        const sendDataFunctionBeforeDelay =  returnSendDataFunctionBeforeDelay({id})
         const hexCommand = transformToHexArray(gameFadesCommands.allCursorPositionsFadeOut);
-        await sendDataFunctionBeforeDelay( hexCommand, installationIds[id].delayShort)
+        const sendDataFunctionBeforeDelay =  returnSendDataFunctionBeforeDelay({id});
 
-        sendDataToWingsServerOverUdp({command, id });
+        await sendDataFunctionBeforeDelay( hexCommand, installationIds[id].delayShort);
+        await sendDataToWingsServerOverUdp({command, id });
 
     }
 

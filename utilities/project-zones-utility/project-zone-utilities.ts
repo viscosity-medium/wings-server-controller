@@ -117,9 +117,7 @@ class projectUtilities {
             const command = transformToHexArray( wingsActionCommands.PreviousMarker );
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
-            for await ( const i of [1, 2] ){
-                await executeSendDataFunctionBeforeDelay( command, this.delayShort );
-            }
+            await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
         }
 

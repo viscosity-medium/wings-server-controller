@@ -196,27 +196,27 @@ const loopingConditions = {
     right: [
         {
             scene: 1,
-            cursorPosition: 1,
-            button: "Button_III_A"
-        },
-        {
-            scene: 1,
             cursorPosition: 2,
             button: "Button_III_A"
         },
         {
             scene: 2,
-            cursorPosition: 1,
+            cursorPosition: 2,
             button: "Button_III_A"
         },
         {
             scene: 2,
             cursorPosition: 2,
+            button: "Button_III_B"
+        },
+        {
+            scene: 3,
+            cursorPosition: 1,
             button: "Button_III_A"
         },
         {
             scene: 3,
-            cursorPosition: 2,
+            cursorPosition: 1,
             button: "Button_III_B"
         },
     ]
