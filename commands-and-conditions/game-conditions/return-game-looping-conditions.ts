@@ -19,9 +19,7 @@ class ReturnGameLoopingConditions {
 
     condition1Right({gameState, command}: IGameSubControllerProps) {
         return ( gameState.scene === 1 &&
-            (
-                gameState.cursorPosition === 2
-            ) &&
+            [1, 2].includes(gameState.cursorPosition) &&
             command === EGameControlCommand.Button_III_A
         )
     }
@@ -37,7 +35,6 @@ class ReturnGameLoopingConditions {
         return (
             (
                [
-                   EGameControlCommand.Button_III_A,
                    EGameControlCommand.Button_III_B
                ].includes(command)
 
@@ -72,7 +69,6 @@ class ReturnGameLoopingConditions {
         return (
             gameState.cursorPosition === 1 &&
             [
-                EGameControlCommand.Button_III_A,
                 EGameControlCommand.Button_III_B
             ].includes(command)
         )
