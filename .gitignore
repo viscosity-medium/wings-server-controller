@@ -1,6 +1,7 @@
 /.idea
 /node_modules
 /docker
+/_ts-build
 
 wings-server-controller.7z
 
