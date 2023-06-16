@@ -34,7 +34,7 @@ const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
                 }
 
-                //for game-commands
+                // for game-commands
                 if( ( id.match( /Game/ ) || command.match( /Test_[Encoder|Button]/ )) && !store["installationGame"].isThrottled ) {
 
                     const functionToExecute = gameSubController;

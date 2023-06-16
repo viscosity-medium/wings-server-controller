@@ -30,7 +30,8 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         await switchGameCursorPosition({ id, command });
     }
 
-    if( // screensaver mode
+    // screensaver mode
+    if(
         gameState.mode === EGameModes.screensaver
     ){
 
@@ -54,7 +55,8 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
         }
 
-    } else  if ( // demo mode
+    // demo mode
+    } else  if (
         gameState.mode === EGameModes.demo
     ){
         if( modeSelectionButtons.includes( command ) ){
@@ -75,10 +77,9 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
             }
 
-
         }
-
-    } else if ( // mna mode
+    // mna mode
+    } else if (
         gameState.mode === EGameModes.mna
     ){
 
@@ -91,7 +92,9 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         if( returnGameMnaConditions.mnaValidInterfaces({ command }) && returnGameMnaConditions.notLastScenes() || gameState.messageStatus === 1 ){
 
             if( gameState.messageStatus === 0 ){
+
                 await switchMnaGameScenes({ id, command, gameState });
+
             } else if( gameState.messageStatus === 1 ){
 
                 gameServices.sendCommandToHideSystemMessages({ id });
@@ -110,7 +113,8 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
         }
 
-    } else if( // sod mode
+    // sod mode
+    } else if(
         gameState.mode === EGameModes.sod
     ){
 
@@ -123,7 +127,9 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         if( returnGameSodConditions.sodValidInterfaces({ command })  && returnGameSodConditions.notLastScenes() || gameState.messageStatus === 1){
 
             if( gameState.messageStatus === 0 ){
+
                 await switchSodGameScenes({ id, command, gameState });
+
             } else if( gameState.messageStatus === 1 ){
 
                 gameServices.sendCommandToHideSystemMessages({ id });
@@ -142,7 +148,8 @@ const gameSubController: TGameController = async ({ id, command } ) => {
 
         }
 
-    } else if( // looping mode
+    // looping mode
+    } else if(
         gameState.mode === EGameModes.looping
     ){
 
@@ -155,7 +162,9 @@ const gameSubController: TGameController = async ({ id, command } ) => {
         if( returnGameLoopingConditions.loopingValidInterfaces({ command }) && returnGameLoopingConditions.notLastScenes() || gameState.messageStatus === 1 ){
 
             if( gameState.messageStatus === 0 ){
+
                 await switchLoopingGameScenes({ id,  command, gameState });
+
             } else if ( gameState.messageStatus === 1 ){
                 gameServices.sendCommandToHideSystemMessages({ id });
 

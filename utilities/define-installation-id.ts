@@ -17,7 +17,7 @@ const remoteIp: IRemoteIp = {
     "10.4.187.16": EInstallationIds.ProjectTankSocial,
     "10.4.187.20": EInstallationIds.Game,
 
-}
+};
 
 const testUdpCommands: ITestUdpCommand = {
 
@@ -31,7 +31,7 @@ const testUdpCommands: ITestUdpCommand = {
     TestTankTechnology: EInstallationIds.ProjectTankTechnology,
     TestTankSocial: EInstallationIds.ProjectTankSocial
 
-}
+};
 
 
 const defineInstallationId: TDefineInstallationId = ({ ip, command }) => {

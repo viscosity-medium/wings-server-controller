@@ -65,6 +65,18 @@ const store: IStore = {
         sceneTransitionTimeout: undefined
     },
 
+    [EStoreKeys.installationProjectEntryGroup]: {
+        analogControl: true,
+        index: 1,
+        mode:  EProjectZonesModes.screensaver,
+        numberOfFiles: installationIds[EInstallationIds.ProjectEntryGroup].numberOfFiles,
+        isThrottled: false,
+        // timeouts
+        idleTimeout: undefined,
+        hideHintTimeout: undefined,
+        sceneTransitionTimeout: undefined
+    },
+
     [EStoreKeys.installationGame]: {
         analogControl: true,
         index: 1,

@@ -84,6 +84,7 @@ export enum EStoreKeys {
     installationProjectTankEcology = "installationProjectTankEcology",
     installationProjectTankTechnology = "installationProjectTankTechnology",
     installationProjectTankSocial = "installationProjectTankSocial",
+    installationProjectEntryGroup = "installationProjectEntryGroup",
     installationGame = "installationGame",
 
 }
@@ -98,6 +99,7 @@ export interface IStore {
     [EStoreKeys.installationProjectTankEcology]: TInstallationStandard
     [EStoreKeys.installationProjectTankTechnology]: TInstallationStandard
     [EStoreKeys.installationProjectTankSocial]: TInstallationStandard
+    [EStoreKeys.installationProjectEntryGroup]: TInstallationStandard
     [EStoreKeys.installationGame]: TInstallationGame
 
 }
