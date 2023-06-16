@@ -51,13 +51,13 @@ const installationIds: IInstallationIds = {
         numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST! : +process.env.NUMBER_OF_FILES_PROJECT_CABINET!
     },
     ProjectPipeline: {
-        host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_ENTRY_GROUP!,
-        delayLong: +process.env.DELAY_TIME_LONG_PROJECT_ENTRY_GROUP!,
-        delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_ENTRY_GROUP!,
-        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_PROJECT_ENTRY_GROUP!,
-        numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST!: +process.env.NUMBER_OF_FILES_PROJECT_ENTRY_GROUP!
+        host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_ENTRY_GROUP_2!,
+        delayLong: +process.env.DELAY_TIME_LONG_PROJECT_ENTRY_GROUP_2!,
+        delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_ENTRY_GROUP_2!,
+        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_PROJECT_ENTRY_GROUP_2!,
+        numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST!: +process.env.NUMBER_OF_FILES_PROJECT_ENTRY_GROUP_2!
     },
-    ProjectEntryGroup: {
+    ProjectEntryGroup2: {
         host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_CABINET!,
         delayLong: +process.env.DELAY_TIME_LONG_PROJECT_CABINET!,
         delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_CABINET!,

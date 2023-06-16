@@ -39,7 +39,7 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
 
         // project zones "Map", "Lab", "Cabinet", "Entry Group"
         if (
-            [ EInstallationIds.ProjectMap, EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet, EInstallationIds.ProjectEntryGroup ].includes(id)
+            [ EInstallationIds.ProjectMap, EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet, EInstallationIds.ProjectEntryGroup2 ].includes(id)
         ) {
 
             const functionToExecute = projectZoneUtilities.sendUniversalTransitionCommand.bind(projectZoneUtilities);

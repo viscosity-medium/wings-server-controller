@@ -65,11 +65,11 @@ const store: IStore = {
         sceneTransitionTimeout: undefined
     },
 
-    [EStoreKeys.installationProjectEntryGroup]: {
+    [EStoreKeys.installationProjectEntryGroup2]: {
         analogControl: true,
         index: 1,
         mode:  EProjectZonesModes.screensaver,
-        numberOfFiles: installationIds[EInstallationIds.ProjectEntryGroup].numberOfFiles,
+        numberOfFiles: installationIds[EInstallationIds.ProjectEntryGroup2].numberOfFiles,
         isThrottled: false,
         // timeouts
         idleTimeout: undefined,
