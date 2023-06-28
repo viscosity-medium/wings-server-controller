@@ -1,16 +1,18 @@
-import { delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay } from "../time-utilities";
-import { EHttpCommands, EUdpProjectCommands, IMiddleProps } from "../../types/command-types";
-import { possibleCommandsReceivedForProjectZones } from "../../commands-and-conditions/possible-commands-received-for-project-zones";
-import { installationIds, systemVariables } from "../../_environment/environment";
-import { returnCompositeCommandUtility } from "../composite-command-utility";
-import { sendDataToWingsServerOverUdp } from "../udp/dgram-udp-utilities";
-import { EInstallationIds, ShortCode } from "../../types/_common-types";
-import { EProjectZonesModes, IStore} from "../../types/store-types";
-import { EGameControlCommand } from "../../types/game-types";
+import {delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay} from "../time-utilities";
+import {EHttpCommands, EUdpProjectCommands, IMiddleProps} from "../../types/command-types";
+import {
+    possibleCommandsReceivedForProjectZones
+} from "../../commands-and-conditions/possible-commands-received-for-project-zones";
+import {installationIds, systemVariables} from "../../_environment/environment";
+import {returnCompositeCommandUtility} from "../composite-command-utility";
+import {sendDataToWingsServerOverUdp} from "../udp/dgram-udp-utilities";
+import {EInstallationIds} from "../../types/_common-types";
+import {EProjectZonesModes, IStore} from "../../types/store-types";
+import {EGameControlCommand} from "../../types/game-types";
 import {transformToHexArray, transformValueToHexStr} from "../hex-transform-utilities";
-import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
-import { setStoreValue } from "../store-utility";
-import { store } from "../../store/store";
+import {wingsActionCommands} from "../../commands-and-conditions/wings-action-commands";
+import {setStoreValue} from "../store-utility";
+import {store} from "../../store/store";
 
 
 export interface IProjectEncoderProps {
@@ -58,8 +60,8 @@ class projectUtilities {
 
     async sendHexCommand(){
 
-        const hexCommand = transformToHexArray( this.command )
-        const { idleTime } = installationIds[ this.id ]
+        const hexCommand = transformToHexArray( this.command );
+        const { idleTime } = installationIds[ this.id ];
 
         sendDataToWingsServerOverUdp({ command: hexCommand, id: this.id });
         await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime});
@@ -105,20 +107,37 @@ class projectUtilities {
 
     }
 
-    async sendTransitionCommandToTheCoversInstallation() {
+    async sendTransitionCommandToTheMapOrCoversInstallation() {
+
 
         if( possibleCommandsReceivedForProjectZones.goForward.includes( this.command as EHttpCommands | EUdpProjectCommands) ){
 
             const command = transformToHexArray( wingsActionCommands.NextMarker );
+
+            console.log("go forward");
+            console.log(wingsActionCommands.NextMarker);
+            console.log(command);
+
             sendDataToWingsServerOverUdp({ command, id: this.id });
 
         } else if( possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands ) ) {
 
             const command = transformToHexArray( wingsActionCommands.PreviousMarker );
+
+            console.log("go backwards");
+            console.log(wingsActionCommands.PreviousMarker);
+            console.log(command);
+
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
             await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
+        }
+
+        if(this.id === EInstallationIds.ProjectMap){
+
+            const { idleTime } = installationIds[ this.id ];
+            await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime});
         }
 
     }

@@ -37,9 +37,12 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
 
         const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command });
 
-        // project zones "Map", "Lab", "Cabinet", "Entry Group"
+        // project zones:
+        // "Lab",
+        // "Cabinet",
+        // "Entry Group"
         if (
-            [ EInstallationIds.ProjectMap, EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet, EInstallationIds.ProjectEntryGroup2 ].includes(id)
+            [ EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet, EInstallationIds.ProjectEntryGroup2 ].includes(id)
         ) {
 
             const functionToExecute = projectZoneUtilities.sendUniversalTransitionCommand.bind(projectZoneUtilities);
@@ -51,7 +54,8 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
                 functionToExecute
             });
 
-        // project zones "Tanks"(Ecology, Technology, Social)
+        // project zones:
+        // "Tanks"(Ecology, Technology, Social)
         } else if (
             [ EInstallationIds.ProjectTankEcology, EInstallationIds.ProjectTankTechnology, EInstallationIds.ProjectTankSocial ].includes(id)
         ) {
@@ -63,7 +67,8 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
                 functionToExecute
             });
 
-        // project zone "Portraits"
+        // project zone
+        // "Portraits"
         } else if (
             EInstallationIds.ProjectPortraits === id
         ) {
@@ -75,12 +80,14 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
                 functionToExecute
             });
 
-        // project zone "Covers"
+        // project zone
+        // "Covers"
+        // "Maps"
         } else if (
-            EInstallationIds.ProjectCovers === id
+            [EInstallationIds.ProjectCovers, EInstallationIds.ProjectMap].includes(id)
         ) {
 
-            const functionToExecute = projectZoneUtilities.sendTransitionCommandToTheCoversInstallation.bind(projectZoneUtilities);
+            const functionToExecute = projectZoneUtilities.sendTransitionCommandToTheMapOrCoversInstallation.bind(projectZoneUtilities);
 
             await throttlerFunction({
                 timeout: 2000,

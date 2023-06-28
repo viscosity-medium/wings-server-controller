@@ -45,28 +45,34 @@ export interface ITransitionToTheSpecificModeProps {
 export enum EGameControlCommand {
 
     //encoders
-
+    //mode encoders commands
     Encoder_N_LEFT = "Encoder_N_LEFT",
     Encoder_N_RIGHT = "Encoder_N_RIGHT",
+    //mna encoders commands
     Encoder_I_LEFT = "Encoder_I_LEFT",
     Encoder_I_RIGHT = "Encoder_I_RIGHT",
+    //sod encoders commands
     Encoder_II_LEFT = "Encoder_II_LEFT",
     Encoder_II_RIGHT = "Encoder_II_RIGHT",
+    //looping encoders commands
     Encoder_III_LEFT = "Encoder_III_LEFT",
     Encoder_III_RIGHT = "Encoder_III_RIGHT",
 
     //buttons
-
+    //mode button commands
     Button_N_A = "Button_N_A",
     Button_N_B = "Button_N_B",
     Button_N_C = "Button_N_C",
     Button_N_D = "Button_N_D",
+    //mna button commands
     Button_I_A = "Button_I_A",
     Button_I_B = "Button_I_B",
     Button_I_C = "Button_I_C",
+    //sod button commands
     Button_II_A = "Button_II_A",
     Button_II_B = "Button_II_B",
     Button_II_C = "Button_II_C",
+    //looping button commands
     Button_III_A = "Button_III_A",
     Button_III_B = "Button_III_B",
     Button_III_C = "Button_III_C",

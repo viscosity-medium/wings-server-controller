@@ -52,7 +52,7 @@ const defineInstallationId: TDefineInstallationId = ({ ip, command }) => {
     } else if (
         gameConditions.allAnalogInterfaces().includes( command as EGameControlCommand )
     ){
-        return EInstallationIds.Game
+        return EInstallationIds.Game;
     }
 
 };

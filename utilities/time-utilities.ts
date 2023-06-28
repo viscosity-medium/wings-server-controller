@@ -138,7 +138,6 @@ const delayedSwitchGameHint = ({ id  }: { id: EInstallationIds }) => {
         gameFadesCommands.hint4FadeIn,
     ];
 
-
     clearTimeoutFunction( store[ storeId ].hideHintTimeout );
 
     const showOneHint = ( arrayOfHints: string[] ) => {

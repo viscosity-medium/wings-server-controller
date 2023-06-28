@@ -1,6 +1,7 @@
 import {EGameControlCommand, TGameController} from "./game-types";
 import {IStore} from "./store-types";
 import {EInstallationIds} from "./_common-types";
+import {THttpCommand} from "./command-types";
 
 export type TExecuteAsyncTimeOut = ( command: number[], timeout: number ) => Promise<void>
 
@@ -19,7 +20,7 @@ export type TSecondsToMillisecondsSeconds = (minutes: string ) => number
 
 interface ShortThrottleProps {
     id?: EInstallationIds
-    command?: EGameControlCommand
+    command?: EGameControlCommand | THttpCommand
 }
 
 export type FunctionWithArguments = ({id, command}: ShortThrottleProps) => Promise<void>
@@ -30,7 +31,7 @@ export interface ThrottlerParams {
     functionToExecute: FunctionWithoutArguments | TGameController | FunctionWithArguments
     timeout?: number
     id?: EInstallationIds
-    command?: EGameControlCommand
+    command?: EGameControlCommand | THttpCommand
 }
 
 export type ThrottlerFunction = ({timeout, storeId, functionToExecute}:ThrottlerParams) => Promise<void>

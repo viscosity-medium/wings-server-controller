@@ -44,12 +44,12 @@ const gameSubController: TGameController = async ({ id, command } ) => {
             if( gameState.hintStatus === 0 ) {
 
                 const systemMessage = transformToHexArray( gameFadesCommands.hintFadeInScreensaverAndDemoMode );
-                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 1})
+                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 1});
 
             } else if ( gameState.hintStatus === 1 ) {
 
                 const systemMessage = transformToHexArray( gameFadesCommands.hintFadeOutScreensaverAndDemoMode );
-                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 0})
+                gameServices.sendCommandToChangeHintStatus({id, systemMessage, hintStatus: 0});
 
             }
 

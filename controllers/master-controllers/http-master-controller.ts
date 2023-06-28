@@ -7,6 +7,7 @@ import { EInstallationIds } from "../../types/_common-types";
 import { store } from "../../store/store";
 
 import {logDataToMongoDb} from "../../database/logging-service";
+import {throttlerFunction} from "../../utilities/time-utilities";
 
 
 class HttpMasterController {
@@ -24,6 +25,20 @@ class HttpMasterController {
         if( id.match( /Project/ ) ){
 
             await projectZonesSubController({ id, storeId, command });
+
+        } else if( ( id.match( /Game/ ) ) && !store["installationGame"].isThrottled ) {
+
+            const functionToExecute = gameSubController;
+
+            const timeout = 500
+
+            await throttlerFunction({
+                storeId,
+                id,
+                command,
+                functionToExecute,
+                timeout
+            });
 
         }
 
