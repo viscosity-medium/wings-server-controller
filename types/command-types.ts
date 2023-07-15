@@ -1,59 +1,56 @@
-import { EGameControlCommand } from "./game-types";
-import { EInstallationIds } from "./_common-types";
-import { IStore } from "./store-types";
+import { GameControlCommand } from "./game-types";
+import { AvailableInstallationIds } from "./_common-types";
+import { Store } from "./store-types";
 
-interface IDelayedComebackToScreensaver {
-    storeId: keyof IStore
-    id: EInstallationIds
+interface DelayedComebackToScreensaver {
+    storeId: keyof Store
+    id: AvailableInstallationIds
     type: string
     idleTime: string
 }
-export type TDelayedComeBackToScreensaver = ({ storeId, id, type, idleTime }: IDelayedComebackToScreensaver)  => void
+export type DelayedComeBackToScreensaver = ({ storeId, id, type, idleTime }: DelayedComebackToScreensaver)  => void
 
-export interface ISimpleCommandProps {
-    storeId: keyof IStore
-    id: EInstallationIds
-    type?: string
-    idleTime: string
-    commandAction: string
+
+export interface SendCommandHttpProps {
+    id: AvailableInstallationIds,
+    command: HttpCommandExtended
 }
 
-export interface ISendCommandHttpProps {
-    id: EInstallationIds,
-    command: THttpCommand
+export interface ReturnCompositeCommandProps {
+    storeId: keyof Store,
+    id: AvailableInstallationIds
 }
 
-export interface ISwitchAnalogControllerHttpProps {
-    installationName: string
-    installationId: EInstallationIds
-    commandName: string
-    commandAction: string
-}
-
-export interface IReturnCompositeCommandUtility {
-    storeId: keyof IStore,
-    id: EInstallationIds
-}
-
-export interface IMiddleProps {
+export interface MiddleProps {
     xIndex: string,  
     yIndex: string, 
     type: "active" | "passive"
 }
 
-export type TReturnCompositeCommandUtility = ({ storeId, id }: IReturnCompositeCommandUtility) => ( { xIndex, yIndex, type }: IMiddleProps) => void
+export type ReturnCompositeCommandUtility = ({ storeId, id }: ReturnCompositeCommandProps) => ({ xIndex, yIndex, type }: MiddleProps) => void
 
-export enum EHttpCommands {
+export enum HttpCommands {
 
     Pause = "Pause",
     ContinuePlay = "ContinuePlay",
     Next = "Next",
     Prev = "Prev",
     HideImages = "HideImages",
+    GoToScreensaver = "GoToScreensaver"
 
 }
 
-export enum EUdpProjectCommands {
+export enum VolumeCommands {
+
+    Volume_0 = "Volume_0",
+    Volume_25 = "Volume_25",
+    Volume_50 = "Volume_50",
+    Volume_75 = "Volume_75",
+    Volume_100 = "Volume_100"
+
+}
+
+export enum UdpProjectCommands {
 
     // right
     Encoder_Right = "Encoder_Right",
@@ -73,17 +70,18 @@ export enum EUdpProjectCommands {
     Test_Cabinet_L = "Test_Cabinet_L",
     Test_Pipeline_L = "Test_Pipeline_L",
     Test_Lab_L = "Test_Lab_L",
-    Test_Game_L = "Test_Game_L"
+    Test_Game_L = "Test_Game_L",
+
 }
 
-export type THttpCommand = EHttpCommands | `${number}`;
+export type HttpCommandExtended = HttpCommands | `${number}`;
 
-export interface IDefineIndexToGoUtility {
-    command: THttpCommand | EGameControlCommand | EUdpProjectCommands,
-    storeId: keyof IStore,
+export interface DefineIndexToGoUtility {
+    command: HttpCommandExtended | GameControlCommand | UdpProjectCommands,
+    storeId: keyof Store,
 }
 
-export interface IGameAMessagesCommands {
+export interface GameAMessagesCommands {
     messageA1FadeIn: string,
     messageA2FadeIn: string,
     messageA3FadeIn: string,
@@ -91,7 +89,7 @@ export interface IGameAMessagesCommands {
     messageA5FadeIn: string,
 }
 
-export interface IGameBMessagesCommands {
+export interface GameBMessagesCommands {
     messageB1FadeIn: string,
     messageB2FadeIn: string,
     messageB3FadeIn: string,
@@ -99,7 +97,7 @@ export interface IGameBMessagesCommands {
     messageB5FadeIn: string,
 }
 
-export interface IGameCMessagesCommands {
+export interface GameCMessagesCommands {
     messageC1FadeIn: string,
     messageC2FadeIn: string,
     messageC3FadeIn: string,
@@ -107,4 +105,4 @@ export interface IGameCMessagesCommands {
     messageC5FadeIn: string,
 }
 
-export type TGameMessagesCommands = IGameAMessagesCommands | IGameBMessagesCommands | IGameCMessagesCommands;
+export type GameMessagesCommands = GameAMessagesCommands | GameBMessagesCommands | GameCMessagesCommands;

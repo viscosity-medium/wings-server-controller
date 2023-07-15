@@ -1,10 +1,10 @@
 import { gameScenesCommands } from "./game-commands/game-scenes-commands";
-import { TCommandsToExecute } from "../types/_common-types";
+import { CommandsToExecute } from "../types/_common-types";
 import { gameFadesCommands } from "./game-commands/game-fades-commands";
 
-const wingsActionCommands: TCommandsToExecute = {
+const wingsActionCommands: CommandsToExecute = {
 
-    // common commands
+    // video commands
     Play: "0xFF 0x01 0x05 0xFE",
 
     Pause: "0xFF 0x01 0x03 0xFE",
@@ -19,6 +19,18 @@ const wingsActionCommands: TCommandsToExecute = {
 
     PreviousMarker: "0xFF 0x02 0x2E 0xF1 0xFE",
 
+    // volume commands
+    Volume_0: "0xFF 0x02 0x2E 0xCA 0xFE",
+
+    Volume_25: "0xFF 0x02 0x2E 0xCB 0xFE",
+
+    Volume_50: "0xFF 0x02 0x2E 0xCC 0xFE",
+
+    Volume_75: "0xFF 0x02 0x2E 0xCD 0xFE",
+
+    Volume_100: "0xFF 0x02 0x2E 0xCE 0xFE",
+
+    // functions
     TimeIndicatorPosition: ( XX: string, YY: string ) => `0xFF 0x03 0x06 0x${ XX } 0x${ YY } 0xFE`,
 
     ExecuteTrigger: ( XX: string ) => `0xFF 0x02 0x2E 0x${ XX } 0xFE`,
@@ -26,7 +38,6 @@ const wingsActionCommands: TCommandsToExecute = {
     SendShortCode: (XX) => XX,
     
     // special game-commands commands
-
     SpecificGameScene: ( command ) => gameScenesCommands[ command ],
 
     FadeTimeline: ( command ) => gameFadesCommands[ command ],

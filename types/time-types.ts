@@ -1,37 +1,28 @@
-import {EGameControlCommand, TGameController} from "./game-types";
-import {IStore} from "./store-types";
-import {EInstallationIds} from "./_common-types";
-import {THttpCommand} from "./command-types";
+import {GameControlCommand, GameController} from "./game-types";
+import {Store} from "./store-types";
+import {AvailableInstallationIds} from "./_common-types";
+import {HttpCommandExtended} from "./command-types";
 
-export type TExecuteAsyncTimeOut = ( command: number[], timeout: number ) => Promise<void>
+export type ExecuteAsyncTimeOut = (command: number[], timeout: number ) => Promise<void>
 
-export type TDelayedSwitchOffLabMicroscope = (
-    executeAsyncTimeOut: TExecuteAsyncTimeOut,
-    storeId: keyof IStore,
-    commandHex2: number[],
-    delayLong: number,
-    idleTime: string
-) => void
-export type TReturnAsyncMemoTimeout = ( { id}: { id: EInstallationIds} ) => TExecuteAsyncTimeOut
-export type TStartIdleTimeOut = ( action: () => void, timeout: number ) => ReturnType<typeof setTimeout>
-export type TClearTimeOut = ( timeOutId: ReturnType<typeof setTimeout> | undefined ) => ReturnType<typeof clearTimeout>
-export type TMinutesToMilliseconds = (minutes: string ) => number
-export type TSecondsToMillisecondsSeconds = (minutes: string ) => number
+export type ReturnAsyncMemoTimeout = ({ id}: { id: AvailableInstallationIds} ) => ExecuteAsyncTimeOut
+export type StartIdleTimeOut = (action: () => void, timeout: number ) => ReturnType<typeof setTimeout>
+export type ClearTimeOut = (timeOutId: ReturnType<typeof setTimeout> | undefined ) => ReturnType<typeof clearTimeout>
+export type MinutesToMilliseconds = (minutes: string ) => number
+export type SecondsToMillisecondsSeconds = (minutes: string ) => number
 
 interface ShortThrottleProps {
-    id?: EInstallationIds
-    command?: EGameControlCommand | THttpCommand
+    id?: AvailableInstallationIds
+    command?: GameControlCommand | HttpCommandExtended
 }
 
 export type FunctionWithArguments = ({id, command}: ShortThrottleProps) => Promise<void>
 export type FunctionWithoutArguments = () => Promise<void>
 
 export interface ThrottlerParams {
-    storeId: keyof IStore
-    functionToExecute: FunctionWithoutArguments | TGameController | FunctionWithArguments
+    storeId: keyof Store
+    functionToExecute: FunctionWithoutArguments | GameController | FunctionWithArguments
     timeout?: number
-    id?: EInstallationIds
-    command?: EGameControlCommand | THttpCommand
+    id?: AvailableInstallationIds
+    command?: GameControlCommand | HttpCommandExtended
 }
-
-export type ThrottlerFunction = ({timeout, storeId, functionToExecute}:ThrottlerParams) => Promise<void>

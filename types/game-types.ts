@@ -1,39 +1,31 @@
-import { EGameModes, TInstallationGame } from "./store-types";
-import { TExecuteAsyncTimeOut } from "./time-types";
-import { EInstallationIds } from "./_common-types";
+import { GameModes, InstallationGame } from "./store-types";
+import { ExecuteAsyncTimeOut } from "./time-types";
+import { AvailableInstallationIds } from "./_common-types";
 
 ///////
-interface IGameCommand {
-    id: EInstallationIds
-    command: EGameControlCommand
+interface GameCommandProps {
+    id: AvailableInstallationIds
+    command: GameControlCommand
 }
-export type TGameController = ({ id, command }: IGameCommand) => void
+export type GameController = ({ id, command }: GameCommandProps) => void
 
 ///////
-export interface IGameModeSwitchProps {
-    id: EInstallationIds
-    command: EGameControlCommand
+export interface GameModeSwitchProps {
+    id: AvailableInstallationIds
+    command: GameControlCommand
+    N?: boolean
     A?: boolean
     B?: boolean
     C?: boolean
     D?: boolean
 }
-export type TGameModeSwitch = ({id, command, A, B, C, D}: IGameModeSwitchProps) => void;
-///////
-export interface IGameBeginningHintActivator {
-    command: EGameControlCommand
-    gameState: TInstallationGame
-    executeAsyncTimeOut: TExecuteAsyncTimeOut
-    hintDisplayTime : number | undefined
-    delayLong: number | undefined
-    delayShort: number | undefined
-}
+export type GameModeSwitch = ({id, command, A, B, C, D}: GameModeSwitchProps) => void;
 
 ///////
-export interface ITransitionToTheSpecificModeProps {
-    id: EInstallationIds
+export interface TransitionToTheSpecificModeProps {
+    id: AvailableInstallationIds
     commandHex6: number[]
-    mode: EGameModes
+    mode: GameModes
     scene?: number
     cursorPosition?: number
     messageStatus?: 0 | 1
@@ -42,7 +34,7 @@ export interface ITransitionToTheSpecificModeProps {
 
 
 
-export enum EGameControlCommand {
+export enum GameControlCommand {
 
     //encoders
     //mode encoders commands
@@ -60,6 +52,7 @@ export enum EGameControlCommand {
 
     //buttons
     //mode button commands
+    Button_N_N = "Button_N_N",
     Button_N_A = "Button_N_A",
     Button_N_B = "Button_N_B",
     Button_N_C = "Button_N_C",
@@ -80,14 +73,14 @@ export enum EGameControlCommand {
 }
 
 
-export interface IGameSubControllerProps {
-    id: EInstallationIds
-    command: EGameControlCommand
-    gameState: TInstallationGame
+export interface GameSubControllerProps {
+    id: AvailableInstallationIds
+    command: GameControlCommand
+    gameState: InstallationGame
 }
 
 
-export interface IGameScenesCommands {
+export interface GameScenesCommands {
     goToScreensaver: string,
     goToDemo: string,
     goToMnaModeScene1: string,
@@ -110,7 +103,7 @@ export interface IGameScenesCommands {
 
 }
 
-export interface IGameFadesCommands {
+export interface GameFadesCommands {
     mainTimelineFadeIn: string,
     mainTimelineFadeOut: string,
 

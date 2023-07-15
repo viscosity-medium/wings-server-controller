@@ -1,6 +1,6 @@
-import {IGameFadesCommands, IGameScenesCommands} from "./game-types";
+import {GameFadesCommands, GameScenesCommands} from "./game-types";
 
-interface IProject {
+interface Project {
     host: string,
     delayLong: number
     delayShort: number
@@ -9,13 +9,13 @@ interface IProject {
 }
 
 
-interface IGame extends IProject {
+interface Game extends Project {
     timeStepBetweenHints: number,
     hintDisplayTime: number,
     messageDisplayTime: number,
 }
 
-export enum EInstallationIds {
+export enum AvailableInstallationIds {
     ProjectPortraits = "ProjectPortraits" ,
     ProjectMap = "ProjectMap" ,
     ProjectCovers = "ProjectCovers",
@@ -29,32 +29,31 @@ export enum EInstallationIds {
     Game = "Game",
 }
 
-export interface IInstallationIds {
+export interface InstallationIds {
 
-    [EInstallationIds.ProjectPortraits]: IProject,
-    [EInstallationIds.ProjectMap]: IProject,
-    [EInstallationIds.ProjectCovers]: IProject,
-    [EInstallationIds.ProjectCabinet]: IProject,
-    [EInstallationIds.ProjectPipeline]: IProject,
-    [EInstallationIds.ProjectLab]: IProject,
-    [EInstallationIds.ProjectTankEcology]: IProject,
-    [EInstallationIds.ProjectTankTechnology]: IProject,
-    [EInstallationIds.ProjectTankSocial]: IProject,
-    [EInstallationIds.ProjectEntryGroup2]: IProject,
-    [EInstallationIds.Game]: IGame,
+    [AvailableInstallationIds.ProjectPortraits]: Project,
+    [AvailableInstallationIds.ProjectMap]: Project,
+    [AvailableInstallationIds.ProjectCovers]: Project,
+    [AvailableInstallationIds.ProjectCabinet]: Project,
+    [AvailableInstallationIds.ProjectPipeline]: Project,
+    [AvailableInstallationIds.ProjectLab]: Project,
+    [AvailableInstallationIds.ProjectTankEcology]: Project,
+    [AvailableInstallationIds.ProjectTankTechnology]: Project,
+    [AvailableInstallationIds.ProjectTankSocial]: Project,
+    [AvailableInstallationIds.ProjectEntryGroup2]: Project,
+    [AvailableInstallationIds.Game]: Game,
 
 }
 
-export type TCommandsStandard = "Play" | "Pause" |
-    "ContinuePlay" | "Stop" |
-    "NextMarker" | "PreviousMarker" | "HideImages"
+export type CommandsStandard = (
+    "Play" | "Pause" | "ContinuePlay" | "Stop" |
+    "NextMarker" | "PreviousMarker" | "HideImages" |
+    "Volume_0" | "Volume_25" | "Volume_50" | "Volume_75" | "Volume_100"
+);
 
-export type ShortCode = "0B" | "0C" | "0E" | "0F" |
-    "10" | "11" | "12" | "13" | "14" | "15" | "16"
 
-
-export type TCommandsToExecute = {
-    [key in TCommandsStandard]: string
+export type CommandsToExecute = {
+    [key in CommandsStandard]: string
 }  &
 {
 
@@ -64,9 +63,9 @@ export type TCommandsToExecute = {
 
     SendShortCode: (XX: any) => any
 
-    SpecificGameScene: (command: keyof IGameScenesCommands) => string
+    SpecificGameScene: (command: keyof GameScenesCommands) => string
 
-    FadeTimeline: (command: keyof IGameFadesCommands) => string
+    FadeTimeline: (command: keyof GameFadesCommands) => string
 
 }
 

@@ -1,28 +1,28 @@
 import {clearTimeoutFunction, delayedSwitchGameHint, returnSendDataFunctionBeforeDelay} from "../time-utilities";
-import { EGameControlCommand, ITransitionToTheSpecificModeProps } from "../../types/game-types";
+import { GameControlCommand, TransitionToTheSpecificModeProps } from "../../types/game-types";
 import { installationIds, systemVariables } from "../../_environment/environment";
 import { sendDataToWingsServerOverUdp } from "../udp/dgram-udp-utilities";
 import { gameCursorPositionsCommands } from "../../commands-and-conditions/game-commands/game-cursor-positions-commands";
-import { EGameModes, EStoreKeys} from "../../types/store-types";
+import { GameModes, StoreKeys} from "../../types/store-types";
 import { transformToHexArray } from "../hex-transform-utilities";
 import { gameFadesCommands } from "../../commands-and-conditions/game-commands/game-fades-commands";
 import { gameSystemMessage } from "../../commands-and-conditions/game-conditions/game-system-message";
 import { setStoreValue } from "../store-utility";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
 import { store } from "../../store/store";
-import {EInstallationIds} from "../../types/_common-types";
+import {AvailableInstallationIds} from "../../types/_common-types";
 
 const {
     delayShort,
 } = installationIds.Game;
 
 const { Play, FadeTimeline } = wingsActionCommands;
-const storeId = EStoreKeys.installationGame;
-const gameState = store[ EStoreKeys.installationGame ];
+const storeId = StoreKeys.installationGame;
+const gameState = store[ StoreKeys.installationGame ];
 const { INITIAL_MAX_CURSOR_POSITIONS } = systemVariables;
 
 class GameServices {
-    async executeTransitionToSpecificMode({ id, commandHex6, mode, scene, cursorPosition, messageStatus }: ITransitionToTheSpecificModeProps ){
+    async executeTransitionToSpecificMode({ id, commandHex6, mode, scene, cursorPosition, messageStatus }: TransitionToTheSpecificModeProps ){
 
         const commandHex1 = transformToHexArray( FadeTimeline("mainTimelineFadeOut") ); // hide tracks with the current mode content
         const commandHex2 = transformToHexArray( FadeTimeline("hintFadeOutScreensaverAndDemoMode") ); // hide hint with the current mode content
@@ -46,7 +46,7 @@ class GameServices {
         await executeAsyncTimeOut( commandHex5, delayShort! );
 
         setStoreValue({
-            storeId: EStoreKeys.installationGame,
+            storeId: StoreKeys.installationGame,
             hintStatus: 0,
             mode,
             scene,
@@ -67,25 +67,24 @@ class GameServices {
         delayedSwitchGameHint({ id });
     }
 
-    sendCommandToShowSystemMessage ({ id, command }: { id: EInstallationIds, command: EGameControlCommand }) {
+    sendCommandToShowSystemMessage ({ id, command }: { id: AvailableInstallationIds, command: GameControlCommand }) {
 
-        const { mode, messageStatus } = store[ EStoreKeys.installationGame ];
+        const { mode, messageStatus } = store[ StoreKeys.installationGame ];
         let systemMessage: number[] | undefined;
-        //console.log(messageStatus);
 
         // if system messages are inactive
         if ( messageStatus === 0 ){
 
             if (
-                mode === EGameModes.mna
+                mode === GameModes.mna
             ){
                 systemMessage = gameSystemMessage.returnMessageForMnaMode({ command });
             } else if (
-                mode === EGameModes.sod
+                mode === GameModes.sod
             ){
                 systemMessage = gameSystemMessage.returnMessageForSodMode({ command });
             } else if (
-                mode === EGameModes.looping
+                mode === GameModes.looping
             ){
                 systemMessage = gameSystemMessage.returnMessageForLoopingMode({ command });
             }
@@ -99,7 +98,7 @@ class GameServices {
 
             sendDataToWingsServerOverUdp({ command: systemMessage, id });
             setStoreValue({
-                storeId: EStoreKeys.installationGame,
+                storeId: StoreKeys.installationGame,
                 messageStatus: 1
             });
 
@@ -107,7 +106,7 @@ class GameServices {
 
     }
 
-    async goToSpecificGameScene({ id, goToSpecificGameSceneCommand }: {id: EInstallationIds, goToSpecificGameSceneCommand: number[] }){
+    async goToSpecificGameScene({ id, goToSpecificGameSceneCommand }: {id: AvailableInstallationIds, goToSpecificGameSceneCommand: number[] }){
 
         const {
             allCursorPositionsFadeOut,
@@ -124,7 +123,7 @@ class GameServices {
         const sendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id });
 
         setStoreValue({
-            storeId: EStoreKeys.installationGame,
+            storeId: StoreKeys.installationGame,
             messageStatus: 0,
             hintStatus: 0,
             cursorPosition: 1,
@@ -139,19 +138,19 @@ class GameServices {
         delayedSwitchGameHint({ id });
     }
 
-    sendCommandToHideSystemMessages({ id }: {id: EInstallationIds}){
+    sendCommandToHideSystemMessages({ id }: {id: AvailableInstallationIds}){
 
         const command = transformToHexArray( gameFadesCommands.allMessagesFadeOut );
 
         setStoreValue({
-            storeId: EStoreKeys.installationGame,
+            storeId: StoreKeys.installationGame,
             messageStatus: 0
         });
         sendDataToWingsServerOverUdp({ command, id });
 
     }
 
-    sendCommandToChangeHintStatus({ id, systemMessage, hintStatus }: {id: EInstallationIds, systemMessage: number[], hintStatus: 0 | 1 | undefined}){
+    sendCommandToChangeHintStatus({ id, systemMessage, hintStatus }: {id: AvailableInstallationIds, systemMessage: number[], hintStatus: 0 | 1 | undefined}){
 
         sendDataToWingsServerOverUdp({ id, command: systemMessage });
         setStoreValue({
@@ -161,16 +160,16 @@ class GameServices {
 
     }
 
-    async changeCursorPositionToTheLeft({ id }: { id: EInstallationIds }){
+    async changeCursorPositionToTheLeft({ id }: { id: AvailableInstallationIds }){
 
         if ( gameState.cursorPosition > 1 ){
             setStoreValue({
-                storeId: EStoreKeys.installationGame,
+                storeId: StoreKeys.installationGame,
                 cursorPosition: gameState.cursorPosition -= 1
             });
         } else {
             setStoreValue({
-                storeId: EStoreKeys.installationGame,
+                storeId: StoreKeys.installationGame,
                 cursorPosition: gameState.maxCursorPositions
             });
         }
@@ -185,15 +184,15 @@ class GameServices {
 
     }
 
-    async changeCursorPositionToTheRight({ id }: { id: EInstallationIds }){
+    async changeCursorPositionToTheRight({ id }: { id: AvailableInstallationIds }){
         if ( gameState.cursorPosition < gameState.maxCursorPositions ){
             setStoreValue({
-                storeId: EStoreKeys.installationGame,
+                storeId: StoreKeys.installationGame,
                 cursorPosition: gameState.cursorPosition += 1
             });
         } else  {
             setStoreValue({
-                storeId: EStoreKeys.installationGame,
+                storeId: StoreKeys.installationGame,
                 cursorPosition: 1
             });
         }

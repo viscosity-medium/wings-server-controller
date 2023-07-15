@@ -1,15 +1,14 @@
-import {EGameModes, EStoreKeys} from "../../../types/store-types";
+import {GameModes, StoreKeys} from "../../../types/store-types";
 import {store} from "../../../store/store";
 import {gameServices} from "../game-services";
-import {EGameControlCommand} from "../../../types/game-types";
-import {EInstallationIds} from "../../../types/_common-types";
+import {GameControlCommand} from "../../../types/game-types";
+import {AvailableInstallationIds} from "../../../types/_common-types";
 
-const switchGameCursorPosition = async ({ id, command }: { id: EInstallationIds, command: EGameControlCommand}) => {
+const switchGameCursorPosition = async ({ id, command }: { id: AvailableInstallationIds, command: GameControlCommand}) => {
 
-    const gameState = store[EStoreKeys.installationGame];
-    console.log(gameState)
+    const gameState = store[StoreKeys.installationGame];
 
-    if( gameState.mode === EGameModes.mna ){
+    if( gameState.mode === GameModes.mna ){
 
         if( command === "Encoder_I_LEFT" ){
             await gameServices.changeCursorPositionToTheLeft({ id });
@@ -21,7 +20,7 @@ const switchGameCursorPosition = async ({ id, command }: { id: EInstallationIds,
 
     }
 
-    if( gameState.mode === EGameModes.sod ){
+    if( gameState.mode === GameModes.sod ){
 
         if( command === "Encoder_II_LEFT" ){
             await gameServices.changeCursorPositionToTheLeft({ id });
@@ -33,7 +32,7 @@ const switchGameCursorPosition = async ({ id, command }: { id: EInstallationIds,
 
     }
 
-    if( gameState.mode === EGameModes.looping ){
+    if( gameState.mode === GameModes.looping ){
 
         if( command === "Encoder_III_LEFT" ){
             await gameServices.changeCursorPositionToTheLeft({ id });

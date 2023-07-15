@@ -1,57 +1,57 @@
 import {
     possibleCommandsReceivedForProjectZones
 } from "../commands-and-conditions/possible-commands-received-for-project-zones";
-import {EHttpCommands, EUdpProjectCommands, IDefineIndexToGoUtility} from "../types/command-types";
-import {EStoreKeys} from "../types/store-types";
+import {HttpCommands, UdpProjectCommands, DefineIndexToGoUtility} from "../types/command-types";
+import {StoreKeys} from "../types/store-types";
 import {store} from "../store/store";
 
 // file index to go definer for http and udp
-export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUtility) => {
+export const defineIndexToGoUtility = ({ command, storeId }: DefineIndexToGoUtility) => {
 
-    const { goBackwards, goForward } = possibleCommandsReceivedForProjectZones;
+    const { goBackwards, goForward, goToScreensaver } = possibleCommandsReceivedForProjectZones;
     const { numberOfFiles } = store[ storeId ]
     let newIndex = 0;
 
-    // special for installationProject1 (different from other project installations)
-
-    if( EStoreKeys.installationProjectPortraits === storeId ){
+    // special for installationProjectPortraits (different from other project installations)
+    if( StoreKeys.installationProjectPortraits === storeId ){
 
         if( command.match( /^[0-9]+$/ ) ) {
 
             newIndex = +command;
 
-        } else if( goForward.includes( command as EHttpCommands | EUdpProjectCommands) ) {
+        } else if( goForward.includes( command as HttpCommands | UdpProjectCommands) ) {
 
             newIndex = store[ storeId ].numberOfFiles;
 
-        } else if( goBackwards.includes( command as EHttpCommands | EUdpProjectCommands ) ) {
+        } else if( goBackwards.includes( command as HttpCommands | UdpProjectCommands ) ) {
 
             newIndex = store[ storeId ].numberOfFiles - 1;
 
         }
 
+    // for other installations
     } else {
 
         if(
             command.toString().match( /^[0-9]+$/ ) ||
-            ( storeId === EStoreKeys.installationProjectPipeline && possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( command ))
+            ( storeId === StoreKeys.installationProjectPipeline && possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( command ))
         ){ // if index position was retrieved
 
             newIndex = +command;
 
-        } else if( goForward.includes( command as EHttpCommands | EUdpProjectCommands ) && store[ storeId ].index < numberOfFiles) {
+        } else if( goForward.includes( command as HttpCommands | UdpProjectCommands ) && store[ storeId ].index < numberOfFiles) {
 
             newIndex = (store[ storeId ].index + 1);
 
-        } else if( goBackwards.includes( command as EHttpCommands | EUdpProjectCommands ) && store[ storeId ].index !== 1) {
+        } else if( goBackwards.includes( command as HttpCommands | UdpProjectCommands ) && store[ storeId ].index !== 1) {
 
             newIndex = (store[ storeId ].index - 1);
 
-        } else if( goForward.includes( command  as EHttpCommands | EUdpProjectCommands) && store[ storeId ].index === +numberOfFiles){
+        } else if( goForward.includes( command  as HttpCommands | UdpProjectCommands) && store[ storeId ].index === +numberOfFiles){
 
             newIndex = 1;
 
-        } else if( goBackwards.includes( command as EHttpCommands | EUdpProjectCommands ) && store[ storeId ].index === 1 ){
+        } else if( goBackwards.includes( command as HttpCommands | UdpProjectCommands ) && store[ storeId ].index === 1 ){
 
             newIndex = +numberOfFiles;
 
@@ -59,7 +59,8 @@ export const defineIndexToGoUtility = ({ command, storeId }: IDefineIndexToGoUti
 
     }
 
-    if( !newIndex && possibleCommandsReceivedForProjectZones.hexSingleCommands.includes( command as EHttpCommands )){
+    // for movie manipulation commands (like "Pause" or "ContinuePlay")
+    if( !newIndex && possibleCommandsReceivedForProjectZones.singleCommands.includes( command as HttpCommands )){
 
         newIndex = store[ storeId ].index
 

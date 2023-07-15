@@ -1,6 +1,6 @@
-import {IGameAMessagesCommands, IGameBMessagesCommands, IGameCMessagesCommands} from "../../types/command-types";
+import {GameAMessagesCommands, GameBMessagesCommands, GameCMessagesCommands} from "../../types/command-types";
 
-const gameAMessagesCommands: IGameAMessagesCommands = {
+const gameAMessagesCommands: GameAMessagesCommands = {
 
     messageA1FadeIn: "0xFF 0x02 0x2E 0xD7 0xFE",
     messageA2FadeIn: "0xFF 0x02 0x2E 0xD8 0xFE",
@@ -10,7 +10,7 @@ const gameAMessagesCommands: IGameAMessagesCommands = {
 
 }
 
-const gameBMessagesCommands: IGameBMessagesCommands = {
+const gameBMessagesCommands: GameBMessagesCommands = {
 
     messageB1FadeIn: "0xFF 0x02 0x2E 0xDC 0xFE",
     messageB2FadeIn: "0xFF 0x02 0x2E 0xDD 0xFE",
@@ -20,7 +20,7 @@ const gameBMessagesCommands: IGameBMessagesCommands = {
 
 }
 
-const gameCMessagesCommands: IGameCMessagesCommands = {
+const gameCMessagesCommands: GameCMessagesCommands = {
 
     messageC1FadeIn: "0xFF 0x02 0x2E 0xE1 0xFE",
     messageC2FadeIn: "0xFF 0x02 0x2E 0xE2 0xFE",

@@ -1,8 +1,8 @@
-import { EInstallationIds } from "./_common-types";
+import { AvailableInstallationIds } from "./_common-types";
 
-export type TSendDataToWingsServerOverUdp = ({ id, command }: IWebsocketProps)=> void
+export type SendDataToWingsServerOverUdp = ({ id, command }: WebsocketProps)=> void
 
-export interface IWebsocketProps {
-    id: EInstallationIds
+export interface WebsocketProps {
+    id: AvailableInstallationIds
     command: number[]
 }

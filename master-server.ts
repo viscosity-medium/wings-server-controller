@@ -9,10 +9,13 @@ dotenv.config();
 try{
     ( async () => {
         //await createMongoDbConnection();
-        console.log(systemVariables.IS_DEV);
-        console.log(systemVariables.LOCATION);
+
+        console.log(`Mode: ${systemVariables.NODE_MODE}`);
+        console.log(`Location: ${systemVariables.LOCATION}`);
+
         await startUdpServer();
         await startHttpServer();
+
     })();
 } catch (err){
     console.log(err)

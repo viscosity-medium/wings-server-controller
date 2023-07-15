@@ -1,9 +1,9 @@
 
-export enum EProjectZonesModes {
+export enum ProjectZonesModes {
     screensaver = "screensaver",
     main = "main",
 }
-export enum EGameModes {
+export enum GameModes {
     screensaver = "screensaver",
     demo = "demo",
     mna = "mna",
@@ -11,11 +11,11 @@ export enum EGameModes {
     looping = "looping"
 }
 
-interface ISetStoreValue {
+interface SetStoreValueProps {
 
-    storeId: keyof IStore
+    storeId: keyof Store
     analogControl?: boolean
-    mode?: EProjectZonesModes | EGameModes
+    mode?: ProjectZonesModes | GameModes
     index?: number
     numberOfFiles?: number
     isThrottled?: boolean,
@@ -32,7 +32,7 @@ interface ISetStoreValue {
 
 }
 
-export type TSetStoreValue = ({
+export type SetStoreValue = ({
     storeId,
     analogControl,
     mode,
@@ -46,13 +46,13 @@ export type TSetStoreValue = ({
     hintDisplayTime,
     savedSceneToGo,
     sceneTransitionTimeout
-}: ISetStoreValue) => void
+}: SetStoreValueProps) => void
 
-export type TInstallationStandard = {
+export type InstallationStandard = {
     //any mode
     analogControl: boolean
     index: number
-    mode: EProjectZonesModes
+    mode: ProjectZonesModes
     numberOfFiles: number
     isThrottled: boolean,
     // timeouts
@@ -61,8 +61,8 @@ export type TInstallationStandard = {
     sceneTransitionTimeout: NodeJS.Timeout | undefined
 }
 
-export interface TInstallationGame extends Omit<TInstallationStandard, "mode" > {
-    mode: EGameModes
+export interface InstallationGame extends Omit<InstallationStandard, "mode" > {
+    mode: GameModes
     scene: number
     cursorPosition: number
     maxCursorPositions: number
@@ -74,7 +74,7 @@ export interface TInstallationGame extends Omit<TInstallationStandard, "mode" > 
 
 
 
-export enum EStoreKeys {
+export enum StoreKeys {
     installationProjectPortraits = "installationProjectPortraits",
     installationProjectMap = "installationProjectMap",
     installationProjectCovers = "installationProjectCovers",
@@ -89,17 +89,17 @@ export enum EStoreKeys {
 
 }
 
-export interface IStore {
-    [EStoreKeys.installationProjectPortraits]: TInstallationStandard
-    [EStoreKeys.installationProjectMap]: TInstallationStandard
-    [EStoreKeys.installationProjectCovers]: TInstallationStandard
-    [EStoreKeys.installationProjectCabinet]: TInstallationStandard
-    [EStoreKeys.installationProjectPipeline]: TInstallationStandard
-    [EStoreKeys.installationProjectLab]: TInstallationStandard
-    [EStoreKeys.installationProjectTankEcology]: TInstallationStandard
-    [EStoreKeys.installationProjectTankTechnology]: TInstallationStandard
-    [EStoreKeys.installationProjectTankSocial]: TInstallationStandard
-    [EStoreKeys.installationProjectEntryGroup2]: TInstallationStandard
-    [EStoreKeys.installationGame]: TInstallationGame
+export interface Store {
+    [StoreKeys.installationProjectPortraits]: InstallationStandard
+    [StoreKeys.installationProjectMap]: InstallationStandard
+    [StoreKeys.installationProjectCovers]: InstallationStandard
+    [StoreKeys.installationProjectCabinet]: InstallationStandard
+    [StoreKeys.installationProjectPipeline]: InstallationStandard
+    [StoreKeys.installationProjectLab]: InstallationStandard
+    [StoreKeys.installationProjectTankEcology]: InstallationStandard
+    [StoreKeys.installationProjectTankTechnology]: InstallationStandard
+    [StoreKeys.installationProjectTankSocial]: InstallationStandard
+    [StoreKeys.installationProjectEntryGroup2]: InstallationStandard
+    [StoreKeys.installationGame]: InstallationGame
 
 }

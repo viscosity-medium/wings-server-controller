@@ -1,9 +1,9 @@
 import { projectZonesSubController } from "../sub-controllers/project-zones-sub-controller";
-import { ISendCommandHttpProps } from "../../types/command-types";
-import { EStoreKeys, IStore } from "../../types/store-types";
+import { SendCommandHttpProps } from "../../types/command-types";
+import { StoreKeys, Store } from "../../types/store-types";
 import { Request, Response } from 'express';
 import { gameSubController } from "../sub-controllers/game-sub-controller";
-import { EInstallationIds } from "../../types/_common-types";
+import { AvailableInstallationIds } from "../../types/_common-types";
 import { store } from "../../store/store";
 
 import {logDataToMongoDb} from "../../database/logging-service";
@@ -16,9 +16,9 @@ class HttpMasterController {
         const {
             id,
             command,
-        }: ISendCommandHttpProps = req.body;
+        }: SendCommandHttpProps = req.body;
 
-        const storeId = `installation${ id }` as keyof IStore;
+        const storeId = `installation${ id }` as keyof Store;
 
         logDataToMongoDb({ store, storeId, id, ip: "Guide's tablet", command });
 
@@ -49,8 +49,8 @@ class HttpMasterController {
 
     async sendGameControlCommand (req: Request, res: Response) {
 
-        const id = EInstallationIds.Game;
-        const storeId = EStoreKeys.installationGame
+        const id = AvailableInstallationIds.Game;
+        const storeId = StoreKeys.installationGame
         const { command } = req.body;
         await gameSubController({ id, command });
 
@@ -61,10 +61,10 @@ class HttpMasterController {
         });
 
         res.json({
-            mode: store[EStoreKeys.installationGame].mode,
-            scene: store[EStoreKeys.installationGame].scene,
-            cursorPosition: store[EStoreKeys.installationGame].cursorPosition,
-            maxCursorPositions: store[EStoreKeys.installationGame].maxCursorPositions,
+            mode: store[StoreKeys.installationGame].mode,
+            scene: store[StoreKeys.installationGame].scene,
+            cursorPosition: store[StoreKeys.installationGame].cursorPosition,
+            maxCursorPositions: store[StoreKeys.installationGame].maxCursorPositions,
             command
         });
     }

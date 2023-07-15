@@ -1,33 +1,33 @@
 import {
     FunctionWithArguments, FunctionWithoutArguments,
-    TClearTimeOut, ThrottlerParams,
-    TMinutesToMilliseconds,
-    TReturnAsyncMemoTimeout,
-    TSecondsToMillisecondsSeconds,
-    TStartIdleTimeOut
+    ClearTimeOut, ThrottlerParams,
+    MinutesToMilliseconds,
+    ReturnAsyncMemoTimeout,
+    SecondsToMillisecondsSeconds,
+    StartIdleTimeOut
 } from "../types/time-types";
-import { EGameModes, EProjectZonesModes, EStoreKeys } from "../types/store-types";
-import { TDelayedComeBackToScreensaver } from "../types/command-types";
+import { GameModes, ProjectZonesModes, StoreKeys } from "../types/store-types";
+import { DelayedComeBackToScreensaver } from "../types/command-types";
 import { returnCompositeCommandUtility } from "./composite-command-utility";
 import { sendDataToWingsServerOverUdp } from "./udp/dgram-udp-utilities";
 import { transformToHexArray } from "./hex-transform-utilities";
 import { gameFadesCommands } from "../commands-and-conditions/game-commands/game-fades-commands";
-import { EInstallationIds } from "../types/_common-types";
+import { AvailableInstallationIds } from "../types/_common-types";
 import { installationIds } from "../_environment/environment";
 import { setStoreValue } from "./store-utility";
 import { gameServices } from "./game-utilities/game-services";
 import { store } from "../store/store";
 
-const startTimeOutCounter: TStartIdleTimeOut = (action, timeout) => {
+const startTimeOutCounter: StartIdleTimeOut = (action, timeout) => {
 
     return setTimeout(() => {
         action()
     }, timeout);
 
 };
-const clearTimeoutFunction: TClearTimeOut = (timeOutId) => (clearTimeout(timeOutId));
+const clearTimeoutFunction: ClearTimeOut = (timeOutId) => (clearTimeout(timeOutId));
 
-const returnSendDataFunctionBeforeDelay: TReturnAsyncMemoTimeout = ({ id }) => async (command, timeout) => {
+const returnSendDataFunctionBeforeDelay: ReturnAsyncMemoTimeout = ({ id }) => async (command, timeout) => {
 
     sendDataToWingsServerOverUdp({ id, command });
     await new Promise<void>((resolve) => {
@@ -38,7 +38,7 @@ const returnSendDataFunctionBeforeDelay: TReturnAsyncMemoTimeout = ({ id }) => a
 
 };
 
-const returnSendDataFunctionAfterDelay: TReturnAsyncMemoTimeout = ({ id }) => async (command, timeout) => {
+const returnSendDataFunctionAfterDelay: ReturnAsyncMemoTimeout = ({ id }) => async (command, timeout) => {
 
     await new Promise<void>((resolve) => {
         setTimeout(() => {
@@ -49,11 +49,11 @@ const returnSendDataFunctionAfterDelay: TReturnAsyncMemoTimeout = ({ id }) => as
 
 };
 
-const secondsToMilliseconds: TSecondsToMillisecondsSeconds = (time) => {
+const secondsToMilliseconds: SecondsToMillisecondsSeconds = (time) => {
     return +time * 1000;
 }
 
-const minutesToMilliseconds: TMinutesToMilliseconds = (time) => {
+const minutesToMilliseconds: MinutesToMilliseconds = (time) => {
 
     const timeArray = time.split(":");
     const minutes = +timeArray[0];
@@ -62,7 +62,7 @@ const minutesToMilliseconds: TMinutesToMilliseconds = (time) => {
 
 };
 
-const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
+const delayedComeBackToScreensaver: DelayedComeBackToScreensaver = ({
     storeId,
     id,
     type,
@@ -71,13 +71,13 @@ const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
 
     clearTimeoutFunction( store[ storeId ].idleTimeout );
 
-    if( type === "active" ){
+    if( type === "active" && store[storeId].mode !== "screensaver" ){
 
         store[ storeId ].idleTimeout = startTimeOutCounter(
             async () => {
                 setStoreValue({
                     storeId,
-                    mode: EProjectZonesModes.screensaver || EGameModes.screensaver,
+                    mode: ProjectZonesModes.screensaver || GameModes.screensaver,
                     index: 1
                 });
 
@@ -88,15 +88,18 @@ const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
                         await sendDataToWingsServerOverUdp({id, command: hideAllHints});
                         setStoreValue({
                             storeId,
-                            mode: EProjectZonesModes.screensaver || EGameModes.screensaver,
+                            mode: ProjectZonesModes.screensaver || GameModes.screensaver,
                             index: 1,
                             cursorPosition: 1,
                             messageStatus: 0,
                             hintStatus: 0
                         });
+
                     }
+
                 const executeCompositeCommandUtility = returnCompositeCommandUtility({ storeId, id });
                 await executeCompositeCommandUtility({ xIndex: "01", yIndex: "01", type: "passive" });
+
             }, minutesToMilliseconds(idleTime)
         );
 
@@ -105,9 +108,9 @@ const delayedComeBackToScreensaver: TDelayedComeBackToScreensaver = ({
 }
 
 
-const delayedGoToSpecificGameScene = ({id, goToSpecificGameSceneCommand}: {id: EInstallationIds, goToSpecificGameSceneCommand: number[]}) => {
+const delayedGoToSpecificGameScene = ({id, goToSpecificGameSceneCommand}: {id: AvailableInstallationIds, goToSpecificGameSceneCommand: number[]}) => {
 
-    const storeId = EStoreKeys.installationGame;
+    const storeId = StoreKeys.installationGame;
     const { messageDisplayTime } = installationIds["Game"];
 
     clearTimeoutFunction(store[ storeId ].sceneTransitionTimeout);
@@ -123,13 +126,11 @@ const delayedGoToSpecificGameScene = ({id, goToSpecificGameSceneCommand}: {id: E
 
     });
 
-    // console.log(store[storeId])
-
 };
 
-const delayedSwitchGameHint = ({ id  }: { id: EInstallationIds }) => {
+const delayedSwitchGameHint = ({ id  }: { id: AvailableInstallationIds }) => {
 
-    const storeId = EStoreKeys.installationGame;
+    const storeId = StoreKeys.installationGame;
     const timeStepBetweenHints  = installationIds["Game"].timeStepBetweenHints ;
     const gameHintsArray = [
         gameFadesCommands.hint1FadeIn,
@@ -158,7 +159,7 @@ const delayedSwitchGameHint = ({ id  }: { id: EInstallationIds }) => {
 
 }
 
-const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpecificGameSceneCommand }: { storeId: EStoreKeys, id: EInstallationIds, goToSpecificGameSceneCommand: number[]} ) => {
+const abortMessageDisplayAndGoToTheNextGameScene = async ({ storeId, id, goToSpecificGameSceneCommand }: { storeId: StoreKeys, id: AvailableInstallationIds, goToSpecificGameSceneCommand: number[]} ) => {
 
     clearTimeoutFunction( store[ storeId ].sceneTransitionTimeout );
     await gameServices.goToSpecificGameScene({id, goToSpecificGameSceneCommand });

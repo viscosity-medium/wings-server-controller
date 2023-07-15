@@ -1,6 +1,6 @@
-import {IGameScenesCommands} from "../../types/game-types";
+import {GameScenesCommands} from "../../types/game-types";
 
-const gameScenesCommands: IGameScenesCommands = {
+const gameScenesCommands: GameScenesCommands = {
 
     goToScreensaver: "0xFF 0x03 0x06 0x01 0x01 0xFE",
     goToDemo: "0xFF 0x03 0x06 0x02 0x01 0xFE",

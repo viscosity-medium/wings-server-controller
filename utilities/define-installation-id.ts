@@ -1,40 +1,40 @@
-import {IRemoteIp, ITestUdpCommand, TDefineInstallationId} from "../types/udp-types";
-import {EGameControlCommand} from "../types/game-types";
-import {EInstallationIds} from "../types/_common-types";
+import {RemoteIp, TestUdpCommand, DefineInstallationId} from "../types/udp-types";
+import {GameControlCommand} from "../types/game-types";
+import {AvailableInstallationIds} from "../types/_common-types";
 import {systemVariables} from "../_environment/environment";
 import {gameConditions} from "../commands-and-conditions/game-conditions/game-conditions";
 
-const remoteIp: IRemoteIp = {
+const remoteIp: RemoteIp = {
 
-    "10.4.187.22": EInstallationIds.ProjectPortraits,
-    "10.4.187.21": EInstallationIds.ProjectMap,
-    "10.4.187.26": EInstallationIds.ProjectCovers,
-    "10.4.187.31": EInstallationIds.ProjectCabinet,
-    "10.4.187.18": EInstallationIds.ProjectPipeline,
-    "10.4.187.27": EInstallationIds.ProjectLab,
-    "10.4.187.12": EInstallationIds.ProjectTankEcology,
-    "10.4.187.14": EInstallationIds.ProjectTankTechnology,
-    "10.4.187.16": EInstallationIds.ProjectTankSocial,
-    "10.4.187.20": EInstallationIds.Game,
-
-};
-
-const testUdpCommands: ITestUdpCommand = {
-
-    TestPortraits: EInstallationIds.ProjectPortraits,
-    TestMap: EInstallationIds.ProjectMap,
-    TestCovers: EInstallationIds.ProjectCovers,
-    TestCabinet: EInstallationIds.ProjectCabinet,
-    TestPipeline: EInstallationIds.ProjectPipeline,
-    TestLab: EInstallationIds.ProjectLab,
-    TestTankEcology: EInstallationIds.ProjectTankEcology,
-    TestTankTechnology: EInstallationIds.ProjectTankTechnology,
-    TestTankSocial: EInstallationIds.ProjectTankSocial
+    "10.4.187.22": AvailableInstallationIds.ProjectPortraits,
+    "10.4.187.21": AvailableInstallationIds.ProjectMap,
+    "10.4.187.26": AvailableInstallationIds.ProjectCovers,
+    "10.4.187.31": AvailableInstallationIds.ProjectCabinet,
+    "10.4.187.18": AvailableInstallationIds.ProjectPipeline,
+    "10.4.187.27": AvailableInstallationIds.ProjectLab,
+    "10.4.187.12": AvailableInstallationIds.ProjectTankEcology,
+    "10.4.187.14": AvailableInstallationIds.ProjectTankTechnology,
+    "10.4.187.16": AvailableInstallationIds.ProjectTankSocial,
+    "10.4.187.20": AvailableInstallationIds.Game,
 
 };
 
+const testUdpCommands: TestUdpCommand = {
 
-const defineInstallationId: TDefineInstallationId = ({ ip, command }) => {
+    TestPortraits: AvailableInstallationIds.ProjectPortraits,
+    TestMap: AvailableInstallationIds.ProjectMap,
+    TestCovers: AvailableInstallationIds.ProjectCovers,
+    TestCabinet: AvailableInstallationIds.ProjectCabinet,
+    TestPipeline: AvailableInstallationIds.ProjectPipeline,
+    TestLab: AvailableInstallationIds.ProjectLab,
+    TestTankEcology: AvailableInstallationIds.ProjectTankEcology,
+    TestTankTechnology: AvailableInstallationIds.ProjectTankTechnology,
+    TestTankSocial: AvailableInstallationIds.ProjectTankSocial
+
+};
+
+
+const defineInstallationId: DefineInstallationId = ({ ip, command }) => {
 
     if (
         !command.match( /Test/ ) && ip !== systemVariables.TEST_IP
@@ -46,13 +46,13 @@ const defineInstallationId: TDefineInstallationId = ({ ip, command }) => {
         command.match( /Test/ ) && ip === systemVariables.TEST_IP
     ){
 
-        const editedCommand = command.replace( /_|[L|R]$/gm, "" ) as EInstallationIds;
+        const editedCommand = command.replace( /_|[L|R]$/gm, "" ) as AvailableInstallationIds;
         return testUdpCommands[ editedCommand ];
 
     } else if (
-        gameConditions.allAnalogInterfaces().includes( command as EGameControlCommand )
+        gameConditions.allAnalogInterfaces().includes( command as GameControlCommand )
     ){
-        return EInstallationIds.Game;
+        return AvailableInstallationIds.Game;
     }
 
 };

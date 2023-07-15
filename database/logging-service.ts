@@ -8,7 +8,7 @@ import {
 } from "./logging-message-model";
 import { LogDataToDb } from "../types/db-types";
 import { systemVariables } from "../_environment/environment";
-import { EInstallationIds } from "../types/_common-types";
+import { AvailableInstallationIds } from "../types/_common-types";
 
 const {
     DB_ADMIN_NAME,
@@ -39,7 +39,8 @@ const logDataToMongoDb: LogDataToDb = async ({
     ip, id,
     command,
 }) => {
-    if ( !store[storeId].isThrottled ) {
+
+    if ( !store[storeId]?.isThrottled ) {
 
         const date = new Date().toLocaleDateString();
         const time = `${ new Date().getHours() }:${ new Date().getMinutes() 
@@ -47,16 +48,16 @@ const logDataToMongoDb: LogDataToDb = async ({
 
         const mapIdsWithModels = new Map([
 
-            [EInstallationIds.ProjectPortraits, PortraitsZoneLogModel],
-            [EInstallationIds.ProjectMap, MapZoneLogModel],
-            [EInstallationIds.ProjectCovers, CoversZoneLogModel],
-            [EInstallationIds.ProjectCabinet, CabinetZoneLogModel],
-            [EInstallationIds.ProjectPipeline, PipelineZoneLogModel],
-            [EInstallationIds.ProjectLab, LabZoneLogModel],
-            [EInstallationIds.ProjectTankEcology, EcologyZoneLogModel],
-            [EInstallationIds.ProjectTankTechnology, TechnologyZoneLogModel],
-            [EInstallationIds.ProjectTankSocial, SocialZoneLogModel],
-            [EInstallationIds.Game, GameZoneLogModel]
+            [AvailableInstallationIds.ProjectPortraits, PortraitsZoneLogModel],
+            [AvailableInstallationIds.ProjectMap, MapZoneLogModel],
+            [AvailableInstallationIds.ProjectCovers, CoversZoneLogModel],
+            [AvailableInstallationIds.ProjectCabinet, CabinetZoneLogModel],
+            [AvailableInstallationIds.ProjectPipeline, PipelineZoneLogModel],
+            [AvailableInstallationIds.ProjectLab, LabZoneLogModel],
+            [AvailableInstallationIds.ProjectTankEcology, EcologyZoneLogModel],
+            [AvailableInstallationIds.ProjectTankTechnology, TechnologyZoneLogModel],
+            [AvailableInstallationIds.ProjectTankSocial, SocialZoneLogModel],
+            [AvailableInstallationIds.Game, GameZoneLogModel]
 
         ]);
 

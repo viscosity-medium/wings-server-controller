@@ -1,51 +1,51 @@
-import { EGameControlCommand, IGameSubControllerProps } from "../../types/game-types";
+import { GameControlCommand, GameSubControllerProps } from "../../types/game-types";
 import { gameConditions } from "./game-conditions";
 import {store} from "../../store/store";
-import {EStoreKeys} from "../../types/store-types";
+import {StoreKeys} from "../../types/store-types";
 
 class ReturnGameSodConditions {
 
-    sodButtonsInterfaces({command}: {command: EGameControlCommand}){
+    sodButtonsInterfaces({command}: {command: GameControlCommand}){
         return gameConditions.sodAnalogButtons.includes(command)
     }
 
-    sodValidInterfaces({ command }: { command: EGameControlCommand }){
+    sodValidInterfaces({ command }: { command: GameControlCommand }){
         return gameConditions.sodAnalogInterfaces.includes( command )
     }
 
     notLastScenes() {
-        return ![ 5 ].includes( store[EStoreKeys.installationGame].scene )
+        return ![ 5 ].includes( store[StoreKeys.installationGame].scene )
     }
 
-    condition1Right({ gameState, command }: IGameSubControllerProps){
+    condition1Right({ gameState, command }: GameSubControllerProps){
         return (
             gameState.scene === 1 &&
             gameState.cursorPosition === 2 &&
-            command === EGameControlCommand.Button_II_A
+            command === GameControlCommand.Button_II_A
         )
     }
 
-    condition2Right({ gameState, command }: IGameSubControllerProps){
+    condition2Right({ gameState, command }: GameSubControllerProps){
         return(
             gameState.scene === 2 &&
             gameState.cursorPosition === 3 &&
-            command === EGameControlCommand.Button_II_A
+            command === GameControlCommand.Button_II_A
         )
     }
 
-    condition3Right({ gameState, command }: IGameSubControllerProps){
+    condition3Right({ gameState, command }: GameSubControllerProps){
         return (
             gameState.scene === 3 &&
             gameState.cursorPosition === 1 &&
-            command === EGameControlCommand.Button_II_A
+            command === GameControlCommand.Button_II_A
         )
     }
 
-    condition4Right({ gameState, command }: IGameSubControllerProps){
+    condition4Right({ gameState, command }: GameSubControllerProps){
         return (
             gameState.scene === 4 &&
             gameState.cursorPosition === 2 &&
-            command === EGameControlCommand.Button_II_B
+            command === GameControlCommand.Button_II_B
         )
     }
 

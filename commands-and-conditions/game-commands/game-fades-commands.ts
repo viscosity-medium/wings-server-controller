@@ -1,6 +1,6 @@
-import {IGameFadesCommands} from "../../types/game-types";
+import {GameFadesCommands} from "../../types/game-types";
 
-const gameFadesCommands: IGameFadesCommands = {
+const gameFadesCommands: GameFadesCommands = {
 
     mainTimelineFadeIn: "0xFF 0x02 0x2E 0xC8 0xFE",
     mainTimelineFadeOut: "0xFF 0x02 0x2E 0xC9 0xFE",

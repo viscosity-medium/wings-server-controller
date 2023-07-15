@@ -2,27 +2,28 @@ import { projectZonesSubController } from "../sub-controllers/project-zones-sub-
 import { sendDirectTestCommand } from "../../utilities/udp/dgram-udp-utilities";
 import { defineInstallationId } from "../../utilities/define-installation-id";
 import { transformToHexArray } from "../../utilities/hex-transform-utilities";
-import { EGameControlCommand } from "../../types/game-types";
+import { GameControlCommand } from "../../types/game-types";
 import { throttlerFunction } from "../../utilities/time-utilities";
 import { gameSubController } from "../sub-controllers/game-sub-controller";
 import { logDataToMongoDb } from "../../database/logging-service";
 import { systemVariables } from "../../_environment/environment";
 import { RemoteInfo } from "dgram";
-import { IStore } from "../../types/store-types";
+import { Store } from "../../types/store-types";
 import { store } from "../../store/store";
 
 const udpMasterController = async (msg: Buffer, remoteInfo: RemoteInfo) => {
 
-    const command = msg.toString() as EGameControlCommand;
+    const command = msg.toString() as GameControlCommand;
     const ip = remoteInfo.address;
     const id = defineInstallationId({ ip, command });
-    const storeId = `installation${ id }` as keyof IStore;
+    const storeId = `installation${ id }` as keyof Store;
 
     if( id ){
 
         try {
 
-            // if it's possible to control via encoders and buttons (switches from the guide's tablet)
+            // if it's possible to control via encoders and buttons
+            // (switches from the guide's tablet [ !always true due to the rejection of final functionality! ])
             if( store[storeId].analogControl ){
 
                 logDataToMongoDb({ store, storeId, id, ip, command })

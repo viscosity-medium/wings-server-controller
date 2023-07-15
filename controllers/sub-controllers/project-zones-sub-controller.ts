@@ -1,28 +1,30 @@
-import { EHttpCommands, EUdpProjectCommands, THttpCommand } from "../../types/command-types";
+import { HttpCommands, UdpProjectCommands, HttpCommandExtended } from "../../types/command-types";
 import { possibleCommandsReceivedForProjectZones } from "../../commands-and-conditions/possible-commands-received-for-project-zones";
-import { EInstallationIds, TCommandsStandard } from "../../types/_common-types";
+import { AvailableInstallationIds, CommandsStandard } from "../../types/_common-types";
 import { defineIndexToGoUtility } from "../../utilities/define-index-to-go-utility";
-import { EGameControlCommand } from "../../types/game-types";
+import { GameControlCommand } from "../../types/game-types";
 import { wingsActionCommands } from "../../commands-and-conditions/wings-action-commands";
-import { throttlerFunction } from "../../utilities/time-utilities";
+import {delayedComeBackToScreensaver, throttlerFunction} from "../../utilities/time-utilities";
 import { projectUtilities } from "../../utilities/project-zones-utility/project-zone-utilities";
-import { IStore } from "../../types/store-types";
+import {ProjectZonesModes, Store} from "../../types/store-types";
+import {store} from "../../store/store";
 
-export interface IProjectZonesControllerProps {
+export interface ProjectZonesControllerProps {
 
-    id: EInstallationIds
-    storeId: keyof IStore
-    command: EGameControlCommand | THttpCommand | EHttpCommands
+    id: AvailableInstallationIds
+    storeId: keyof Store
+    command: GameControlCommand | HttpCommandExtended | HttpCommands
 
 }
-const projectZonesSubController = async ({ id, storeId, command }: IProjectZonesControllerProps) => {
+const projectZonesSubController = async ({ id, storeId, command }: ProjectZonesControllerProps) => {
 
-    const { hexSingleCommands, goBackwards, goForward, pipelineNumbers } = possibleCommandsReceivedForProjectZones;
+    const { singleCommands, goBackwards, goForward  } = possibleCommandsReceivedForProjectZones;
     const newIndex = defineIndexToGoUtility({ command, storeId });
 
-    if( hexSingleCommands.includes( command as EHttpCommands ) && newIndex ){
+    // I) for sending single commands (not bunch)
+    if( singleCommands.includes( command as HttpCommands ) && newIndex ){
 
-        const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command: wingsActionCommands[ command as TCommandsStandard ] });
+        const projectZoneUtilities = new projectUtilities({ storeId, id, newIndex, command: wingsActionCommands[ command as CommandsStandard ] });
         const functionToExecute = projectZoneUtilities.sendHexCommand.bind(projectZoneUtilities);
 
         await throttlerFunction({
@@ -30,8 +32,8 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             functionToExecute
         });
 
-
-    } else if ( ( [ ...goBackwards, ...goForward, ...pipelineNumbers() ].includes( command as EHttpCommands | EUdpProjectCommands) ||
+    // II) for sending a bunch of commands with timeouts
+    } else if ( ( [ ...goBackwards, ...goForward ].includes( command as HttpCommands | UdpProjectCommands) ||
         command.match( /Test_\w*_[L|R]/ ) || command.match( /[0-9]+/gm )
     ) && newIndex ) {
 
@@ -40,9 +42,13 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
         // project zones:
         // "Lab",
         // "Cabinet",
-        // "Entry Group"
+        // "Entry Group 2"
         if (
-            [ EInstallationIds.ProjectLab, EInstallationIds.ProjectCabinet, EInstallationIds.ProjectEntryGroup2 ].includes(id)
+            [
+                AvailableInstallationIds.ProjectLab,
+                AvailableInstallationIds.ProjectCabinet,
+                AvailableInstallationIds.ProjectEntryGroup2
+            ].includes(id)
         ) {
 
             const functionToExecute = projectZoneUtilities.sendUniversalTransitionCommand.bind(projectZoneUtilities);
@@ -55,9 +61,13 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             });
 
         // project zones:
-        // "Tanks"(Ecology, Technology, Social)
+        // "Tanks"(Social, Ecology, Technology)
         } else if (
-            [ EInstallationIds.ProjectTankEcology, EInstallationIds.ProjectTankTechnology, EInstallationIds.ProjectTankSocial ].includes(id)
+            [
+                AvailableInstallationIds.ProjectTankSocial,
+                AvailableInstallationIds.ProjectTankEcology,
+                AvailableInstallationIds.ProjectTankTechnology
+            ].includes(id)
         ) {
 
             const functionToExecute = projectZoneUtilities.sendTransitionCommandToTheTanksInstallations.bind(projectZoneUtilities);
@@ -70,10 +80,12 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
         // project zone
         // "Portraits"
         } else if (
-            EInstallationIds.ProjectPortraits === id
+            [
+                AvailableInstallationIds.ProjectPortraits
+            ].includes(id)
         ) {
 
-            const functionToExecute = await projectZoneUtilities.sendTransitionCommandToThePortraitsInstallation.bind(projectZoneUtilities);
+            const functionToExecute = await projectZoneUtilities.sendTransitionCommandToThePortraitsInstallations.bind(projectZoneUtilities);
 
             await throttlerFunction({
                 storeId,
@@ -84,20 +96,25 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
         // "Covers"
         // "Maps"
         } else if (
-            [EInstallationIds.ProjectCovers, EInstallationIds.ProjectMap].includes(id)
+            [
+                AvailableInstallationIds.ProjectCovers,
+                AvailableInstallationIds.ProjectMap
+            ].includes(id)
         ) {
 
             const functionToExecute = projectZoneUtilities.sendTransitionCommandToTheMapOrCoversInstallation.bind(projectZoneUtilities);
 
             await throttlerFunction({
-                timeout: 2000,
+                timeout: 1500,
                 storeId,
                 functionToExecute
             });
 
         // project zone "Pipeline"
         } else if (
-            EInstallationIds.ProjectPipeline === id
+            [
+                AvailableInstallationIds.ProjectPipeline
+            ].includes(id)
         ) {
 
             const functionToExecute = projectZoneUtilities.sendTransitionToThePipelineInstallation.bind(projectZoneUtilities);
@@ -108,6 +125,18 @@ const projectZonesSubController = async ({ id, storeId, command }: IProjectZones
             });
 
         }
+
+    // III) return to the Screensaver
+    } else if( command === "GoToScreensaver" ){
+
+        store[storeId].mode = ProjectZonesModes.main;
+        delayedComeBackToScreensaver({
+            storeId,
+            id,
+            type: "active",
+            idleTime: "00:00"
+        });
+
     }
 
 }

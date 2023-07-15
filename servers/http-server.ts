@@ -20,7 +20,9 @@ export const startHttpServer = async () => {
 
     try {
 
-        await httpServer.listen( HTTP_PORT, () => { console.log(`Http server is started on port: ${HTTP_PORT}`) } );
+        await httpServer.listen( HTTP_PORT, () => {
+            console.log(`Http server is started on port: ${HTTP_PORT}`)
+        });
 
         return true
     } catch (err) {

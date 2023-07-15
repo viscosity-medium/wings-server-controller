@@ -1,4 +1,4 @@
-import {EGameControlCommand} from "../../types/game-types";
+import {GameControlCommand} from "../../types/game-types";
 import {returnHexMessageCommand} from "../../utilities/hex-transform-utilities";
 import {
     gameAMessagesCommands,
@@ -6,30 +6,30 @@ import {
 } from "../game-commands/game-messages-commands";
 
 class GameSystemMessage {
-    returnMessageForMnaMode({ command }: { command: EGameControlCommand }){
-        if( command === EGameControlCommand.Button_I_A ){
+    returnMessageForMnaMode({ command }: { command: GameControlCommand }){
+        if( command === GameControlCommand.Button_I_A ){
             return  returnHexMessageCommand( gameAMessagesCommands );
-        } else if( command === EGameControlCommand.Button_I_B ){
+        } else if( command === GameControlCommand.Button_I_B ){
             return  returnHexMessageCommand( gameBMessagesCommands );
-        } else if( command === EGameControlCommand.Button_I_C ){
+        } else if( command === GameControlCommand.Button_I_C ){
             return  returnHexMessageCommand( gameCMessagesCommands );
         }
     }
-    returnMessageForSodMode({ command }: { command: EGameControlCommand }){
-        if( command === EGameControlCommand.Button_II_A ){
+    returnMessageForSodMode({ command }: { command: GameControlCommand }){
+        if( command === GameControlCommand.Button_II_A ){
             return  returnHexMessageCommand( gameAMessagesCommands );
-        } else if( command === EGameControlCommand.Button_II_B ){
+        } else if( command === GameControlCommand.Button_II_B ){
             return  returnHexMessageCommand( gameBMessagesCommands );
-        } else if( command === EGameControlCommand.Button_II_C ){
+        } else if( command === GameControlCommand.Button_II_C ){
             return  returnHexMessageCommand( gameCMessagesCommands );
         }
     }
-    returnMessageForLoopingMode({ command }: { command: EGameControlCommand }){
-        if( command === EGameControlCommand.Button_III_A ){
+    returnMessageForLoopingMode({ command }: { command: GameControlCommand }){
+        if( command === GameControlCommand.Button_III_A ){
             return  returnHexMessageCommand( gameAMessagesCommands );
-        } else if( command === EGameControlCommand.Button_III_B ){
+        } else if( command === GameControlCommand.Button_III_B ){
             return  returnHexMessageCommand( gameBMessagesCommands );
-        } else if( command === EGameControlCommand.Button_III_C ){
+        } else if( command === GameControlCommand.Button_III_C ){
             return  returnHexMessageCommand( gameCMessagesCommands );
         }
     }

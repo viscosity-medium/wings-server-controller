@@ -1,4 +1,4 @@
-import { IInstallationIds } from "../types/_common-types";
+import { InstallationIds } from "../types/_common-types";
 
 const systemVariables = {
     BASE_URL: process.env.BASE_URL,
@@ -21,7 +21,7 @@ const systemVariables = {
     DB_PORT: process.env.DB_PORT!,
     DB_NAME: process.env.DB_NAME!
 }
-const installationIds: IInstallationIds = {
+const installationIds: InstallationIds = {
     ProjectPortraits: {
         host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_PORTRAITS!,
         delayLong: +process.env.DELAY_TIME_LONG_PROJECT_PORTRAITS!,
@@ -51,18 +51,18 @@ const installationIds: IInstallationIds = {
         numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST! : +process.env.NUMBER_OF_FILES_PROJECT_CABINET!
     },
     ProjectPipeline: {
+        host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_PIPELINE!,
+        delayLong: +process.env.DELAY_TIME_LONG_PROJECT_PIPELINE!,
+        delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_ENTRY_PIPELINE!,
+        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_PROJECT_PIPELINE!,
+        numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST!: +process.env.NUMBER_OF_FILES_PROJECT_PIPELINE!
+    },
+    ProjectEntryGroup2: {
         host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_ENTRY_GROUP_2!,
         delayLong: +process.env.DELAY_TIME_LONG_PROJECT_ENTRY_GROUP_2!,
         delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_ENTRY_GROUP_2!,
         idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_PROJECT_ENTRY_GROUP_2!,
         numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST!: +process.env.NUMBER_OF_FILES_PROJECT_ENTRY_GROUP_2!
-    },
-    ProjectEntryGroup2: {
-        host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_CABINET!,
-        delayLong: +process.env.DELAY_TIME_LONG_PROJECT_CABINET!,
-        delayShort: +process.env.DELAY_TIME_SHORT_PROJECT_CABINET!,
-        idleTime: systemVariables.IS_DEV ? process.env.IDLE_TIME_TEST! : process.env.IDLE_TIME_PROJECT_CABINET!,
-        numberOfFiles: systemVariables.LOCATION === "office" ? +process.env.NUMBER_OF_FILES_TEST! : +process.env.NUMBER_OF_FILES_PROJECT_CABINET!
     },
     ProjectLab: {
         host: systemVariables.LOCATION === "office" ? systemVariables.TEST_IP! : process.env.INSTALLATION_ID_PROJECT_LAB!,

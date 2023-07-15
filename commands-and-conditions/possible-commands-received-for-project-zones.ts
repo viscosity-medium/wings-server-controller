@@ -1,26 +1,33 @@
-import { EHttpCommands, EUdpProjectCommands } from "../types/command-types";
+import {HttpCommands, UdpProjectCommands, VolumeCommands} from "../types/command-types";
 
 const possibleCommandsReceivedForProjectZones = {
 
     goForward: [
-        EHttpCommands.Next, EUdpProjectCommands.Encoder_Right, EUdpProjectCommands.Test_Portraits_R,
-        EUdpProjectCommands.Test_Map_R, EUdpProjectCommands.Test_Covers_R, EUdpProjectCommands.Test_Cabinet_R,
-        EUdpProjectCommands.Test_Pipeline_R, EUdpProjectCommands.Test_Lab_R, EUdpProjectCommands.Test_Game_R
+        HttpCommands.Next, UdpProjectCommands.Encoder_Right, UdpProjectCommands.Test_Portraits_R,
+        UdpProjectCommands.Test_Map_R, UdpProjectCommands.Test_Covers_R, UdpProjectCommands.Test_Cabinet_R,
+        UdpProjectCommands.Test_Pipeline_R, UdpProjectCommands.Test_Lab_R, UdpProjectCommands.Test_Game_R
     ],
 
     goBackwards: [
-        EHttpCommands.Prev, EUdpProjectCommands.Encoder_Left, EUdpProjectCommands.Test_Portraits_L,
-        EUdpProjectCommands.Test_Map_L, EUdpProjectCommands.Test_Covers_L, EUdpProjectCommands.Test_Cabinet_L,
-        EUdpProjectCommands.Test_Pipeline_L, EUdpProjectCommands.Test_Lab_L, EUdpProjectCommands.Test_Game_L
+        HttpCommands.Prev, UdpProjectCommands.Encoder_Left, UdpProjectCommands.Test_Portraits_L,
+        UdpProjectCommands.Test_Map_L, UdpProjectCommands.Test_Covers_L, UdpProjectCommands.Test_Cabinet_L,
+        UdpProjectCommands.Test_Pipeline_L, UdpProjectCommands.Test_Lab_L, UdpProjectCommands.Test_Game_L
     ],
 
-    hexSingleCommands: [
-        EHttpCommands.Pause, EHttpCommands.ContinuePlay, EHttpCommands.HideImages
+    singleCommands: [
+        HttpCommands.Pause, HttpCommands.ContinuePlay, HttpCommands.HideImages,
+        VolumeCommands.Volume_0, VolumeCommands.Volume_25,
+        VolumeCommands.Volume_50, VolumeCommands.Volume_75,
+        VolumeCommands.Volume_100
+    ],
+
+    goToScreensaver: [
+        HttpCommands.GoToScreensaver
     ],
 
     pipelineNumbers: () => {
         const arr = [];
-        for(let i = 10; i < 23;i++){
+        for(let i = 1; i < 30;i++){
             arr.push(`${i}`);
         }
         return arr

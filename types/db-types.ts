@@ -1,14 +1,14 @@
-import { EGameControlCommand } from "./game-types";
-import { EInstallationIds } from "./_common-types";
-import { THttpCommand } from "./command-types";
-import { IStore } from "./store-types";
+import { GameControlCommand } from "./game-types";
+import { AvailableInstallationIds } from "./_common-types";
+import { HttpCommandExtended } from "./command-types";
+import { Store } from "./store-types";
 
 export interface LogDataToMongoDbProps {
-    store: IStore
-    storeId: keyof IStore
+    store: Store
+    storeId: keyof Store
     ip: string
-    id: EInstallationIds
-    command: EGameControlCommand | THttpCommand
+    id: AvailableInstallationIds
+    command: GameControlCommand | HttpCommandExtended
 }
 
 export type LogDataToDb = (props: LogDataToMongoDbProps) => void

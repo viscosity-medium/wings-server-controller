@@ -1,18 +1,18 @@
 import { clearTimeoutFunction, delayedGoToSpecificGameScene } from "../../../time-utilities";
 import { returnGameMnaConditions } from "../../../../commands-and-conditions/game-conditions/return-game-mna-conditions";
-import { IGameSubControllerProps } from "../../../../types/game-types";
+import { GameSubControllerProps } from "../../../../types/game-types";
 import { transformToHexArray } from "../../../hex-transform-utilities";
 import { setStoreValue } from "../../../store-utility";
 import { gameServices } from "../../game-services";
 import { wingsActionCommands } from "../../../../commands-and-conditions/wings-action-commands";
-import { EStoreKeys } from "../../../../types/store-types";
+import { StoreKeys } from "../../../../types/store-types";
 import { store } from "../../../../store/store";
 
 const { SpecificGameScene } = wingsActionCommands;
 
-const switchMnaGameScenes = async ({ id, command, gameState }: IGameSubControllerProps ) => {
+const switchMnaGameScenes = async ({ id, command, gameState }: GameSubControllerProps ) => {
 
-    const storeId = EStoreKeys.installationGame;
+    const storeId = StoreKeys.installationGame;
     let goToSpecificGameSceneCommand: number[] | undefined = undefined,
         scene,
         cursorPosition,

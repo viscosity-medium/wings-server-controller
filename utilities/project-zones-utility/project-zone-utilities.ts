@@ -1,48 +1,48 @@
 import {delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay} from "../time-utilities";
-import {EHttpCommands, EUdpProjectCommands, IMiddleProps} from "../../types/command-types";
+import {HttpCommands, UdpProjectCommands, MiddleProps} from "../../types/command-types";
 import {
     possibleCommandsReceivedForProjectZones
 } from "../../commands-and-conditions/possible-commands-received-for-project-zones";
 import {installationIds, systemVariables} from "../../_environment/environment";
 import {returnCompositeCommandUtility} from "../composite-command-utility";
 import {sendDataToWingsServerOverUdp} from "../udp/dgram-udp-utilities";
-import {EInstallationIds} from "../../types/_common-types";
-import {EProjectZonesModes, IStore} from "../../types/store-types";
-import {EGameControlCommand} from "../../types/game-types";
+import {AvailableInstallationIds} from "../../types/_common-types";
+import {ProjectZonesModes, Store} from "../../types/store-types";
+import {GameControlCommand} from "../../types/game-types";
 import {transformToHexArray, transformValueToHexStr} from "../hex-transform-utilities";
 import {wingsActionCommands} from "../../commands-and-conditions/wings-action-commands";
 import {setStoreValue} from "../store-utility";
 import {store} from "../../store/store";
 
 
-export interface IProjectEncoderProps {
-    storeId: keyof IStore
-    id: EInstallationIds
+export interface ProjectEncoderProps {
+    storeId: keyof Store
+    id: AvailableInstallationIds
     newIndex: string,
-    command: EGameControlCommand | string,
+    command: GameControlCommand | string,
 }
 
 
 class projectUtilities {
 
-    storeId: keyof IStore
-    id: EInstallationIds
+    storeId: keyof Store
+    id: AvailableInstallationIds
     host: string
     port: number
     newIndex: string
     delayShort: number
     delayLong: number
     idleTime: string
-    command: EGameControlCommand | string
+    command: GameControlCommand | string
     numberOfFiles: number
-    executeCompositeCommandUtility: ( { xIndex, yIndex, type }: IMiddleProps ) => void
+    executeCompositeCommandUtility: ( { xIndex, yIndex, type }: MiddleProps ) => void
 
     constructor({
         storeId,
         id,
         newIndex,
         command,
-    }: IProjectEncoderProps) {
+    }: ProjectEncoderProps) {
         this.storeId = storeId
         this.id = id
         this.newIndex = newIndex
@@ -63,6 +63,8 @@ class projectUtilities {
         const hexCommand = transformToHexArray( this.command );
         const { idleTime } = installationIds[ this.id ];
 
+        console.log(`Command: ${this.command}`); // test to see which command sends
+
         sendDataToWingsServerOverUdp({ command: hexCommand, id: this.id });
         await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime});
 
@@ -70,14 +72,14 @@ class projectUtilities {
 
     async sendUniversalTransitionCommand() {
 
-        if( store[ this.storeId ].mode === EProjectZonesModes.screensaver && !this.command.match(/[1-9]+/gm) ){
+        if( store[ this.storeId ].mode === ProjectZonesModes.screensaver && !this.command.match(/[1-9]+/gm) ) {
 
-            setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: 1 });
+            setStoreValue({ storeId: this.storeId, mode: ProjectZonesModes.main, index: 1 });
             await this.executeCompositeCommandUtility({ xIndex: "02", yIndex: "01", type: "active" });
 
-        } else if ( (store[ this.storeId ].mode === EProjectZonesModes.main || this.command.match(/[1-9]+/gm)) && this.newIndex ) {
+        } else if ( (store[ this.storeId ].mode === ProjectZonesModes.main || this.command.match(/[1-9]+/gm)) && this.newIndex ) {
 
-            setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex });
+            setStoreValue({ storeId: this.storeId, mode: ProjectZonesModes.main, index: +this.newIndex });
             await this.executeCompositeCommandUtility({ xIndex: "02", yIndex: this.newIndex, type: "active" });
 
         }
@@ -88,21 +90,16 @@ class projectUtilities {
 
         if( this.command.match(/[1-9]+/gm) ){
 
-            setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: 1 });
+            setStoreValue({ storeId: this.storeId, mode: ProjectZonesModes.main, index: +this.newIndex, numberOfFiles: 1 });
             await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
 
         }
 
     }
 
-    async sendTransitionCommandToThePortraitsInstallation() {
+    async sendTransitionCommandToThePortraitsInstallations() {
 
-        setStoreValue({ storeId: this.storeId, mode: EProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
-
-        setTimeout(()=>{
-            console.log(store[this.storeId]);
-        },200)
-
+        setStoreValue({ storeId: this.storeId, mode: ProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
         await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
 
     }
@@ -110,34 +107,26 @@ class projectUtilities {
     async sendTransitionCommandToTheMapOrCoversInstallation() {
 
 
-        if( possibleCommandsReceivedForProjectZones.goForward.includes( this.command as EHttpCommands | EUdpProjectCommands) ){
+        if( possibleCommandsReceivedForProjectZones.goForward.includes( this.command as HttpCommands | UdpProjectCommands) ){
 
             const command = transformToHexArray( wingsActionCommands.NextMarker );
 
-            console.log("go forward");
-            console.log(wingsActionCommands.NextMarker);
-            console.log(command);
-
             sendDataToWingsServerOverUdp({ command, id: this.id });
 
-        } else if( possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands ) ) {
+        } else if( possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as HttpCommands | UdpProjectCommands ) ) {
 
             const command = transformToHexArray( wingsActionCommands.PreviousMarker );
-
-            console.log("go backwards");
-            console.log(wingsActionCommands.PreviousMarker);
-            console.log(command);
-
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
             await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
         }
 
-        if(this.id === EInstallationIds.ProjectMap){
+        if( this.id === AvailableInstallationIds.ProjectMap ){
 
             const { idleTime } = installationIds[ this.id ];
             await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime});
+
         }
 
     }
@@ -149,19 +138,26 @@ class projectUtilities {
         const functionToExecute = async ({ command }: { command: number[] }) => {
 
             sendDataToWingsServerOverUdp({ command, id: this.id });
+
+            const anotherCommand = transformToHexArray("0xFF 0x01 0x07 0xFE");
+
+            setTimeout(()=>{
+                sendDataToWingsServerOverUdp({ command: anotherCommand, id: this.id })
+            }, 10);
+
             await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime });
 
         }
 
         if(
-            possibleCommandsReceivedForProjectZones.goForward.includes( this.command as EHttpCommands | EUdpProjectCommands )
+            possibleCommandsReceivedForProjectZones.goForward.includes( this.command as HttpCommands | UdpProjectCommands )
         ){
 
             const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "02" ) );
             await functionToExecute({ command })
 
         } else if(
-            possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as EHttpCommands | EUdpProjectCommands )
+            possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as HttpCommands | UdpProjectCommands )
         ) {
 
             const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "01" ) );
@@ -177,8 +173,8 @@ class projectUtilities {
 
                 const hexValue = transformValueToHexStr(i);
                 const preCommand =  wingsActionCommands.ExecuteTrigger( hexValue.length > 1 ? hexValue : `0${hexValue}` );
-                console.log( preCommand );
                 const command = transformToHexArray( preCommand );
+
                 await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
             }
