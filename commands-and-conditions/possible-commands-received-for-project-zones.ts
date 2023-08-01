@@ -16,9 +16,9 @@ const possibleCommandsReceivedForProjectZones = {
 
     singleCommands: [
         HttpCommands.Pause, HttpCommands.ContinuePlay, HttpCommands.HideImages,
-        VolumeCommands.Volume_0, VolumeCommands.Volume_25,
-        VolumeCommands.Volume_50, VolumeCommands.Volume_75,
-        VolumeCommands.Volume_100
+        VolumeCommands.Volume0, VolumeCommands.Volume25,
+        VolumeCommands.Volume50, VolumeCommands.Volume75,
+        VolumeCommands.Volume100
     ],
 
     goToScreensaver: [

@@ -1,5 +1,5 @@
 import {delayedComeBackToScreensaver, returnSendDataFunctionBeforeDelay} from "../time-utilities";
-import {HttpCommands, UdpProjectCommands, MiddleProps} from "../../types/command-types";
+import {HttpCommands, MiddleProps, UdpProjectCommands} from "../../types/command-types";
 import {
     possibleCommandsReceivedForProjectZones
 } from "../../commands-and-conditions/possible-commands-received-for-project-zones";
@@ -99,13 +99,16 @@ class projectUtilities {
 
     async sendTransitionCommandToThePortraitsInstallations() {
 
-        setStoreValue({ storeId: this.storeId, mode: ProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
-        await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
+        if(possibleCommandsReceivedForProjectZones.singleCommands.includes(this.command as HttpCommands)){
+            sendDataToWingsServerOverUdp({ command: transformToHexArray(this.command), id: this.id });
+        } else {
+            setStoreValue({ storeId: this.storeId, mode: ProjectZonesModes.main, index: +this.newIndex, numberOfFiles: this.numberOfFiles });
+            await this.executeCompositeCommandUtility({ xIndex: "01", yIndex: this.newIndex, type: "active" });
+        }
 
     }
 
     async sendTransitionCommandToTheMapOrCoversInstallation() {
-
 
         if( possibleCommandsReceivedForProjectZones.goForward.includes( this.command as HttpCommands | UdpProjectCommands) ){
 
@@ -119,6 +122,18 @@ class projectUtilities {
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
             await executeSendDataFunctionBeforeDelay( command, this.delayShort );
+
+        } else if(this.id === AvailableInstallationIds.ProjectCovers && this.command.match(/\d+/)){
+
+            const { FadeTimeline } = wingsActionCommands;
+            const commandHex1 = transformToHexArray( FadeTimeline("mainTimelineFadeOut") );
+            const commandHex2 = transformToHexArray(`0xFF 0x03 0x06 0x01 0x0${this.command} 0xFE`);
+            const commandHex3 = transformToHexArray( FadeTimeline("mainTimelineFadeIn"));
+            const executeAsyncTimeOut = returnSendDataFunctionBeforeDelay({ id: this.id });
+
+            await executeAsyncTimeOut( commandHex1, 1000 );
+            await executeAsyncTimeOut( commandHex2, 10 );
+            await executeAsyncTimeOut( commandHex3, 10 );
 
         }
 
@@ -142,7 +157,7 @@ class projectUtilities {
             const anotherCommand = transformToHexArray("0xFF 0x01 0x07 0xFE");
 
             setTimeout(()=>{
-                sendDataToWingsServerOverUdp({ command: anotherCommand, id: this.id })
+                sendDataToWingsServerOverUdp({ command: anotherCommand, id: this.id });
             }, 10);
 
             await delayedComeBackToScreensaver({ storeId: this.storeId, id: this.id, type: "active", idleTime });
@@ -153,28 +168,51 @@ class projectUtilities {
             possibleCommandsReceivedForProjectZones.goForward.includes( this.command as HttpCommands | UdpProjectCommands )
         ){
 
-            const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "02" ) );
-            await functionToExecute({ command })
+            const command = transformToHexArray( wingsActionCommands.ExecuteTrigger( "02" ) );
+            await functionToExecute({ command });
 
         } else if(
             possibleCommandsReceivedForProjectZones.goBackwards.includes( this.command as HttpCommands | UdpProjectCommands )
         ) {
 
-            const command= transformToHexArray( wingsActionCommands.ExecuteTrigger( "01" ) );
-            await functionToExecute({ command })
+            const command = transformToHexArray( wingsActionCommands.ExecuteTrigger( "01" ) );
+            await functionToExecute({ command });
 
         } else if (
-            possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( this.command )
+            possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( this.command.replace(/\D/gm, "") )
         ) {
 
             const executeSendDataFunctionBeforeDelay = returnSendDataFunctionBeforeDelay({ id: this.id });
 
-            for await ( const i of [ "10", this.command ] ){
+            const arrayToProcess = !this.command.match(/\D/) ?
+                [ "10", this.command ] :
+                [ "10" ];
+
+            if( !(arrayToProcess.length > 1) ){
+                const command1 = transformToHexArray("0xFF 0x01 0x07 0xFE");
+                sendDataToWingsServerOverUdp({ command: command1, id: this.id });
+                setTimeout(()=>{
+                    const command2 = transformToHexArray("0xFF 0x02 0x2E 0xC9");
+                    sendDataToWingsServerOverUdp({ command: command2, id: this.id });
+                }, 10);
+            }
+
+            for await ( const i of arrayToProcess ){
 
                 const hexValue = transformValueToHexStr(i);
                 const preCommand =  wingsActionCommands.ExecuteTrigger( hexValue.length > 1 ? hexValue : `0${hexValue}` );
                 const command = transformToHexArray( preCommand );
+                console.log(preCommand)
+                await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
+            }
+
+            if( !(arrayToProcess.length > 1) ){
+
+                const hexValue = transformValueToHexStr(this.command.replace(/\D/gm, ""));
+                const command = transformToHexArray(`0xFF 0x03 0x06 0x01 0x0${hexValue} 0xFE`);
+
+                console.log(`0xFF 0x03 0x06 0x01 0x0${hexValue} 0xFE`);
                 await executeSendDataFunctionBeforeDelay( command, this.delayShort );
 
             }

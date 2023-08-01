@@ -8,8 +8,8 @@ import {store} from "../store/store";
 // file index to go definer for http and udp
 export const defineIndexToGoUtility = ({ command, storeId }: DefineIndexToGoUtility) => {
 
-    const { goBackwards, goForward, goToScreensaver } = possibleCommandsReceivedForProjectZones;
-    const { numberOfFiles } = store[ storeId ]
+    const { goBackwards, goForward } = possibleCommandsReceivedForProjectZones;
+    const { numberOfFiles } = store[ storeId ];
     let newIndex = 0;
 
     // special for installationProjectPortraits (different from other project installations)
@@ -33,11 +33,11 @@ export const defineIndexToGoUtility = ({ command, storeId }: DefineIndexToGoUtil
     } else {
 
         if(
-            command.toString().match( /^[0-9]+$/ ) ||
+            command.toString().match( /^[T|D]?[0-9]+$/ ) ||
             ( storeId === StoreKeys.installationProjectPipeline && possibleCommandsReceivedForProjectZones.pipelineNumbers().includes( command ))
         ){ // if index position was retrieved
 
-            newIndex = +command;
+            newIndex = +(command.replace(/\D*/gm, ""));
 
         } else if( goForward.includes( command as HttpCommands | UdpProjectCommands ) && store[ storeId ].index < numberOfFiles) {
 
@@ -62,7 +62,7 @@ export const defineIndexToGoUtility = ({ command, storeId }: DefineIndexToGoUtil
     // for movie manipulation commands (like "Pause" or "ContinuePlay")
     if( !newIndex && possibleCommandsReceivedForProjectZones.singleCommands.includes( command as HttpCommands )){
 
-        newIndex = store[ storeId ].index
+        newIndex = store[ storeId ].index;
 
     }
 

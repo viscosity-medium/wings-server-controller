@@ -35,7 +35,7 @@ class ReturnGameLoopingConditions {
         return (
             (
                [
-                   GameControlCommand.Button_III_B
+                   GameControlCommand.Button_III_A
                ].includes(command)
 
             ) && gameState.cursorPosition === 2

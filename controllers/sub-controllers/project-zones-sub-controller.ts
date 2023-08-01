@@ -118,7 +118,7 @@ const projectZonesSubController = async ({ id, storeId, command }: ProjectZonesC
         ) {
 
             const functionToExecute = projectZoneUtilities.sendTransitionToThePipelineInstallation.bind(projectZoneUtilities);
-
+            console.log("pipeline")
             await throttlerFunction({
                 storeId,
                 functionToExecute

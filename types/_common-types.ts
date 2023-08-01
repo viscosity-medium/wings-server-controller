@@ -48,7 +48,7 @@ export interface InstallationIds {
 export type CommandsStandard = (
     "Play" | "Pause" | "ContinuePlay" | "Stop" |
     "NextMarker" | "PreviousMarker" | "HideImages" |
-    "Volume_0" | "Volume_25" | "Volume_50" | "Volume_75" | "Volume_100"
+    "Volume0" | "Volume25" | "Volume50" | "Volume75" | "Volume100"
 );
 
 

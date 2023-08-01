@@ -42,11 +42,11 @@ export enum HttpCommands {
 
 export enum VolumeCommands {
 
-    Volume_0 = "Volume_0",
-    Volume_25 = "Volume_25",
-    Volume_50 = "Volume_50",
-    Volume_75 = "Volume_75",
-    Volume_100 = "Volume_100"
+    Volume0 = "Volume0",
+    Volume25 = "Volume25",
+    Volume50 = "Volume50",
+    Volume75 = "Volume75",
+    Volume100 = "Volume100"
 
 }
 
